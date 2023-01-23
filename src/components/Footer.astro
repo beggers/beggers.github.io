@@ -1,13 +1,23 @@
 ---
+import ContactFooter from './ContactFooter.astro';
+import PostsByTag from './PostsByTag.astro';
+
 const today = new Date();
 ---
 
-<footer>
-	&copy; {today.getFullYear()} Ben Eggers
-</footer>
 <style>
-	footer {
+	.copywrite {
 		padding: 25px;
 		text-align: center;
 	}
 </style>
+
+<footer>
+  <PostsByTag />
+
+  {!Astro.props.contactPage && <ContactFooter />}
+
+  <div class="copywrite">
+	  &copy; {today.getFullYear()} Ben Eggers.
+  </div>
+</footer>
