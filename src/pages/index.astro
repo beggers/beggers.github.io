@@ -5,12 +5,15 @@ import Footer from '../components/Footer.astro';
 import LandingPageIntro from '../components/LandingPageIntro.astro';
 import RecentPosts from '../components/RecentPosts.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
+
+let pt = "Home";
+const title = pt + SITE_TITLE;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={title} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
     <main>
