@@ -1,21 +1,11 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
+import BaseLayout from '../components/layouts/BaseLayout.astro';
 import ContactScript from '../components/ContactScript.astro';
 import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-    <main>
-      <Header />
-      <ContactScript />
-		  <Footer contactPage=true/>
-    </main>
-	</body>
-</html>
+<BaseLayout>
+  <Header />
+  <ContactScript />
+</BaseLayout>
