@@ -2,7 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 
 export async function getStaticPaths() {
-  let posts = await Astro.glob(`../posts/*.md`);
+  let posts = await Astro.glob(`../_posts/*.mdx`);
   return posts.map((post) => ({
     params: { slug: post.frontmatter.slug },
     props: { post: post },
