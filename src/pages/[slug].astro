@@ -1,5 +1,5 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
+import BaseLayout from '../components/layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
   let posts = await Astro.glob(`../_posts/*.mdx`);
@@ -8,4 +8,14 @@ export async function getStaticPaths() {
     props: { post: post },
   }));
 }
+
+const { post } = Astro.props;
+const {
+  Content,
+  frontmatter: { title, pubDate, tags },
+} = post;
 ---
+
+<BaseLayout>
+  <Content />
+</BaseLayout>
