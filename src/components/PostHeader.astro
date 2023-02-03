@@ -1,7 +1,7 @@
 ---
 const { post } = Astro.props;
 const {
-  frontmatter: { title, pubDate, updated, tags },
+  frontmatter: { title, published, updated, tags },
 } = post;
 ---
 
@@ -11,7 +11,7 @@ const {
     <a href="/">Back to Home</a>
   </p>
   <h2>{title}</h2>
-  <h4>Originally posted: {pubDate}</h4>
+  <h4>Originally posted: {published}</h4>
   {updated && <h4> Updated: {updated}</h4>}
   <h4>Tags: {tags}</h4>
   <style>
