@@ -3,6 +3,8 @@
 // all pages through the use of the <BaseHead /> component.
 import '../styles/global.css';
 
+import { pageTitle } from '../data/title.js';
+
 export interface Props {
 	title: string;
 	description: string;
@@ -11,7 +13,8 @@ export interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
+const { page, description, image = '/placeholder-social.jpg' } = Astro.props;
+const title = pageTitle(page)
 ---
 
 <!-- Global Metadata -->

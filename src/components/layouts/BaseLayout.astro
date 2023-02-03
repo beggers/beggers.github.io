@@ -5,13 +5,13 @@ import LandingPageIntro from '../LandingPageIntro.astro';
 import RecentPosts from '../RecentPosts.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../config';
 
-
+const { page } = Astro.props
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead page={page} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
     <main>
