@@ -1,0 +1,25 @@
+---
+const { post } = Astro.props;
+const {
+  frontmatter: { title, pubDate, updated, tags },
+} = post;
+---
+
+
+<postHeader>
+  <p>
+    <a href="/">Back to Home</a>
+  </p>
+  <h2>{title}</h2>
+  <h4>Originally posted: {pubDate}</h4>
+  {updated && <h4> Updated: {updated}</h4>}
+  <style>
+    h2 {
+      text-align: center;
+    }
+    h4 {
+      text-align: center;
+      font-weight: normal;
+    }
+  </style>
+</postHeader>

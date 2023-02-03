@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../components/layouts/BaseLayout.astro';
+import PostHeader from '../components/PostHeader.astro';
 
 export async function getStaticPaths() {
   let posts = await Astro.glob(`../_posts/*.mdx`);
@@ -17,5 +18,6 @@ const {
 ---
 
 <BaseLayout page={title}>
+  <PostHeader post={post} />
   <Content />
 </BaseLayout>
