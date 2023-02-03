@@ -12,9 +12,9 @@ const recents = await recentPosts(allPosts);
       recents.map(
         ({
           url,
-          frontmatter: { title, slug, pubDate, tags }
+          frontmatter: { title, slug, published, tags }
         }) => (
-          <p> <a href={slug}>{title}</a> {pubDate} {tags} </p>
+          <p> <a href={slug}>{title}</a> {published} {tags} </p>
         )
       )
     }
