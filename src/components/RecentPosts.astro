@@ -1,9 +1,22 @@
 ---
+import { recentPosts } from '../data/posts.js';
+
+let allPosts = await Astro.glob('../_posts/*.mdx');
+const recents = await recentPosts(allPosts);
 ---
 
 <recentPosts>
   <h2> Recent Posts </h2>
-  <p>
-    Recent posts will go here.
-  </p>
+  <ul>
+    {
+      recents.map(
+        ({
+          url,
+          frontmatter: { title, slug, pubDate, tags }
+        }) => (
+          <p> <a href={slug}>{title}</a> {pubDate} {tags} </p>
+        )
+      )
+    }
+  </ul>
 </recentPosts>
