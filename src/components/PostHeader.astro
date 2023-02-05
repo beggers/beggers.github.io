@@ -12,7 +12,7 @@ const {
   </p>
   <h2>{title}</h2>
   <h4>Originally posted: {published}</h4>
-  {updated && <h4> Updated: {updated}</h4>}
+  {{updated} && (updated != published) && <h4> Updated: {updated}</h4>}
   <h4>Tags: {tags}</h4>
   <style>
     h2 {
