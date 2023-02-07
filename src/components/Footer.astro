@@ -1,6 +1,5 @@
 ---
 import ContactFooter from './ContactFooter.astro';
-import PostsByTag from './PostsByTag.astro';
 
 const today = new Date();
 ---
@@ -13,11 +12,14 @@ const today = new Date();
 </style>
 
 <footer>
-  <PostsByTag />
+  <h2> Posts by tag </h2>
+  <p>
+    Posts by tag will go here.
+  </p>
 
-  {!Astro.props.contactPage && <ContactFooter />}
+  <ContactFooter />
 
   <div class="copywrite">
-	  &copy; {today.getFullYear()} Ben Eggers.
+	  &copy; {today.getFullYear()} Ben Eggers
   </div>
 </footer>
