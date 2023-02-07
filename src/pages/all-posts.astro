@@ -1,10 +1,9 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
+import HeaderNav from '../components/HeaderNav.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 
-// Use Astro.glob() to fetch all posts, and then sort them by date.
 const posts = (await Astro.glob('../posts/*.{md,mdx}')).sort(
 	(a, b) => new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
 );
@@ -13,7 +12,7 @@ const posts = (await Astro.glob('../posts/*.{md,mdx}')).sort(
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead />
 		<style>
 			ul {
 				list-style-type: none;
@@ -31,9 +30,9 @@ const posts = (await Astro.glob('../posts/*.{md,mdx}')).sort(
 				color: #8e32dc;
 			}
 		</style>
+		<HeaderNav />
 	</head>
 	<body>
-		<Header />
 		<main>
 			<section>
 				<ul>
