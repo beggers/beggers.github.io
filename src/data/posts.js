@@ -10,3 +10,19 @@ export async function recentPosts(allPosts) {
   return allPosts.slice(0, POSTS_ON_FRONT_PAGE);
 }
 
+export function getTagsToPosts(allPosts) {
+  var d = {};
+  allPosts.forEach((post) => {
+    const tags = post.frontmatter.tags;
+    if (!tags) {
+      return;
+    }
+    tags.forEach((tag) => {
+      if (!d[tag]) {
+        d[tag] = [];
+      }
+      d[tag].push(post);
+    });
+  });
+  return d;
+}

@@ -1,5 +1,12 @@
 ---
+import Tag from './Tag.astro';
+
+import { getTagsToPosts } from '../data/posts.js';
+
 const today = new Date();
+
+const posts = await Astro.glob(`../_posts/*.mdx`);
+const tagsToPosts = getTagsToPosts(posts);
 ---
 
 <style>
@@ -11,9 +18,15 @@ const today = new Date();
 
 <footer>
   <h2> Posts by tag </h2>
-  <p>
-    Posts by tag will go here.
-  </p>
+  <ul>
+    {
+      Object.keys(tagsToPosts).map(tag => (
+        <li>
+          <Tag label={tag} />
+        </li>
+      ))
+    }
+  </ul>
 
   <h2> Contact </h2>
   <p>
