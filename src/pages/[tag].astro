@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../components/layouts/BaseLayout.astro';
+
+import { getTagsToPosts } from '../data/posts.js';
+
+export async function getStaticPaths() {
+  let posts = await Astro.glob(`../_posts/*.mdx`);
+  const tagsToPosts = getTagsToPosts(posts);
+  return Object.keys(tagsToPosts).map(t => ({
+    params: { tag: t },
+    props: { posts: tagsToPosts[t] },
+  }));
+}
+
+const { tag } = Astro.props;
+const { posts } = Astro.props;
+---
+
+<BaseLayout>
+  {tag}
+  <ul>
+    {
+      posts.map(
+        ({
+          url,
+          frontmatter: { title, slug, tags, published }
+        }) => (
+          <li>
+            {title}
+          </li>
+        )
+      )
+    }
+  </ul>
+</BaseLayout>
