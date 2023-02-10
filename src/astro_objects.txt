@@ -38,7 +38,7 @@ Header
 - Links to Home, All Posts, etc
 - Needs to be inside <header>
 
-PostIntro
+PostHeader
 - Title
 - Metadata
 - Tags

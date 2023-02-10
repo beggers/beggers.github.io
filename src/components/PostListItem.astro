@@ -1,0 +1,21 @@
+---
+import Tag from './Tag.astro';
+
+const { slug, title, tags, published, updated } = Astro.props;
+---
+
+<postListItem>
+  <li>
+    {published}
+    <a href={slug}>{title}</a>
+    <ul>
+      {
+        tags.map((tag) => (
+          <li>
+            <Tag label={tag} />
+          </li>
+        ))
+      }
+    </ul>
+  </li>
+</postListItem>

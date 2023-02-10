@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../components/BaseLayout.astro';
+import PostListItem from '../components/PostListItem.astro';
 
 import { getTagsToPosts } from '../data/posts.js';
 
@@ -14,9 +15,7 @@ let posts = await Astro.glob(`../_posts/*.mdx`);
           url,
           frontmatter: { title, slug, tags, published }
         }) => (
-          <li>
-            {title}
-          </li>
+          <PostListItem {slug} {title} {tags} {published} />
         )
       )
     }

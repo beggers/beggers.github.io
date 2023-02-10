@@ -1,5 +1,6 @@
 ---
-import Tag from '../components/Tag.astro';
+import PostListItem from './PostListItem.astro';
+import Tag from './Tag.astro';
 import { recentPosts } from '../data/posts.js';
 
 let allPosts = await Astro.glob('../_posts/*.mdx');
@@ -15,19 +16,7 @@ const recents = await recentPosts(allPosts);
           url,
           frontmatter: { title, slug, published, tags }
         }) => (
-          <li>
-            {published}
-            <a href={slug}>{title}</a>
-            <ul>
-              {
-                tags.map((tag) => (
-                  <li>
-                    <Tag label={tag} />
-                  </li>
-                ))
-              }
-            </ul>
-          </li>
+          <PostListItem {slug} {title} {published} {tags} />
         )
       )
     }
