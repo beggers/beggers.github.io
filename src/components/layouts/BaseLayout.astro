@@ -1,6 +1,7 @@
 ---
 import BaseHead from '../BaseHead.astro';
 import Footer from '../Footer.astro';
+import NavHeader from '../NavHeader.astro';
 import RecentPosts from '../RecentPosts.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../config';
 
@@ -11,6 +12,7 @@ const { page } = Astro.props
 <html lang="en">
 	<head>
 		<BaseHead page={page} description={SITE_DESCRIPTION} />
+    <NavHeader />
 	</head>
 	<body>
     <main>
