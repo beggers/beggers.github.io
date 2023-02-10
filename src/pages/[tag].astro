@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../components/BaseLayout.astro';
+import PostListItem from '../components/PostListItem.astro';
 
 import { getTagsToPosts } from '../data/posts.js';
 
@@ -24,9 +25,7 @@ const { posts } = Astro.props;
           url,
           frontmatter: { title, slug, tags, published }
         }) => (
-          <li>
-            {title}
-          </li>
+          <PostListItem {title} {slug} {tags} {published} />
         )
       )
     }
