@@ -1,4 +1,6 @@
 ---
+import Tag from './Tag.astro';
+
 const { post } = Astro.props;
 const {
   frontmatter: { title, published, updated, tags },
@@ -9,7 +11,17 @@ const {
   <h2>{title}</h2>
   <h4>Originally posted: {published}</h4>
   {{updated} && (updated != published) && <h4> Updated: {updated}</h4>}
-  <h4>Tags: {tags}</h4>
+  <h4>
+    <ul>
+      {
+        tags.map(t => (
+          <li>
+            <Tag label={t} />
+          </li>
+        ))
+      }
+    </ul>
+  </h4>
   <style>
     h2 {
       text-align: center;
