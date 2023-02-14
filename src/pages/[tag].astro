@@ -14,7 +14,8 @@ export async function getStaticPaths() {
 }
 
 const { tag } = Astro.props;
-const { posts } = Astro.props;
+// Already filtered and sorted thanks to getTagsToPosts() above.
+let { posts } = Astro.props;
 const count = posts.length;
 const title = `${count} post${count != 1 ? "s" : ""} tagged with "${tag}"`
 ---
