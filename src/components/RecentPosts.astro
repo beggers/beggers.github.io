@@ -1,5 +1,6 @@
 ---
 import PostListItem from './PostListItem.astro';
+import Section from './Section.astro';
 import Tag from './Tag.astro';
 import { recentPosts } from '../data/posts.js';
 
@@ -8,17 +9,19 @@ const recents = await recentPosts(allPosts);
 ---
 
 <recentPosts>
-  <h2> Recent Posts </h2>
-  <ul>
-    {
-      recents.map(
-        ({
-          url,
-          frontmatter: { title, slug, published, tags }
-        }) => (
-          <PostListItem {slug} {title} {published} {tags} />
+  <Section>
+    <h2> Recent Posts </h2>
+    <ul>
+      {
+        recents.map(
+          ({
+            url,
+            frontmatter: { title, slug, published, tags }
+          }) => (
+            <PostListItem {slug} {title} {published} {tags} />
+          )
         )
-      )
-    }
-  </ul>
+      }
+    </ul>
+  </Section>
 </recentPosts>

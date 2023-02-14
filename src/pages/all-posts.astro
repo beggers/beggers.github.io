@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../components/BaseLayout.astro';
 import PostListItem from '../components/PostListItem.astro';
+import Section from '../components/Section.astro';
 
 import { filterAndSort } from '../data/posts.js';
 
@@ -11,19 +12,21 @@ const title = `All ${count} posts`
 ---
 
 <BaseLayout title={title}>
-  <h2>
-    {title}
-  </h2>
-  <ul>
-    {
-      posts.map(
-        ({
-          url,
-          frontmatter: { title, slug, tags, published }
-        }) => (
-          <PostListItem {slug} {title} {tags} {published} />
+  <Section>
+    <h2>
+      {title}
+    </h2>
+    <ul>
+      {
+        posts.map(
+          ({
+            url,
+            frontmatter: { title, slug, tags, published }
+          }) => (
+            <PostListItem {slug} {title} {tags} {published} />
+          )
         )
-      )
-    }
-  </ul>
+      }
+    </ul>
+  </Section>
 </BaseLayout>

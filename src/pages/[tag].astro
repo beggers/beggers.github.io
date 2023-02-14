@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../components/BaseLayout.astro';
 import PostListItem from '../components/PostListItem.astro';
+import Section from '../components/Section.astro';
 
 import { getTagsToPosts } from '../data/posts.js';
 
@@ -21,19 +22,21 @@ const title = `${count} post${count != 1 ? "s" : ""} tagged with "${tag}"`
 ---
 
 <BaseLayout title={title}>
-  <h2>
-    {title}
-  </h2>
-  <ul>
-    {
-      posts.map(
-        ({
-          url,
-          frontmatter: { title, slug, tags, published }
-        }) => (
-          <PostListItem {title} {slug} {tags} {published} />
+  <Section>
+    <h2>
+      {title}
+    </h2>
+    <ul>
+      {
+        posts.map(
+          ({
+            url,
+            frontmatter: { title, slug, tags, published }
+          }) => (
+            <PostListItem {title} {slug} {tags} {published} />
+          )
         )
-      )
-    }
-  </ul>
+      }
+    </ul>
+  </Section>
 </BaseLayout>

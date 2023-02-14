@@ -1,4 +1,5 @@
 ---
+import Section from './Section.astro';
 import Tag from './Tag.astro';
 
 import { getTagsToPosts } from '../data/posts.js';
@@ -17,21 +18,25 @@ const tagsToPosts = getTagsToPosts(posts);
 </style>
 
 <footer>
-  <h2> Posts by tag </h2>
-  <ul>
-    {
-      Object.keys(tagsToPosts).map(tag => (
-        <li>
-          <Tag label={tag} />
-        </li>
-      ))
-    }
-  </ul>
+  <Section>
+    <h2> Posts by tag </h2>
+    <ul>
+      {
+        Object.keys(tagsToPosts).map(tag => (
+          <li>
+            <Tag label={tag} />
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
 
-  <h2> Contact </h2>
-  <p>
-    Get in touch! You can reach me at ben@beneggers.com.
-  </p>
+  <Section>
+    <h2> Contact </h2>
+    <p>
+      Get in touch! You can reach me at ben@beneggers.com.
+    </p>
+  </Section>
 
   <div class="copywrite">
 	  &copy; {today.getFullYear()} Ben Eggers
