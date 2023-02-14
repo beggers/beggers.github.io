@@ -6,11 +6,12 @@ import { getTagsToPosts } from '../data/posts.js';
 
 let posts = await Astro.glob(`../_posts/*.mdx`);
 const count = posts.length;
+const title = `All ${count} posts`
 ---
 
-<BaseLayout>
+<BaseLayout title={title}>
   <h2>
-    All {count} posts
+    {title}
   </h2>
   <ul>
     {

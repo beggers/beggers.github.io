@@ -15,8 +15,8 @@ export interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { page, description, image = '/placeholder-social.jpg' } = Astro.props;
-const title = pageTitle(page)
+const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
+const fullTitle = pageTitle(title)
 ---
 
 <siteHeader>
@@ -31,7 +31,7 @@ const title = pageTitle(page)
     <link rel="canonical" href={canonicalURL} />
     
     <!-- Primary Meta Tags -->
-    <title>{title}</title>
+    <title>{fullTitle}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     
