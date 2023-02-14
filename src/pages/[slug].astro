@@ -3,8 +3,11 @@ import BaseLayout from '../components/BaseLayout.astro';
 import PostHeader from '../components/PostHeader.astro';
 import Section from '../components/Section.astro';
 
+import { filterAndSort } from '../data/posts.js';
+
 export async function getStaticPaths() {
   let posts = await Astro.glob(`../_posts/*.mdx`);
+  posts = filterAndSort(posts);
   return posts.map((post) => ({
     params: { slug: post.frontmatter.slug },
     props: { post: post },
