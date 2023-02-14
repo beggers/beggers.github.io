@@ -7,6 +7,7 @@
 # !!!!!!
 
 SEPARATOR="---"
+STUBFILE="./stub.mdx"
 
 function main () {
   read -p "Title: " TITLE
@@ -26,6 +27,7 @@ function main () {
   echo "updated:" >> $FILE
   echo "tags: [$TAGS]" >> $FILE
   echo $SEPARATOR >> $FILE
+  cat $STUBFILE >> $FILE
 
   vim $FILE
 

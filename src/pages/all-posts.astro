@@ -5,9 +5,13 @@ import PostListItem from '../components/PostListItem.astro';
 import { getTagsToPosts } from '../data/posts.js';
 
 let posts = await Astro.glob(`../_posts/*.mdx`);
+const count = posts.length;
 ---
 
 <BaseLayout>
+  <h2>
+    View all {count} posts
+  </h2>
   <ul>
     {
       posts.map(
