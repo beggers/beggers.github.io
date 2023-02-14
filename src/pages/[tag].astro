@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 const { tag } = Astro.props;
 const { posts } = Astro.props;
 const count = posts.length;
-const headerString = `${count} post${count != 1 ? "s" : ""} tagged with ${tag}`
+const headerString = `${count} post${count != 1 ? "s" : ""} tagged with "${tag}"`
 ---
 
 <BaseLayout>
