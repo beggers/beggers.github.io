@@ -24,7 +24,7 @@ const tagsToPosts = getTagsToPosts(posts);
       {
         Object.keys(tagsToPosts).map(tag => (
           <li>
-            <Tag label={tag} />
+            <Tag label={tag} count={tagsToPosts[tag].length} />
           </li>
         ))
       }

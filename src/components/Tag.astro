@@ -1,7 +1,8 @@
 ---
-const { label } = Astro.props;
+const { label, count } = Astro.props;
+const plural = count != 1 ? "s" : "";
 ---
 
 <tag>
-  <a href=`/${label}`>{label}</a>
+  <a href=`/${label}`>{label}{count !== undefined ? ` (${count} post${plural})` : ""}</a>
 </tag>
