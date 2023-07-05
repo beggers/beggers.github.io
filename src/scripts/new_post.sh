@@ -29,9 +29,7 @@ function main () {
   echo $SEPARATOR >> $FILE
   cat $STUBFILE >> $FILE
 
-  vim $FILE
-
-  git add $FILE && git commit -m "first draft of $FILE"
+  git add $FILE && git commit -m "stub for $FILE"
 }
 
 main
