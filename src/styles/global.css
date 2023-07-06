@@ -1,6 +1,7 @@
 body {
-	background-color: #e0e8e8;
-	font-family: Verdana, sans-serif;
+	background-color: #eefcf5;
+	font-family: 'Source Serif Pro', Inter, serif;
+  font-size: 17px;
 	margin: auto;
 	padding: 20px;
 	max-width: 70ch;
@@ -32,16 +33,4 @@ nav a {
 
 h1.site-header {
   text-align: center;
-}
-
-.section {
-  background-color: #eefcf5;
-  border-width: 1px;
-  border-color: #000000;
-  box-shadow: 2px 2px 8px;
-  padding: 32px;
-  padding-top: 8px;
-  padding-bottom: 16px;
-  border-radius: 8px;
-  margin: 32px;
 }
