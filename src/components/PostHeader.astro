@@ -1,5 +1,5 @@
 ---
-import Tag from './Tag.astro';
+import TagList from './TagList.astro';
 
 const { post } = Astro.props;
 const {
@@ -10,17 +10,9 @@ const {
 <postHeader>
   <h2>{title}</h2>
   <h4>Originally posted: {published}</h4>
-  {{updated} && (updated != published) && <h4> Updated: {updated}</h4>}
+  {{updated} && (updated !== published) && <h4> Updated: {updated}</h4>}
   <h4>
-    <ul>
-      {
-        tags.map(t => (
-          <li>
-            <Tag label={t} />
-          </li>
-        ))
-      }
-    </ul>
+    <TagList tags={tags} />
   </h4>
   <style>
     h2 {

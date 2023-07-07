@@ -5,14 +5,17 @@ const { tags, tagsToCounts } = Astro.props;
 ---
 
 <style>
+  .taglist {
+    padding-inline-start: 0px;
+  }
   .taglistitem {
     display: inline;
-    padding: 4px;
+    padding-right: 0px;
   }
 </style>
 
 <tagList>
-  <ul>
+  <ul class="taglist">
     {
       tags.map((tag) => (
         <li class="taglistitem">
