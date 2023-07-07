@@ -1,6 +1,5 @@
 ---
-import Section from './Section.astro';
-import Tag from './Tag.astro';
+import TagList from './TagList.astro';
 
 const { slug, title, tags, published, updated } = Astro.props;
 ---
@@ -9,14 +8,6 @@ const { slug, title, tags, published, updated } = Astro.props;
   <li>
     {published}
     <a href={slug}>{title}</a>
-    <ul>
-      {
-        tags.map((tag) => (
-          <li>
-            <Tag label={tag} />
-          </li>
-        ))
-      }
-    </ul>
+    <TagList tags={tags}>
   </li>
 </postListItem>

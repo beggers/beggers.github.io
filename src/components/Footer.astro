@@ -1,13 +1,13 @@
 ---
 import Section from './Section.astro';
-import Tag from './Tag.astro';
+import TagList from './TagList.astro';
 
-import { getTagsToPosts } from '../data/posts.js';
+import { getTagsToCounts } from '../data/tags.js';
 
 const today = new Date();
 
 const posts = await Astro.glob(`../_posts/*.mdx`);
-const tagsToPosts = getTagsToPosts(posts);
+const tagsToCounts = getTagsToCounts(posts);
 ---
 
 <style>
@@ -20,15 +20,7 @@ const tagsToPosts = getTagsToPosts(posts);
 <footer>
   <Section>
     <h2> Posts by tag </h2>
-    <ul>
-      {
-        Object.keys(tagsToPosts).map(tag => (
-          <li>
-            <Tag label={tag} count={tagsToPosts[tag].length} />
-          </li>
-        ))
-      }
-    </ul>
+    <TagList tags={Object.keys(tagsToCounts)} tagsToCounts={tagsToCounts}} />
   </Section>
 
   <Section>

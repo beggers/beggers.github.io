@@ -1,0 +1,23 @@
+---
+import Tag from './Tag.astro';
+
+const { tags, tagsToCounts } = Astro.props;
+---
+
+<style>
+  .taglistitem {
+    display: inline;
+  }
+</style>
+
+<tagList>
+  <ul>
+    {
+      tags.map((tag) => (
+        <li class="taglistitem">
+          <Tag label={tag} count={(tagsToCounts !== undefined && tagsToCounts[tag]) || undefined}/>
+        </li>
+      ))
+    }
+  </ul>
+</tagList>
