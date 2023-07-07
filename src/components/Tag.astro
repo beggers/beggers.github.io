@@ -9,8 +9,12 @@ const plural = count !== 1 ? "s" : "";
     border-radius: 8px;
     display: inline-block;
     border: 1px solid;
-    background-color: yellow;
+    background-color: lightblue;
   }
+
 </style>
 
-<a class="tag" href=`/${label}`>{label}{count !== undefined ? ` (${count} post${plural})` : ""}</a>
+<a class="tag" href=`/${label}`>
+  {label}
+  {count !== undefined ? ` (${count} post${plural})` : ""}
+</a>
