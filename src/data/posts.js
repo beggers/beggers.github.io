@@ -1,11 +1,13 @@
-import POSTS_ON_FRONT_PAGE from '../config.ts';
+import { POSTS_ON_FRONT_PAGE } from '../config.ts';
 
 export function filterAndSort(posts) {
   posts = posts.filter((p) => {
     return p.frontmatter.publish;
   });
   posts = posts.sort((a, b) => {
-    return new Date(b.frontmatter.published) - new Date(a.frontmatter.published);
+    return (
+      new Date(b.frontmatter.published) - new Date(a.frontmatter.published)
+    );
   });
   return posts;
 }
