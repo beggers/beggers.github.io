@@ -8,6 +8,6 @@ export default defineConfig({
   site: 'https://beneggers.com',
   integrations: [mdx(), sitemap()],
   build: {
-    inlineStylesheets: 'auto',
+    inlineStylesheets: 'always',
   },
 });
