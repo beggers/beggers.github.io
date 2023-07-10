@@ -5,12 +5,13 @@ const { post } = Astro.props;
 const {
   frontmatter: { title, published, updated, tags },
 } = post;
+console.log(updated);
 ---
 
 <postHeader>
   <h2>{title}</h2>
   <h4>Originally posted: {published}</h4>
-  {{updated} && (updated !== published) && <h4> Updated: {updated}</h4>}
+  {(updated !== null) && (updated !== published) ? <h4> Updated: {updated}</h4> : ""}
   <h4>
     <TagList tags={tags} />
   </h4>
