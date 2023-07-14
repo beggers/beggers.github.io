@@ -4,10 +4,25 @@ import TagList from './TagList.astro';
 const { slug, title, tags, published } = Astro.props;
 ---
 
+<style>
+  .postListItemTitle {
+    text-decoration: none;
+  }
+  .publishDate {
+    color: #777777;
+    display: inline-block;
+    float: right;
+    margin-right: 20px;
+  }
+  .postListItem {
+    margin-bottom: 10px;
+  }
+</style>
+
 <postListItem>
-  <li>
-    {published}
-    <a href={slug}>{title}</a>
+  <li class="postListItem">
+    <a class="postListItemTitle" href={slug}>{title}</a>
+    <div class="publishDate"> {published}</div>
     <TagList tags={tags}>
   </li>
 </postListItem>

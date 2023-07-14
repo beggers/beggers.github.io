@@ -1,15 +1,15 @@
 body {
-  background-color: #fffcf5;
+  background-color: #ffffff;
   font-family: 'Source Serif Pro', Inter, serif;
   font-size: 17px;
   margin: auto;
-  padding: 20px;
   max-width: 70ch;
   text-align: left;
   word-wrap: break-word;
   overflow-wrap: break-word;
   line-height: 1.6;
   color: #444;
+  margin-top: 0px;
 }
 
 h1,
@@ -21,14 +21,16 @@ h6,
 strong,
 b {
   color: #222;
+  margin-bottom: 0px;
 }
 
 a {
-  color: #3273dc;
+  color: inherit;
 }
 
 nav a {
   padding-right: 8px;
+  padding-top: 16px;
 }
 
 img {
@@ -37,4 +39,10 @@ img {
 
 h1.site-header {
   text-align: center;
+}
+
+.postList {
+  list-style: none;
+  padding-left: 16px;
+  padding-right: 64px;
 }
