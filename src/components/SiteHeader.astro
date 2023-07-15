@@ -20,7 +20,7 @@ const fullTitle = pageTitle(title)
 ---
 
 <siteHeader>
-  <header>
+  <head>
     <!-- Global Metadata -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -46,12 +46,14 @@ const fullTitle = pageTitle(title)
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.url)} />
-    
-    <nav>
-    	<HeaderLink href="/">Home</HeaderLink>
-    	<HeaderLink href="/all-posts">All Posts</HeaderLink>
-    </nav>
-  </header>
+
+    <script defer data-domain="beneggers.com" src="https://plausible.io/js/script.js"></script>
+  </head>
+
+  <nav>
+  	<HeaderLink href="/">Home</HeaderLink>
+  	<HeaderLink href="/all-posts">All Posts</HeaderLink>
+  </nav>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
