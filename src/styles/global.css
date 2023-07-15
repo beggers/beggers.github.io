@@ -5,6 +5,7 @@ body {
   margin: auto;
   max-width: 70ch;
   text-align: left;
+  padding: 20px;
   word-wrap: break-word;
   overflow-wrap: break-word;
   line-height: 1.6;
