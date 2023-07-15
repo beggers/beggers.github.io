@@ -13,6 +13,7 @@ const { slug, title, tags, published } = Astro.props;
     display: inline-block;
     float: right;
     margin-right: 20px;
+    padding-top: 4px;
   }
   .postListItem {
     margin-bottom: 10px;
@@ -21,8 +22,8 @@ const { slug, title, tags, published } = Astro.props;
 
 <postListItem>
   <li class="postListItem">
-    <h3><a class="postListItemTitle" href={slug}>{title}</a></h3>
     <div class="publishDate"> {published}</div>
+    <h3><a class="postListItemTitle" href={slug}>{title}</a></h3>
     <TagList tags={tags}>
   </li>
 </postListItem>
