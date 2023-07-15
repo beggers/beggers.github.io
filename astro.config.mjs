@@ -10,4 +10,9 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'always',
   },
+  server: {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
+  },
 });
