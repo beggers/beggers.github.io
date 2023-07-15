@@ -11,16 +11,44 @@
     <script>
       const canvas = document.getElementById('canvas');
       const view = canvas.transferControlToOffscreen();
-      let app = new PIXI.Application({ view, background: 0xffffff, resizeTo: window});
+      let app = new PIXI.Application({ view, backgroundAlpha: 0, resizeTo: window});
       const container = new PIXI.Container();
+      const gr = new PIXI.Graphics();
+      app.stage.addChild(gr)
 
-    let sprite = PIXI.Sprite.from('/images/sample.png');
-    app.stage.addChild(sprite);
-    // center the sprite's anchor point
-    sprite.anchor.set(0.5)
+      const angle = Math.PI / 6; // radians
+      const SPACING = 40;
+      const radius = 3;
 
-    // move the sprite to the center of the screen
-    sprite.x = app.screen.width / 2
-    sprite.y = app.screen.height / 2
+      var draw_dots = (offset) => {
+        // TODO some math here to not draw dots offscreen
+        gr.clear();
+        gr.beginFill(0x555555);
+        for (var x = -screen.width / 2; x < screen.width; x += SPACING) {
+          for (var distance = 0; distance < screen.height * 2; distance += SPACING) {
+            var upOrDown = (x / SPACING) % 2 === 0 ? 1 : -1;
+            gr.drawCircle(
+              x + (upOrDown * Math.sin(angle) * offset),
+              distance + (upOrDown * Math.cos(angle)*offset),
+              radius
+            );
+          }
+        }
+        gr.endFill();
+        return offset;
+      }
+
+      let offset = 0;
+      draw_dots(offset);
+
+      app.ticker.add(() => 
+      {
+        offset += 0.1;
+        if (Math.abs(offset - 100) < 0.0000005) {
+          offset = 0;
+        }
+        draw_dots(offset);
+        console.log(offset);
+      })
     </script>
 </pixiCanvas>
