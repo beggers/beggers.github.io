@@ -21,7 +21,7 @@ const { slug, title, tags, published } = Astro.props;
 
 <postListItem>
   <li class="postListItem">
-    <a class="postListItemTitle" href={slug}>{title}</a>
+    <h3><a class="postListItemTitle" href={slug}>{title}</a></h3>
     <div class="publishDate"> {published}</div>
     <TagList tags={tags}>
   </li>
