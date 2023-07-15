@@ -1,13 +1,15 @@
 ---
-import SiteHeader from './SiteHeader.astro';
+import { SITE_DESCRIPTION } from '../config';
 import Footer from './Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
+import PixiCanvas from './PixiCanvas.astro';
+import SiteHeader from './SiteHeader.astro';
 
 const { title } = Astro.props
 ---
 
 <!DOCTYPE html>
 <html lang="en">
+  <PixiCanvas />
 	<SiteHeader title={title} description={SITE_DESCRIPTION} />
 	<body>
     <main>
