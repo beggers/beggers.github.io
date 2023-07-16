@@ -2,7 +2,7 @@ import { POSTS_ON_FRONT_PAGE } from '../config.ts';
 
 export function filterAndSort(posts) {
   posts = posts.filter((p) => {
-    return p.frontmatter.publish;
+    return p.frontmatter.publish || import.meta.env.MODE === 'development';
   });
   posts = posts.sort((a, b) => {
     return (
