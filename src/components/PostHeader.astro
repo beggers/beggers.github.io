@@ -12,10 +12,12 @@ console.log(updated);
   h2 {
     text-align: center;
   }
-  h4 {
+  h4{
     text-align: center;
     font-weight: normal;
-    margin-top: 6px;
+  }
+  .postTags {
+    margin-top: 0.35em;
   }
 </style>
 
@@ -23,7 +25,7 @@ console.log(updated);
   <h2>{title}</h2>
   <h4>Originally posted: {published}</h4>
   {(updated !== null) && (updated !== published) ? <h4> Updated: {updated}</h4> : ""}
-  <h4>
+  <h4 class="postTags">
     <TagList tags={tags} />
   </h4>
 </postHeader>
