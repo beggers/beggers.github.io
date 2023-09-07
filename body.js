@@ -1,6 +1,7 @@
 import { getSingleAnimal } from './animals.js';
 import { Canvas } from './canvas.js';
 import { getSaying } from './sayings.js';
+import { wrapInSpans } from './utils.js';
 
 const SAYING_MAX_LINE_LENGTH = 35;
 
@@ -25,12 +26,12 @@ export const getBody = function() {
     const animal = getSingleAnimal();
     // TODO dynamic canvas size?
     var canvas = new Canvas(25, 50);
-    canvas.copyInAtPosition(saying, 5, 5);
+    canvas.copyInAtPosition(saying, 5, 5, "bubble");
 
     return (
 `
 <body>
-    <pre class="grass">
+    <pre>
 ${canvas.getDisplayable()}
     </pre>
 </body>
@@ -38,7 +39,7 @@ ${canvas.getDisplayable()}
     )
 }
 
-
+// TODO split return into [text, bubble] so we can color them differently.
 const formatSaying = function(s) {
     var lines = [];
     const words = s.split(' ');
@@ -55,7 +56,7 @@ const formatSaying = function(s) {
     lines.push(currentLine);
 
     const maxLength = Math.max(...(lines.map(l => l.length)));
-    const topAndBottom = "  " + "-".repeat(maxLength) + "  ";
+    const topAndBottom = "  " + ("-").repeat(maxLength) + "  ";
 
     var finalLines = [];
 

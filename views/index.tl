@@ -33,8 +33,8 @@
             .animal-body {
                 color: var(--base00);
             }
-            .speech-bubble {
-                color: var(--red);
+            .bubble {
+                color: var(--base1);
             }
             .dialogue {
                 color: var(--base01);
