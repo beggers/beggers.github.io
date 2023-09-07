@@ -1,21 +1,20 @@
-const cow_right = `
-\\
- \\   ^__^
-  \\  (oo)\\_______
+const cowRight = `
+     ^__^
+  .  (oo)\\_______
      (__)\\       )\\/\\
          ||----w |
          ||     ||
 `
 
 const animals = {
-    "rights": [
-        cow_right,
+    "rightSide": [
+        cowRight,
     ],
-    "lefts": [
+    "leftSide": [
 
     ]
 }
 
 export const getSingleAnimal = function() {
-    return cow_right;
+    return cowRight;
 }

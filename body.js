@@ -22,11 +22,12 @@ export const getBody = function() {
     // to one character per grid element.
 
     // TODO 2-person dialogues
-    const saying = getSaying().map((s) => formatSaying(s))[0];
+    const saying = getSaying();
     const animal = getSingleAnimal();
+    const [sayingInBubble, bubbleEndpoint] = formatSaying(saying[0], "right", 3);
     // TODO dynamic canvas size?
     var canvas = new Canvas(25, 50);
-    canvas.copyInAtPosition(saying, 5, 5, "bubble");
+    canvas.copyInAtPosition(sayingInBubble, 5, 5, "bubble");
 
     return (
 `
@@ -40,10 +41,11 @@ ${canvas.getDisplayable()}
 }
 
 // TODO split return into [text, bubble] so we can color them differently.
-const formatSaying = function(s) {
+const formatSaying = function(s, animalSide, connectingLineLength) {
     var lines = [];
     const words = s.split(' ');
 
+    // Break the saying up into lines of suitable length.
     var currentLine = "";
     for (var i = 0; i < words.length; i++) {
         // This loop doesn't work if a word is longer than SAYING_MAX_LINE_LENGTH.
@@ -55,11 +57,13 @@ const formatSaying = function(s) {
     }
     lines.push(currentLine);
 
+    // Compute the max length and make the string for the top and bottom of the bubble.
     const maxLength = Math.max(...(lines.map(l => l.length)));
     const topAndBottom = "  " + ("-").repeat(maxLength) + "  ";
 
+    // Put it all together to make the bubble and put the words inside it, with
+    // each word line padded to the same length.
     var finalLines = [];
-
     finalLines.push(topAndBottom);
     if (lines.length === 1) {
         finalLines.push("< " + lines[0] + " >");
@@ -77,5 +81,13 @@ const formatSaying = function(s) {
     }
     finalLines.push(topAndBottom);
 
-    return finalLines;
+    // And finally, the line connecting the bubble to the mouth.
+    const connectingPoint = maxLength / 3 * (animalSide === "right" ? 1 : 2)
+    const lineCharacter = animalSide === "right" ? "\\" : "/"
+    for (var i = 0; i < connectingLineLength; i++) {
+        var lineLocation = connectingPoint + i;
+        finalLines.push(' '.repeat(lineLocation - 1) + lineCharacter + ' '.repeat(maxLength - lineLocation))
+    }
+
+    return [finalLines, (finalLines.length, connectingPoint + connectingLineLength)];
 }
