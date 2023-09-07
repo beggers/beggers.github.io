@@ -1,5 +1,6 @@
-const express = require("express");
-const tl = require('express-tl')
+import { get_body } from './body.js';
+import express from 'express';
+import tl from 'express-tl';
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -12,24 +13,9 @@ app.set('view engine', 'tl');
 app.get("/",
   (req, res) => res.render('index',
     {
-      art: get_art()
+      body: get_body()
     }
   )
 );
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
-const get_art = function() {
-  return (
-`
-  __________________ 
-< ben eggers dot com >
-  ------------------ 
-        \\   ^__^
-         \\  (oo)\\_______
-            (__)\\       )\\/\\
-                ||----w |
-                ||     ||
-`
-  )
-}

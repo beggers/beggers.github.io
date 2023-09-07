@@ -1,4 +1,4 @@
-<!-- We only have the index page, so it's fine to have everything hardcoded.
+<!-- We only have the index page so it's probably fine to have everything hardcoded.
      In the future I should perhaps separate things out properly. -->
 <!DOCTYPE html>
 <html>
@@ -26,8 +26,6 @@
             }
             body {
                 background: var(--base02);
-            }
-            pre {
                 border-radius: 1em;
                 padding: 1em;
                 position: absolute;
@@ -37,13 +35,9 @@
                 transform: translate(-50%, -50%);
             }
             .grass {
-                color: var(--base1);
+                color: var(--base0);
             }
         </style>
     </head>
-    <body>
-        <pre class="grass">
-            ${d.art}
-        </pre>
-    </body>
+    ${d.body}
 </html>
