@@ -4,18 +4,15 @@ export class Canvas {
     constructor(height, width) {
         this.height = height;
         this.width = width;
-        this.canvas = Array(height).fill(Array(width).fill("."));
+        this.canvas = Array(height);
+        for (var i = 0; i < this.canvas.length; i++) {
+            this.canvas[i] = Array(width).fill(".");
+        }
     }
 
     copyInAtPosition(item, y, x) {
         for (var i = 0; i < item.length; i++) {
-            if (y + i >= this.height) {
-                console.log("Too tall: ", y+i, this.height);
-            }
             for (var j = 0; j < item[i].length; j++) {
-                if (x + j >= this.height) {
-                    console.log("Too long: ", x+j, this.height);
-                }
                 this.canvas[y + i][x + j] = item[i][j];
             }
         }
