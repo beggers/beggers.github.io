@@ -29,13 +29,18 @@
                 border-radius: 1em;
                 padding: 1em;
                 position: absolute;
-                top: 50%;
-                left: 50%;
-                margin-right: -50%;
-                transform: translate(-50%, -50%);
+            }
+            .animal-body {
+                color: var(--base00);
+            }
+            .speech-bubble {
+                color: var(--red);
+            }
+            .dialogue {
+                color: var(--base01);
             }
             .grass {
-                color: var(--base0);
+                color: var(--green);
             }
         </style>
     </head>

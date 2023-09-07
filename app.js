@@ -1,4 +1,4 @@
-import { get_body } from './body.js';
+import { getBody } from './body.js';
 import express from 'express';
 import tl from 'express-tl';
 
@@ -14,7 +14,7 @@ function main() {
   app.get("/",
     (req, res) => res.render('index',
       {
-        body: get_body()
+        body: getBody()
       }
     )
   );
