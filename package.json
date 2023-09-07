@@ -10,7 +10,7 @@
   "private": false,
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js -e tl -e js"
+    "dev": "nodemon app.js -e tl,js"
   },
   "dependencies": {
     "express": "^4.18.2",
