@@ -10,6 +10,7 @@ const ENCLOSURE_HEIGHT = 50;
 const ENCLOSURE_WIDTH = 160;
 const PADDING_Y = 4;
 const PADDING_X = 10;
+// Don't make LINE_LENGTH bigger than PADDING_X or the program can crash.
 const LINE_LENGTH = 3;
 const MAX_PLACEMENT_TRIES = 5;
 
@@ -111,6 +112,12 @@ const formatSaying = function(s, animalSide, connectingLineLength) {
         }
         currentLine += (currentLine == "" ? "" : " ") + words[i];
     }
+    // Need this to prevent the line from going out of bounds relative to the bubble width,
+    // e.g. in the case of a very short saying.
+    if (currentLine.length < connectingLineLength * 2) {
+        const spaces = Math.ceil((connectingLineLength*2 - currentLine.length) / 2);
+        currentLine = ' '.repeat(spaces) + currentLine + ' '.repeat(spaces);
+    }
     lines.push(currentLine);
 
     // Compute the max length and make the string for the top and bottom of the bubble.
@@ -138,11 +145,13 @@ const formatSaying = function(s, animalSide, connectingLineLength) {
     finalLines.push(topAndBottom);
 
     // And finally, the line connecting the bubble to the mouth.
-    const connectingPoint = Math.round(maxLength / 3 * (animalSide === "right" ? 1 : 2))
+    const connectingPoint = Math.round(maxLength / 2) + 1;
     const lineCharacter = animalSide === "right" ? "\\" : "/"
     for (var i = 0; i < connectingLineLength; i++) {
         var lineLocation = animalSide === "right" ? connectingPoint + i : connectingPoint - i;
-        finalLines.push(' '.repeat(lineLocation - 1) + lineCharacter + ' '.repeat(maxLength - lineLocation))
+        finalLines.push(' '.repeat(Math.max(0, lineLocation - 1)) +
+                        lineCharacter +
+                        ' '.repeat(Math.max(0, maxLength - lineLocation)))
     }
 
     // -2 for right is correct though unintuitive. One for zero-indexing, one for the fencepost.
