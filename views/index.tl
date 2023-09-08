@@ -34,7 +34,7 @@
                 position: absolute;
             }
             .animal {
-                color: var(--base0);
+                color: var(--base1);
             }
             .bubble {
                 color: var(--base0);

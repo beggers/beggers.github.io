@@ -25,5 +25,20 @@ export const sayings = [
     ],
     [
         "have no enemies"
+    ],
+    [
+        "The Tao that can be told is not the eternal Tao. The name that can be named is not the eternal name."
+    ],
+    [
+        "No fight: No blame."
+    ],
+    [
+        "The sage stays behind, thus he is ahead. He is detached, thus at one with all. Through selfless action, he attains fulfillment."
+    ],
+    [
+        "Empty yourself of everything. Let the mind become still. The ten thousand things rise and fall while the Self watches their return."
+    ],
+    [
+        "Yield and overcome; Bend and be straight; Empty and be full; Wear out and be new; Have little and gain; Have much and be confused. "
     ]
 ]
