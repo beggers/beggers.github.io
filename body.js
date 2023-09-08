@@ -43,18 +43,6 @@ export const getBody = function(userAgent) {
 `
         )
     }
-    // We build the body up in four steps:
-    // - Select the saying and the animal or animals that will say it.
-    // - Create an empty string grid of the right size (our enclosure).
-    // - Decide where everything goes.
-    // - Insert items into the character array with formatting.
-    //
-    // Using a string grid makes life easier: we can insert formatting items
-    // such as escapes and <span>s into the grid without effecting the length
-    // of each line. We just need to make sure that the finished project renders
-    // to one character per grid element.
-
-    // TODO 2-person dialogues
     var enclosure = new Enclosure(ENCLOSURE_HEIGHT, ENCLOSURE_WIDTH);
 
     const saying = getSaying();
@@ -140,8 +128,8 @@ const formatSaying = function(s, animalSide, connectingLineLength) {
         finalLines.push(' '.repeat(lineLocation - 1) + lineCharacter + ' '.repeat(maxLength - lineLocation))
     }
 
-    // -2 for "right" is correct though unintuitive. One for zero-indexing, one for the fencepost.
-    // For "left" they cancel each other out and we do -0.
+    // -2 for right is correct though unintuitive. One for zero-indexing, one for the fencepost.
+    // For left they cancel each other out and we do -0.
     var bubbleXStart = animalSide === "right" ? connectingPoint + connectingLineLength - 2 : connectingPoint - connectingLineLength;
     return [finalLines, [finalLines.length - 1, bubbleXStart]];
 }
