@@ -6,17 +6,43 @@ import { randBetweenIntegers } from './utils.js';
 const SAYING_MAX_LINE_LENGTH = 35;
 
 // TODO dynamic canvas size?
-const ENCLOSURE_HEIGHT = 40;
-const ENCLOSURE_WIDTH = 125;
+const ENCLOSURE_HEIGHT = 50;
+const ENCLOSURE_WIDTH = 160;
 const PADDING_Y = 4;
 const PADDING_X = 10;
-const LINE_LENGTH = 5;
+const LINE_LENGTH = 3;
 
 // This is ugly. This function returns an HTML <body> formatted as a string.
 // It contains all the formatting needed to correctly display characters and colors,
 // e.g. grass is wrappde with <span class="grass"></span>. The CSS classes
 // themselves are defined in index.tl 🤢
-export const getBody = function() {
+export const getBody = function(userAgent) {
+    if (userAgent.match(/Android/i)
+    || userAgent.match(/webOS/i)
+    || userAgent.match(/iPhone/i)
+    || userAgent.match(/iPad/i)
+    || userAgent.match(/iPod/i)
+    || userAgent.match(/BlackBerry/i)
+    || userAgent.match(/Windows Phone/i)) {
+        return (
+    // State-of-the-art mobile support
+`
+<body>
+    <pre>
+      <span class="bubble">  _______________________________</span> 
+      <span class="bubble">/</span> <span class="dialogue">ben eggers dot com (visit us on</span><span class="bubble">\\</span>
+      <span class="bubble">\\</span> <span class="dialogue">desktop!)</span>                       <span class="bubble">/</span>
+      <span class="bubble">  -------------------------------</span> 
+            <span class="bubble">\\</span>   <span class="animal">^__^</span>
+            <span class="bubble"> \\</span>  <span class="animal">(oo)\\_______<span>
+                <span class="animal">(__)\\       )\\/\\</span>
+                    <span class="animal">||----w |</span>
+                    <span class="animal">||     ||</span>
+    </pre>
+</body>
+`
+        )
+    }
     // We build the body up in four steps:
     // - Select the saying and the animal or animals that will say it.
     // - Create an empty string grid of the right size (our enclosure).

@@ -14,7 +14,7 @@ function main() {
   app.get("/",
     (req, res) => res.render('index',
       {
-        body: getBody()
+        body: getBody(req.headers['user-agent'])
       }
     )
   );
