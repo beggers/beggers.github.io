@@ -1,10 +1,10 @@
-const cowRight = `
-     ^__^
-  .  (oo)\\_______
-     (__)\\       )\\/\\
-         ||----w |
-         ||     ||
-`
+const cowRight = [
+"     ^__^",
+"  ñ  (oo)\\_______",
+"     (__)\\       )\\/\\",
+"         ||----w |",
+"         ||     ||"
+]
 
 const animals = {
     "rightSide": [
@@ -16,5 +16,5 @@ const animals = {
 }
 
 export const getSingleAnimal = function() {
-    return cowRight;
+    return [cowRight, "right"];
 }

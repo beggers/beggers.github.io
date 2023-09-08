@@ -15,7 +15,7 @@ export class Canvas {
     copyInAtPosition(item, y, x, c) {
         for (var i = 0; i < item.length; i++) {
             for (var j = 0; j < item[i].length; j++) {
-                if (item[i][j] !== " ") {
+                if (item[i][j] !== " " && item[i][j] !== "ñ") {
                     this.canvas[y + i][x + j] = wrapInSpans(item[i][j], c);
                 }
             }
