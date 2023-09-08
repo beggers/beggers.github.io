@@ -8,16 +8,19 @@ export const sayings = [
     [
         "ben eggers dot gov"
     ],
-    // [
-    //     "don't look back, you aren't going that way",
-    // ],
-    // [
-    //     "zero one one zero one one one zero one one zero zero one one"
-    // ],
-    // [
-    //     "i only exist when someone visits this website. please don't leave please don't leave please don't leave please don't leave "
-    // ],
-    // [
-    //     "outside of my enclosure is where the Horrors are"
-    // ]
+    [
+        "don't look back, you aren't going that way",
+    ],
+    [
+        "zero one one zero one one one zero one one zero zero one one"
+    ],
+    [
+        "i only exist when someone visits this website. please don't leave please don't leave please don't leave please don't leave "
+    ],
+    [
+        "outside of my enclosure is where the Horrors are"
+    ],
+    [
+        "i do not climb mountains so the world will see me; i climb mountains so that i can see the world"
+    ]
 ]
