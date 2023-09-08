@@ -5,6 +5,11 @@ import { wrapInSpans } from './utils.js';
 
 const SAYING_MAX_LINE_LENGTH = 35;
 
+// TODO dynamic canvas size?
+const CANVAS_HEIGHT = 50;
+const CANVAS_WIDTH = 150;
+const PADDING = 10;
+
 // This is ugly. This function returns an HTML <body> formatted as a string.
 // It contains all the formatting needed to correctly display characters and colors,
 // e.g. grass is wrappde with <span class="grass"></span>. The CSS classes
@@ -22,12 +27,29 @@ export const getBody = function() {
     // to one character per grid element.
 
     // TODO 2-person dialogues
+    var canvas = new Canvas(CANVAS_HEIGHT, CANVAS_WIDTH);
+
     const saying = getSaying();
-    const animal = getSingleAnimal();
-    const [sayingInBubble, bubbleEndpoint] = formatSaying(saying[0], "right", 3);
-    // TODO dynamic canvas size?
-    var canvas = new Canvas(25, 50);
-    canvas.copyInAtPosition(sayingInBubble, 5, 5, "bubble");
+    const [animal, side] = getSingleAnimal();
+    const [sayingInBubble, bubbleEndpoint] = formatSaying(saying[0], side, 5);
+    var [animalOffsetY, animalOffsetX] = calculateOffset(animal, bubbleEndpoint);
+
+    var maxWidth = SAYING_MAX_LINE_LENGTH;
+    for (var i = 0; i < animal.length ; i++) {
+        if (animal[i].length > maxWidth) {
+            maxWidth = animal[i].length;
+        }
+    }
+    const [startY, startX] = getInitialPositionWithinBounds(
+        CANVAS_HEIGHT,
+        CANVAS_WIDTH,
+        PADDING,
+        animal.length + bubbleEndpoint[0], // not quite correct, who cares
+        maxWidth
+    );
+
+    canvas.copyInAtPosition(sayingInBubble, startY, startX, "bubble");
+    canvas.copyInAtPosition(animal, startY + animalOffsetY, startX + animalOffsetX, "animal");
 
     return (
 `
@@ -82,12 +104,36 @@ const formatSaying = function(s, animalSide, connectingLineLength) {
     finalLines.push(topAndBottom);
 
     // And finally, the line connecting the bubble to the mouth.
-    const connectingPoint = maxLength / 3 * (animalSide === "right" ? 1 : 2)
+    const connectingPoint = Math.round(maxLength / 3 * (animalSide === "right" ? 1 : 2))
     const lineCharacter = animalSide === "right" ? "\\" : "/"
     for (var i = 0; i < connectingLineLength; i++) {
-        var lineLocation = connectingPoint + i;
+        var lineLocation = animalSide === "right" ? connectingPoint + i : connectingPoint - i;
         finalLines.push(' '.repeat(lineLocation - 1) + lineCharacter + ' '.repeat(maxLength - lineLocation))
     }
 
-    return [finalLines, (finalLines.length, connectingPoint + connectingLineLength)];
+    // [..., [... - 1, ... - 2]] is correct though unintuitive. One for zero-indexing, one for the fencepost.
+    return [finalLines, [finalLines.length - 1, connectingPoint + connectingLineLength - 2]];
+}
+
+// We need to do all this so that we can style (color) the speech bubble differently
+// from the animal.
+const calculateOffset = function(animal, bubbleEndpoint) {
+    // This is inefficient but still fast enough and I'm tired and at the airport.
+    for (var i = 0; i < animal.length; i++) {
+        for (var j = 0; j < animal[i].length; j++) {
+            if (animal[i][j] === "ñ") {
+                return [bubbleEndpoint[0] - i, bubbleEndpoint[1] - j];
+            }
+        }
+    }
+}
+
+const getInitialPositionWithinBounds = function(yMax, xMax, padding, yWidth, xWidth) {
+    return [
+        randBetweenIntegers(padding, yMax - padding - yWidth),
+        randBetweenIntegers(padding, xMax - padding - xWidth)
+    ];
+}
+const randBetweenIntegers = function(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
 }

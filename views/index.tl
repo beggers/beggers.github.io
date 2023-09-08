@@ -30,7 +30,7 @@
                 padding: 1em;
                 position: absolute;
             }
-            .animal-body {
+            .animal {
                 color: var(--base00);
             }
             .bubble {
