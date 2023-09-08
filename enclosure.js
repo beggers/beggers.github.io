@@ -1,21 +1,27 @@
-// A rudimentary ascii canvas.
-
 import { wrapInSpans } from "./utils.js";
 
-export class Canvas {
-    constructor(height, width) {
+const GRASS = ["\\|/"]
+
+export class Enclosure {
+    constructor(height, width, debug=false, grass=true) {
         this.height = height;
         this.width = width;
         this.canvas = Array(height);
         for (var i = 0; i < this.canvas.length; i++) {
-            this.canvas[i] = Array(width).fill(" ");
+            this.canvas[i] = Array(width).fill(debug ? "." : " ");
+        }
+        for (var i = 0; i < this.height; i++) {
+            if (Math.random() >= 0.5) {
+                var j = Math.floor(Math.random() * (this.width-2)) + 1;
+                this.copyInAtPosition(GRASS, i, j, "grass")
+            }
         }
     }
 
-    copyInAtPosition(item, y, x, c) {
+    copyInAtPosition(item, y, x, c, includeSpaces=false) {
         for (var i = 0; i < item.length; i++) {
             for (var j = 0; j < item[i].length; j++) {
-                if (item[i][j] !== " " && item[i][j] !== "ñ") {
+                if ((includeSpaces || item[i][j] !== " ") && item[i][j] !== "ñ") {
                     this.canvas[y + i][x + j] = wrapInSpans(item[i][j], c);
                 }
             }

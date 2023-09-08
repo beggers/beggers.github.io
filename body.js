@@ -1,13 +1,13 @@
 import { getSingleAnimal } from './animals.js';
-import { Canvas } from './canvas.js';
+import { Enclosure } from './enclosure.js';
 import { getSaying } from './sayings.js';
 import { randBetweenIntegers } from './utils.js';
 
 const SAYING_MAX_LINE_LENGTH = 35;
 
 // TODO dynamic canvas size?
-const CANVAS_HEIGHT = 40;
-const CANVAS_WIDTH = 125;
+const ENCLOSURE_HEIGHT = 40;
+const ENCLOSURE_WIDTH = 125;
 const PADDING_Y = 4;
 const PADDING_X = 10;
 const LINE_LENGTH = 5;
@@ -19,7 +19,7 @@ const LINE_LENGTH = 5;
 export const getBody = function() {
     // We build the body up in four steps:
     // - Select the saying and the animal or animals that will say it.
-    // - Create an empty string grid of the right size (our canvas).
+    // - Create an empty string grid of the right size (our enclosure).
     // - Decide where everything goes.
     // - Insert items into the character array with formatting.
     //
@@ -29,7 +29,7 @@ export const getBody = function() {
     // to one character per grid element.
 
     // TODO 2-person dialogues
-    var canvas = new Canvas(CANVAS_HEIGHT, CANVAS_WIDTH);
+    var enclosure = new Enclosure(ENCLOSURE_HEIGHT, ENCLOSURE_WIDTH);
 
     const saying = getSaying();
     const [animal, side] = getSingleAnimal();
@@ -43,22 +43,22 @@ export const getBody = function() {
         }
     }
     const [startY, startX] = getInitialPositionWithinBounds(
-        CANVAS_HEIGHT,
-        CANVAS_WIDTH,
+        ENCLOSURE_HEIGHT,
+        ENCLOSURE_WIDTH,
         PADDING_Y,
         PADDING_X,
         animal.length + bubbleEndpoint[0], // not quite correct, who cares
         maxWidth
     );
 
-    canvas.copyInAtPosition(sayingInBubble, startY, startX, "bubble");
-    canvas.copyInAtPosition(animal, startY + animalOffsetY, startX + animalOffsetX, "animal");
+    enclosure.copyInAtPosition(sayingInBubble, startY, startX, "bubble", true);
+    enclosure.copyInAtPosition(animal, startY + animalOffsetY, startX + animalOffsetX, "animal", true);
 
     return (
 `
 <body>
     <pre>
-${canvas.getDisplayable()}
+${enclosure.getDisplayable()}
     </pre>
 </body>
 `
@@ -131,7 +131,6 @@ const calculateOffset = function(animal, bubbleEndpoint) {
                 escapeCount += 1;
             }
             if (animal[i][j] === "ñ") {
-                console.log(i, j, escapeCount)
                 return [bubbleEndpoint[0] - i, bubbleEndpoint[1] - j - escapeCount / 2];
             }
         }
