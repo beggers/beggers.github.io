@@ -24,7 +24,7 @@ export const getSaying = function() {
 // two animals.
 export const sayings = [
     "ok",
-    "ben eggers dot gov",
+    "ben eggers dot com",
     "don't look back, you aren't going that way",
     "zero one one zero one one one zero one one zero zero one one",
     "i only exist when someone visits this website. please don't leave please don't leave please don't leave please don't leave ",
