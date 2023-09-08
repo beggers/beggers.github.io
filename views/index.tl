@@ -46,7 +46,7 @@
                 color: var(--green);
             }
             .fence {
-                color: var(--violet);
+                color: var(--base02);
             }
         </style>
     </head>
