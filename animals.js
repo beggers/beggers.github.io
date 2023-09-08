@@ -6,7 +6,7 @@ export const getAnimal = function() {
 }
 
 // from cowsay
-const cowRight = [
+const cowLeftFacing = [
 "  ^__^",
 "ñ (oo)\\_______",
 "  (__)\\       )\\/\\",
@@ -15,7 +15,7 @@ const cowRight = [
 ]
 
 // from cowsay (reversed)
-const cowLeft = [
+const cowRightFacing = [
 "            ^__^",
 "    _______/(oo) ñ",
 "\\/\\(       /(__)",
@@ -24,7 +24,7 @@ const cowLeft = [
 ]
 
 // http://www.ascii-art.de/ascii/t/turkey.txt
-const turkeyRight = [
+const turkeyLeftFacing = [
 "   .--.",
 "ñ /} p \\             /}",
 "  `~)-) /           /` }",
@@ -41,7 +41,7 @@ const turkeyRight = [
 ]
 
 // http://www.ascii-art.de/ascii/t/turkey.txt
-const turkeyLeft = [
+const turkeyRightFacing = [
 "                     .--.",
 "    {\\             / q {\\ ñ",
 "    { `\\           \\ (-(~`",
@@ -59,8 +59,8 @@ const turkeyLeft = [
 
 // We repeat ourselves a little here but it's easier than normalizing probabilities.
 const animals = [
-    [cowRight, "right"],
-    [turkeyRight, "right"],
-    [turkeyLeft, "left"],
-    [cowLeft, "left"],
+    [cowRightFacing, "right"],
+    [turkeyRightFacing, "right"],
+    [turkeyLeftFacing, "left"],
+    [cowLeftFacing, "left"],
 ]

@@ -8,8 +8,8 @@ const SAYING_MAX_LINE_LENGTH = 35;
 // TODO dynamic canvas size?
 const ENCLOSURE_HEIGHT = 40;
 const ENCLOSURE_WIDTH = 120;
-const PADDING_Y = 4;
-const PADDING_X = 10;
+const PADDING_Y = 2;
+const PADDING_X = 5;
 const LINE_LENGTH = 3;
 const MAX_PLACEMENT_TRIES = 5;
 
@@ -58,13 +58,15 @@ export const getBody = function(userAgent) {
         var [animalOffsetY, animalOffsetX] = calculateOffset(animal, bubbleEndpoint);
 
         // Dimensions (upper bounds) for the rect containing our animal + bubble.
-        var maxHeight = animal.length + bubbleEndpoint[0];
-        var maxWidth = SAYING_MAX_LINE_LENGTH;
-        for (var i = 0; i < animal.length ; i++) {
-            if (animal[i].length > maxWidth) {
-                maxWidth = animal[i].length;
+        var heightUpperBound = animal.length + bubbleEndpoint[0];
+        const leftOffset = Math.max(0, -1 * animalOffsetX);
+        var maxLength = 0;
+        for (var i = 0; i < animal.length; i++) {
+            if (animal[i].length > maxLength) {
+                maxLength = animal[i].length;
             }
         }
+        const rightOffset = maxLength + Math.max(0, animalOffsetX);
 
         var startY, startX;
         for (var j = 0; j < MAX_PLACEMENT_TRIES; j++) {
@@ -73,8 +75,9 @@ export const getBody = function(userAgent) {
                 ENCLOSURE_WIDTH,
                 PADDING_Y,
                 PADDING_X,
-                maxHeight,
-                maxWidth
+                heightUpperBound,
+                leftOffset,
+                rightOffset
             );
             for (var k = 0; k < rectsToAvoid.length; k++) {
                 
@@ -145,9 +148,9 @@ const formatSaying = function(s, animalSide, connectingLineLength) {
 
     // And finally, the line connecting the bubble to the mouth.
     const connectingPoint = Math.round(maxLength / 2) + 1;
-    const lineCharacter = animalSide === "right" ? "\\" : "/"
+    const lineCharacter = animalSide === "left" ? "\\" : "/"
     for (var i = 0; i < connectingLineLength; i++) {
-        var lineLocation = animalSide === "right" ? connectingPoint + i : connectingPoint - i;
+        var lineLocation = animalSide === "left" ? connectingPoint + i : connectingPoint - i;
         finalLines.push(' '.repeat(Math.max(0, lineLocation - 1)) +
                         lineCharacter +
                         ' '.repeat(Math.max(0, maxLength - lineLocation)))
@@ -155,7 +158,7 @@ const formatSaying = function(s, animalSide, connectingLineLength) {
 
     // -2 for right is correct though unintuitive. One for zero-indexing, one for the fencepost.
     // For left they cancel each other out and we do -0.
-    var bubbleXStart = animalSide === "right" ? connectingPoint + connectingLineLength - 2 : connectingPoint - connectingLineLength;
+    var bubbleXStart = animalSide === "left" ? connectingPoint + connectingLineLength - 2 : connectingPoint - connectingLineLength;
     return [finalLines, [finalLines.length - 1, bubbleXStart]];
 }
 
@@ -176,9 +179,11 @@ const calculateOffset = function(animal, bubbleEndpoint) {
     }
 }
 
-const getInitialPositionWithinBounds = function(yMax, xMax, yPadding, xPadding, yWidth, xWidth) {
+// We need to pass x and y info differently because the origin (top-left of bubble) is always at y = 0, but
+// will be at some non-zero x when the animal is a right-facing animal.
+const getInitialPositionWithinBounds = function(yMax, xMax, yPadding, xPadding, yWidth, leftOffset, rightOffset) {
     return [
         randBetweenIntegers(yPadding, yMax - yPadding - yWidth),
-        randBetweenIntegers(xPadding, xMax - xPadding - xWidth)
+        randBetweenIntegers(xPadding + leftOffset, xMax - xPadding - rightOffset)
     ];
 }
