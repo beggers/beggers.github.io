@@ -8,7 +8,9 @@ const SAYING_MAX_LINE_LENGTH = 35;
 // TODO dynamic canvas size?
 const CANVAS_HEIGHT = 40;
 const CANVAS_WIDTH = 125;
-const PADDING = 10;
+const PADDING_Y = 4;
+const PADDING_X = 10;
+const LINE_LENGTH = 5;
 
 // This is ugly. This function returns an HTML <body> formatted as a string.
 // It contains all the formatting needed to correctly display characters and colors,
@@ -31,7 +33,7 @@ export const getBody = function() {
 
     const saying = getSaying();
     const [animal, side] = getSingleAnimal();
-    const [sayingInBubble, bubbleEndpoint] = formatSaying(saying[0], side, 5);
+    const [sayingInBubble, bubbleEndpoint] = formatSaying(saying[0], side, LINE_LENGTH);
     var [animalOffsetY, animalOffsetX] = calculateOffset(animal, bubbleEndpoint);
 
     var maxWidth = SAYING_MAX_LINE_LENGTH;
@@ -43,7 +45,8 @@ export const getBody = function() {
     const [startY, startX] = getInitialPositionWithinBounds(
         CANVAS_HEIGHT,
         CANVAS_WIDTH,
-        PADDING,
+        PADDING_Y,
+        PADDING_X,
         animal.length + bubbleEndpoint[0], // not quite correct, who cares
         maxWidth
     );
@@ -111,8 +114,10 @@ const formatSaying = function(s, animalSide, connectingLineLength) {
         finalLines.push(' '.repeat(lineLocation - 1) + lineCharacter + ' '.repeat(maxLength - lineLocation))
     }
 
-    // [..., [... - 1, ... - 2]] is correct though unintuitive. One for zero-indexing, one for the fencepost.
-    return [finalLines, [finalLines.length - 1, connectingPoint + connectingLineLength - 2]];
+    // -2 for "right" is correct though unintuitive. One for zero-indexing, one for the fencepost.
+    // For "left" they cancel each other out and we do -0.
+    var bubbleXStart = animalSide === "right" ? connectingPoint + connectingLineLength - 2 : connectingPoint - connectingLineLength;
+    return [finalLines, [finalLines.length - 1, bubbleXStart]];
 }
 
 // We need to do all this so that we can style (color) the speech bubble differently
@@ -121,16 +126,21 @@ const calculateOffset = function(animal, bubbleEndpoint) {
     // This is inefficient but still fast enough and I'm tired and at the airport.
     for (var i = 0; i < animal.length; i++) {
         for (var j = 0; j < animal[i].length; j++) {
+            var escapeCount = 0;
+            if (animal[i][j] === "\\") {
+                escapeCount += 1;
+            }
             if (animal[i][j] === "ñ") {
-                return [bubbleEndpoint[0] - i, bubbleEndpoint[1] - j];
+                console.log(i, j, escapeCount)
+                return [bubbleEndpoint[0] - i, bubbleEndpoint[1] - j - escapeCount / 2];
             }
         }
     }
 }
 
-const getInitialPositionWithinBounds = function(yMax, xMax, padding, yWidth, xWidth) {
+const getInitialPositionWithinBounds = function(yMax, xMax, yPadding, xPadding, yWidth, xWidth) {
     return [
-        randBetweenIntegers(padding, yMax - padding - yWidth),
-        randBetweenIntegers(padding, xMax - padding - xWidth)
+        randBetweenIntegers(yPadding, yMax - yPadding - yWidth),
+        randBetweenIntegers(xPadding, xMax - xPadding - xWidth)
     ];
 }

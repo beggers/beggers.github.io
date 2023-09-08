@@ -1,5 +1,11 @@
 import { randBetweenIntegers } from './utils.js';
 
+export const getSingleAnimal = function() {
+    const choice = animals[randBetweenIntegers(0, animals.length)]
+    return choice;
+}
+
+// from cowsay
 const cowRight = [
 "  ^__^",
 "ñ (oo)\\_______",
@@ -8,6 +14,7 @@ const cowRight = [
 "      ||     ||"
 ]
 
+// http://www.ascii-art.de/ascii/t/turkey.txt
 const turkeyRight = [
 "   .--.",
 "ñ /} p \\             /}",
@@ -24,16 +31,26 @@ const turkeyRight = [
 "         .=='=,",
 ]
 
-const animals = {
-    "right": [
-        cowRight,
-        turkeyRight,
-    ],
-    "left": [
+// http://www.ascii-art.de/ascii/t/turkey.txt
+const turkeyLeft = [
+"                     .--.",
+"    {\\             / q {\\ ñ",
+"    { `\\           \\ (-(~`",
+"   { '.{`\\          \\ \\ )",
+"   {'-{ ' \\  .-\"\"'-. \\ \\",
+"   {._{'.' \\/       '.) \\",
+"   {_.{.   {`            |",
+"   {._{ ' {   ;'-=-.     |",
+"    {-.{.' {  ';-=-.`    /",
+"     {._.{.;    '-=-   .'",
+"      {_.-' `'.__  _,-'",
+"               |||`",
+"              .='==,",
+]
 
-    ]
-}
-
-export const getSingleAnimal = function() {
-    return [animals["right"][randBetweenIntegers(0, 2)], "right"];
-}
+// We repeat ourselves a little here but it's easier than normalizing probabilities.
+const animals = [
+    [cowRight, "right"],
+    [turkeyRight, "right"],
+    [turkeyLeft, "left"]
+]
