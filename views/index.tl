@@ -25,22 +25,28 @@
                 --green: #859900;
             }
             body {
-                background: var(--base02);
+                background: var(--base03);
                 border-radius: 1em;
                 padding: 1em;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
                 position: absolute;
             }
             .animal {
-                color: var(--base00);
+                color: var(--base0);
             }
             .bubble {
-                color: var(--base1);
+                color: var(--base0);
             }
             .dialogue {
-                color: var(--base01);
+                color: var(--base0);
             }
             .grass {
                 color: var(--green);
+            }
+            .fence {
+                color: var(--violet);
             }
         </style>
     </head>

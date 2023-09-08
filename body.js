@@ -6,8 +6,8 @@ import { wrapInSpans } from './utils.js';
 const SAYING_MAX_LINE_LENGTH = 35;
 
 // TODO dynamic canvas size?
-const CANVAS_HEIGHT = 50;
-const CANVAS_WIDTH = 150;
+const CANVAS_HEIGHT = 40;
+const CANVAS_WIDTH = 125;
 const PADDING = 10;
 
 // This is ugly. This function returns an HTML <body> formatted as a string.

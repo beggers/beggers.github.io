@@ -24,8 +24,14 @@ export class Canvas {
 
     getDisplayable() {
         var out = "";
+        // We technically add 2 characters to the width. But who cares.
+        const topAndBottom = wrapInSpans("+" + '-'.repeat(this.width) + "+\n", "fence");
         for (var i = 0; i < this.canvas.length; i++) {
-            out += this.canvas[i].join('') + "\n";
+            if (i === 0 || i === this.canvas.length - 1) {
+                out += topAndBottom
+            } else {
+                out += wrapInSpans("|", "fence") + this.canvas[i].join('') + wrapInSpans("|", "fence") + "\n";
+            }
         }
         return out;
     }
