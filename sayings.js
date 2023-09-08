@@ -5,40 +5,16 @@ export const getSaying = function() {
 // The sayings themselves. If the list has two items, it's a dialogue and needs
 // two animals.
 export const sayings = [
-    [
-        "ben eggers dot gov"
-    ],
-    [
-        "don't look back, you aren't going that way",
-    ],
-    [
-        "zero one one zero one one one zero one one zero zero one one"
-    ],
-    [
-        "i only exist when someone visits this website. please don't leave please don't leave please don't leave please don't leave "
-    ],
-    [
-        "outside of my enclosure is where the Horrors are"
-    ],
-    [
-        "i do not climb mountains so the world will see me; i climb mountains so that i can see the world"
-    ],
-    [
-        "have no enemies"
-    ],
-    [
-        "The Tao that can be told is not the eternal Tao. The name that can be named is not the eternal name."
-    ],
-    [
-        "No fight: No blame."
-    ],
-    [
-        "The sage stays behind, thus he is ahead. He is detached, thus at one with all. Through selfless action, he attains fulfillment."
-    ],
-    [
-        "Empty yourself of everything. Let the mind become still. The ten thousand things rise and fall while the Self watches their return."
-    ],
-    [
-        "Yield and overcome; Bend and be straight; Empty and be full; Wear out and be new; Have little and gain; Have much and be confused. "
-    ]
+    "ben eggers dot gov",
+    "don't look back, you aren't going that way",
+    "zero one one zero one one one zero one one zero zero one one",
+    "i only exist when someone visits this website. please don't leave please don't leave please don't leave please don't leave ",
+    "outside of my enclosure is where the Horrors are",
+    "i do not climb mountains so the world will see me; i climb mountains so that i can see the world",
+    "have no enemies",
+    "The Tao that can be told is not the eternal Tao. The name that can be named is not the eternal name.",
+    "No fight: No blame.",
+    "The sage stays behind, thus he is ahead. He is detached, thus at one with all. Through selfless action, he attains fulfillment.",
+    "Empty yourself of everything. Let the mind become still. The ten thousand things rise and fall while the Self watches their return.",
+    "Yield and overcome; Bend and be straight; Empty and be full; Wear out and be new; Have little and gain; Have much and be confused. ",
 ]

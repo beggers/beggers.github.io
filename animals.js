@@ -1,6 +1,6 @@
 import { randBetweenIntegers } from './utils.js';
 
-export const getSingleAnimal = function() {
+export const getAnimal = function() {
     const choice = animals[randBetweenIntegers(0, animals.length)]
     return choice;
 }

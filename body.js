@@ -1,4 +1,4 @@
-import { getSingleAnimal } from './animals.js';
+import { getAnimal } from './animals.js';
 import { Enclosure } from './enclosure.js';
 import { getSaying } from './sayings.js';
 import { randBetweenIntegers } from './utils.js';
@@ -11,6 +11,7 @@ const ENCLOSURE_WIDTH = 160;
 const PADDING_Y = 4;
 const PADDING_X = 10;
 const LINE_LENGTH = 3;
+const MAX_PLACEMENT_TRIES = 5;
 
 // This is ugly. This function returns an HTML <body> formatted as a string.
 // It contains all the formatting needed to correctly display characters and colors,
@@ -30,7 +31,7 @@ export const getBody = function(userAgent) {
 <body>
     <pre>
       <span class="bubble">  _______________________________</span> 
-      <span class="bubble">/</span> <span class="dialogue">ben eggers dot com (visit us on</span><span class="bubble">\\</span>
+      <span class="bubble">/</span> <span class="dialogue">ben eggers dot com (visit us on </span><span class="bubble">\\</span>
       <span class="bubble">\\</span> <span class="dialogue">desktop!)</span>                       <span class="bubble">/</span>
       <span class="bubble">  -------------------------------</span> 
             <span class="bubble">\\</span>   <span class="animal">^__^</span>
@@ -44,30 +45,44 @@ export const getBody = function(userAgent) {
         )
     }
     var enclosure = new Enclosure(ENCLOSURE_HEIGHT, ENCLOSURE_WIDTH);
+    var rectsToAvoid = []; // [y, x, height, width]
 
-    const saying = getSaying();
-    const [animal, side] = getSingleAnimal();
-    const [sayingInBubble, bubbleEndpoint] = formatSaying(saying[0], side, LINE_LENGTH);
-    var [animalOffsetY, animalOffsetX] = calculateOffset(animal, bubbleEndpoint);
+    const numAnimals = Math.ceil(Math.random() * 2);
+    for (var i = 0; i < numAnimals; i++) {
+        const saying = getSaying();
 
-    var maxWidth = SAYING_MAX_LINE_LENGTH;
-    for (var i = 0; i < animal.length ; i++) {
-        if (animal[i].length > maxWidth) {
-            maxWidth = animal[i].length;
+        const [animal, side] = getAnimal();
+        const [sayingInBubble, bubbleEndpoint] = formatSaying(saying, side, LINE_LENGTH);
+        var [animalOffsetY, animalOffsetX] = calculateOffset(animal, bubbleEndpoint);
+
+        // Dimensions (upper bounds) for the rect containing our animal + bubble.
+        var maxHeight = animal.length + bubbleEndpoint[0];
+        var maxWidth = SAYING_MAX_LINE_LENGTH;
+        for (var i = 0; i < animal.length ; i++) {
+            if (animal[i].length > maxWidth) {
+                maxWidth = animal[i].length;
+            }
         }
+
+        var startY, startX;
+        for (var j = 0; j < MAX_PLACEMENT_TRIES; j++) {
+            [startY, startX] = getInitialPositionWithinBounds(
+                ENCLOSURE_HEIGHT,
+                ENCLOSURE_WIDTH,
+                PADDING_Y,
+                PADDING_X,
+                maxHeight,
+                maxWidth
+            );
+            for (var k = 0; k < rectsToAvoid.length; k++) {
+                
+            }
+            break;
+        }
+
+        enclosure.copyInAtPosition(sayingInBubble, startY, startX, "bubble", true);
+        enclosure.copyInAtPosition(animal, startY + animalOffsetY, startX + animalOffsetX, "animal", true);
     }
-    const [startY, startX] = getInitialPositionWithinBounds(
-        ENCLOSURE_HEIGHT,
-        ENCLOSURE_WIDTH,
-        PADDING_Y,
-        PADDING_X,
-        animal.length + bubbleEndpoint[0], // not quite correct, who cares
-        maxWidth
-    );
-
-    enclosure.copyInAtPosition(sayingInBubble, startY, startX, "bubble", true);
-    enclosure.copyInAtPosition(animal, startY + animalOffsetY, startX + animalOffsetX, "animal", true);
-
     return (
 `
 <body>
