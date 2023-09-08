@@ -60,7 +60,13 @@ export const getBody = function(userAgent) {
         // Dimensions (upper bounds) for the rect containing our animal + bubble.
         var heightUpperBound = animal.length + bubbleEndpoint[0];
         const leftOffset = Math.max(0, -1 * animalOffsetX);
+        // Haha code duplication ha ha.
         var maxLength = 0;
+        for (var i = 0; i < sayingInBubble.length; i++) {
+            if (sayingInBubble[i].length > maxLength) {
+                maxLength = sayingInBubble[i].length;
+            }
+        }
         for (var i = 0; i < animal.length; i++) {
             if (animal[i].length > maxLength) {
                 maxLength = animal[i].length;
