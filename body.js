@@ -1,7 +1,7 @@
 import { getSingleAnimal } from './animals.js';
 import { Canvas } from './canvas.js';
 import { getSaying } from './sayings.js';
-import { wrapInSpans } from './utils.js';
+import { randBetweenIntegers } from './utils.js';
 
 const SAYING_MAX_LINE_LENGTH = 35;
 
@@ -133,7 +133,4 @@ const getInitialPositionWithinBounds = function(yMax, xMax, padding, yWidth, xWi
         randBetweenIntegers(padding, yMax - padding - yWidth),
         randBetweenIntegers(padding, xMax - padding - xWidth)
     ];
-}
-const randBetweenIntegers = function(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
 }

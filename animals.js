@@ -1,3 +1,5 @@
+import { randBetweenIntegers } from './utils.js';
+
 const cowRight = [
 "  ^__^",
 "ñ (oo)\\_______",
@@ -6,15 +8,32 @@ const cowRight = [
 "      ||     ||"
 ]
 
+const turkeyRight = [
+"   .--.",
+"ñ /} p \\             /}",
+"  `~)-) /           /` }",
+"   ( / /          /`}.' }",
+"    / / .-'\"\"-.  / ' }-'}",
+"   / (.'       \\/ '.'}_.}",
+"  |            `}   .}._}",
+"  |     .-=-';   } ' }_.}",
+"   \\    `.-=-;'  } '.}.-}",
+"    '.   -=-'    ;,}._.}",
+"      `-,_  __.'` '-._}",
+"          `|||",
+"         .=='=,",
+]
+
 const animals = {
-    "rightSide": [
+    "right": [
         cowRight,
+        turkeyRight,
     ],
-    "leftSide": [
+    "left": [
 
     ]
 }
 
 export const getSingleAnimal = function() {
-    return [cowRight, "right"];
+    return [animals["right"][randBetweenIntegers(0, 2)], "right"];
 }

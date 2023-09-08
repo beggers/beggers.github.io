@@ -22,5 +22,8 @@ export const sayings = [
     ],
     [
         "i do not climb mountains so the world will see me; i climb mountains so that i can see the world"
+    ],
+    [
+        "have no enemies"
     ]
 ]
