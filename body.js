@@ -97,6 +97,11 @@ export const getBody = function(userAgent) {
     return (
 `
 <body>
+    <button onClick="window.location.reload();" onMouseDown="this.className='pressed'">
+    <pre>  + -------------- +
+  |   <span class="dialogue">Regenerate</span>   |
+  + -------------- +</pre>
+    </button>
     <pre>
 ${enclosure.getDisplayable()}
     </pre>

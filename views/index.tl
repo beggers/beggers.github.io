@@ -33,6 +33,17 @@
                 transform: translate(-50%, -50%);
                 position: absolute;
             }
+            button {
+                all: unset;
+                background: var(--base03);
+                color: var(--base0);
+                left: 50%;
+                transform: translate(-50%, +20%);
+                position: relative;
+            }
+            button.pressed {
+                color: var(--base01);
+            }
             .animal {
                 color: var(--base1);
             }
@@ -40,7 +51,7 @@
                 color: var(--base0);
             }
             .dialogue {
-                color: var(--base0);
+                color: var(--base1);
             }
             .grass {
                 color: var(--green);
