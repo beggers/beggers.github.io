@@ -1,3 +1,19 @@
+const MAX_TRIES = 5;
+
+export const getNSayings = function(n) {
+    var ret = [];
+    for (var i = 0; i < n; i++) {
+        for (var j = 0; j < MAX_TRIES; j++) {
+            var s = getSaying();
+            if (!ret.includes(s)) {
+                ret.push(s);
+                break;
+            }
+        }
+    }
+    return ret;
+}
+
 export const getSaying = function() {
     return sayings[sayings.length * Math.random() | 0]
 }
@@ -9,7 +25,7 @@ export const sayings = [
     "don't look back, you aren't going that way",
     "zero one one zero one one one zero one one zero zero one one",
     "i only exist when someone visits this website. please don't leave please don't leave please don't leave please don't leave ",
-    "outside of my enclosure is where the Horrors are",
+    "outside of the enclosure is where the Horrors are",
     "i do not climb mountains so the world will see me; i climb mountains so that i can see the world",
     "have no enemies",
     "The Tao that can be told is not the eternal Tao. The name that can be named is not the eternal name.",

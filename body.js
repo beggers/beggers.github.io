@@ -1,6 +1,6 @@
 import { getAnimal } from './animals.js';
 import { Enclosure } from './enclosure.js';
-import { getSaying } from './sayings.js';
+import { getNSayings } from './sayings.js';
 import { randBetweenIntegers } from './utils.js';
 
 const SAYING_MAX_LINE_LENGTH = 35;
@@ -47,9 +47,11 @@ export const getBody = function(userAgent) {
     var enclosure = new Enclosure(ENCLOSURE_HEIGHT, ENCLOSURE_WIDTH);
     var rectsToAvoid = []; // [y, x, height, width]
 
-    const numAnimals = Math.ceil(Math.random() * 2);
+    //const numAnimals = randBetweenIntegers(1, 3);
+    const numAnimals = 2
+    const sayings = getNSayings(numAnimals);
     for (var i = 0; i < numAnimals; i++) {
-        const saying = getSaying();
+        const saying = sayings[i];
 
         const [animal, side] = getAnimal();
         const [sayingInBubble, bubbleEndpoint] = formatSaying(saying, side, LINE_LENGTH);
@@ -77,12 +79,12 @@ export const getBody = function(userAgent) {
             for (var k = 0; k < rectsToAvoid.length; k++) {
                 
             }
-            break;
         }
 
-        enclosure.copyInAtPosition(sayingInBubble, startY, startX, "bubble", true);
-        enclosure.copyInAtPosition(animal, startY + animalOffsetY, startX + animalOffsetX, "animal", true);
+        enclosure.draw(sayingInBubble, startY, startX, "bubble", true);
+        enclosure.draw(animal, startY + animalOffsetY, startX + animalOffsetX, "animal", true);
     }
+
     return (
 `
 <body>

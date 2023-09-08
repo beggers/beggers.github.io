@@ -13,12 +13,12 @@ export class Enclosure {
         for (var i = 0; i < this.height; i++) {
             if (Math.random() >= 0.5) {
                 var j = Math.floor(Math.random() * (this.width-2)) + 1;
-                this.copyInAtPosition(GRASS, i, j, "grass")
+                this.draw(GRASS, i, j, "grass")
             }
         }
     }
 
-    copyInAtPosition(item, y, x, c, includeSpaces=false) {
+    draw(item, y, x, c, includeSpaces=false) {
         for (var i = 0; i < item.length; i++) {
             for (var j = 0; j < item[i].length; j++) {
                 if ((includeSpaces || item[i][j] !== " ") && item[i][j] !== "ñ") {
