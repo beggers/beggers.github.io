@@ -12,7 +12,7 @@ export class Enclosure {
         }
         for (var i = 0; i < this.height; i++) {
             if (rand() >= 0.5) {
-                var j = Math.floor(rand() * (this.width-2)) + 1;
+                var j = Math.floor(rand() * (this.width-4)) + 2;
                 this.draw(GRASS, i, j, "grass")
             }
         }
