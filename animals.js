@@ -14,6 +14,15 @@ const cowRight = [
 "      ||     ||"
 ]
 
+// from cowsay (reversed)
+const cowLeft = [
+"            ^__^",
+"    _______/(oo) ñ",
+"\\/\\(       /(__)",
+"   | w----||",
+"   ||     ||",
+]
+
 // http://www.ascii-art.de/ascii/t/turkey.txt
 const turkeyRight = [
 "   .--.",
@@ -52,5 +61,6 @@ const turkeyLeft = [
 const animals = [
     [cowRight, "right"],
     [turkeyRight, "right"],
-    [turkeyLeft, "left"]
+    [turkeyLeft, "left"],
+    [cowLeft, "left"],
 ]
