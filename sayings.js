@@ -1,3 +1,5 @@
+import { rand } from './utils.js';
+
 const MAX_TRIES = 5;
 
 export const getNSayings = function(n) {
@@ -15,7 +17,7 @@ export const getNSayings = function(n) {
 }
 
 export const getSaying = function() {
-    return sayings[sayings.length * Math.random() | 0]
+    return sayings[sayings.length * rand() | 0]
 }
 
 // The sayings themselves. If the list has two items, it's a dialogue and needs

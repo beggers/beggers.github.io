@@ -1,4 +1,4 @@
-import { wrapInSpans } from "./utils.js";
+import { rand, wrapInSpans } from "./utils.js";
 
 const GRASS = ["\\|/"]
 
@@ -11,8 +11,8 @@ export class Enclosure {
             this.canvas[i] = Array(width).fill(debug ? "." : " ");
         }
         for (var i = 0; i < this.height; i++) {
-            if (Math.random() >= 0.5) {
-                var j = Math.floor(Math.random() * (this.width-2)) + 1;
+            if (rand() >= 0.5) {
+                var j = Math.floor(rand() * (this.width-2)) + 1;
                 this.draw(GRASS, i, j, "grass")
             }
         }
