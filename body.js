@@ -6,11 +6,10 @@ import { randBetweenIntegers } from './utils.js';
 const SAYING_MAX_LINE_LENGTH = 35;
 
 // TODO dynamic canvas size?
-const ENCLOSURE_HEIGHT = 50;
-const ENCLOSURE_WIDTH = 160;
+const ENCLOSURE_HEIGHT = 40;
+const ENCLOSURE_WIDTH = 120;
 const PADDING_Y = 4;
 const PADDING_X = 10;
-// Don't make LINE_LENGTH bigger than PADDING_X or the program can crash.
 const LINE_LENGTH = 3;
 const MAX_PLACEMENT_TRIES = 5;
 
