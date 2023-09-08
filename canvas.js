@@ -8,7 +8,7 @@ export class Canvas {
         this.width = width;
         this.canvas = Array(height);
         for (var i = 0; i < this.canvas.length; i++) {
-            this.canvas[i] = Array(width).fill(".");
+            this.canvas[i] = Array(width).fill(" ");
         }
     }
 
@@ -25,7 +25,7 @@ export class Canvas {
     getDisplayable() {
         var out = "";
         for (var i = 0; i < this.canvas.length; i++) {
-            out += `${i}\t` + this.canvas[i].join('') + "\n";
+            out += this.canvas[i].join('') + "\n";
         }
         return out;
     }
