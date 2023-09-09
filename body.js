@@ -1,17 +1,17 @@
 import { getAnimal } from './animals.js';
 import { Enclosure } from './enclosure.js';
 import { getNSayings } from './sayings.js';
-import { randBetweenIntegers } from './utils.js';
+import { randBetweenIntegers, anyRectsOverlap } from './utils.js';
 
 const SAYING_MAX_LINE_LENGTH = 35;
 
 // TODO dynamic canvas size?
-const ENCLOSURE_HEIGHT = 40;
-const ENCLOSURE_WIDTH = 120;
+const ENCLOSURE_HEIGHT = 45;
+const ENCLOSURE_WIDTH = 150;
 const PADDING_Y = 2;
 const PADDING_X = 5;
 const LINE_LENGTH = 3;
-const MAX_PLACEMENT_TRIES = 5;
+const MAX_PLACEMENT_TRIES = 10;
 
 // This is ugly. This function returns an HTML <body> formatted as a string.
 // It contains all the formatting needed to correctly display characters and colors,
@@ -45,51 +45,77 @@ export const getBody = function(userAgent) {
         )
     }
     var enclosure = new Enclosure(ENCLOSURE_HEIGHT, ENCLOSURE_WIDTH);
-    var rectsToAvoid = []; // [y, x, height, width]
+    var animals = [];
 
-    //const numAnimals = randBetweenIntegers(1, 3);
-    const numAnimals = 2
+    const numAnimals = randBetweenIntegers(0, 5) === 4 ? 2 : 1;
     const sayings = getNSayings(numAnimals);
+
+    // Get animals and sayings; format sayings for the animals.
     for (var i = 0; i < numAnimals; i++) {
         const saying = sayings[i];
+        const [animal, direction] = getAnimal();
+        const [sayingInBubble, bubbleEndpoint] = formatSaying(saying, direction, LINE_LENGTH);
+        const [animalOffsetY, animalOffsetX] = calculateOffset(animal, bubbleEndpoint);
+        animals.push([sayingInBubble, animal, animalOffsetY, animalOffsetX])
+    }
 
-        const [animal, side] = getAnimal();
-        const [sayingInBubble, bubbleEndpoint] = formatSaying(saying, side, LINE_LENGTH);
-        var [animalOffsetY, animalOffsetX] = calculateOffset(animal, bubbleEndpoint);
+    // Figure out where to place them.
+    var rects = []; // [y, x, height, width]
+    // Different from rects, since the starting placement point is the top-left of the bubble
+    // and rect needs to hold the entire animal+bubble for collision detection. placementPoints
+    // should be computable from the info in rects and animals but the code is gross.
+    var placementPoints = []; // [y, x, height, width]
+    for (var i = 0; i < MAX_PLACEMENT_TRIES; i++) {
+        rects = [];
+        placementPoints = [];
+        for (var j = 0; j < animals.length; j++) {
+            const [sayingInBubble, animal, animalOffsetY, animalOffsetX] = animals[j];
 
-        // Dimensions (upper bounds) for the rect containing our animal + bubble.
-        var heightUpperBound = animal.length + bubbleEndpoint[0];
-        const leftOffset = Math.max(0, -1 * animalOffsetX);
-        // Haha code duplication ha ha.
-        var maxLength = 0;
-        for (var i = 0; i < sayingInBubble.length; i++) {
-            if (sayingInBubble[i].length > maxLength) {
-                maxLength = sayingInBubble[i].length;
+            // Dimensions for the rect containing our animal + bubble.
+            const height = sayingInBubble.length + animal.length;
+            const leftOffset = Math.max(0, -1 * animalOffsetX);
+            // Haha code duplication ha ha.
+            var maxLength = 0;
+            for (var k = 0; k < sayingInBubble.length; k++) {
+                if (sayingInBubble[k].length > maxLength) {
+                    maxLength = sayingInBubble[k].length;
+                }
             }
-        }
-        for (var i = 0; i < animal.length; i++) {
-            if (animal[i].length > maxLength) {
-                maxLength = animal[i].length;
+            for (var k = 0; k < animal.length; k++) {
+                if (animal[k].length > maxLength) {
+                    maxLength = animal[k].length;
+                }
             }
-        }
-        const rightOffset = maxLength + Math.max(0, animalOffsetX);
+            const rightOffset = maxLength + Math.max(0, animalOffsetX);
 
-        var startY, startX;
-        for (var j = 0; j < MAX_PLACEMENT_TRIES; j++) {
-            [startY, startX] = getInitialPositionWithinBounds(
+            const [startY, startX] = getRandomRectPositionWithinBounds(
                 ENCLOSURE_HEIGHT,
                 ENCLOSURE_WIDTH,
                 PADDING_Y,
                 PADDING_X,
-                heightUpperBound,
+                height,
                 leftOffset,
                 rightOffset
             );
-            for (var k = 0; k < rectsToAvoid.length; k++) {
-                
-            }
+
+            var rect = [startY, startX - leftOffset, height, leftOffset + rightOffset]
+            rects.push(rect);
+            placementPoints.push([startY, startX]);
         }
 
+        if (!anyRectsOverlap(rects)) {
+            break;
+        } else if (i === MAX_PLACEMENT_TRIES - 1) {
+            animals = [];
+            rects = [];
+            placementPoints = [];
+        }
+    }
+
+    // Place them.
+    for (var i = 0; i < animals.length; i++) {
+        const [sayingInBubble, animal, animalOffsetY, animalOffsetX] = animals[i];
+        const [startY, startX] = placementPoints[i];
         enclosure.draw(sayingInBubble, startY, startX, "bubble", true);
         enclosure.draw(animal, startY + animalOffsetY, startX + animalOffsetX, "animal", true);
     }
@@ -110,8 +136,11 @@ ${enclosure.getDisplayable()}
     )
 }
 
-// TODO split return into [text, bubble] so we can color them differently.
-const formatSaying = function(s, animalSide, connectingLineLength) {
+// Returns the saying formatted inside a bubble with a speech line of connectingLineLength.
+// Also returns the point [y, x] within the returned []string where the speech bubble
+// ends so it can be lined up with the animal's ñ.
+const formatSaying = function(s, animalDirection, connectingLineLength) {
+    // TODO split return into [text, bubble] so we can color them differently.
     var lines = [];
     const words = s.split(' ');
 
@@ -159,23 +188,26 @@ const formatSaying = function(s, animalSide, connectingLineLength) {
 
     // And finally, the line connecting the bubble to the mouth.
     const connectingPoint = Math.round(maxLength / 2) + 1;
-    const lineCharacter = animalSide === "left" ? "\\" : "/"
+    const lineCharacter = animalDirection === "left" ? "\\" : "/"
     for (var i = 0; i < connectingLineLength; i++) {
-        var lineLocation = animalSide === "left" ? connectingPoint + i : connectingPoint - i;
+        var lineLocation = animalDirection === "left" ? connectingPoint + i : connectingPoint - i;
         finalLines.push(' '.repeat(Math.max(0, lineLocation - 1)) +
                         lineCharacter +
                         ' '.repeat(Math.max(0, maxLength - lineLocation)))
     }
 
-    // -2 for right is correct though unintuitive. One for zero-indexing, one for the fencepost.
-    // For left they cancel each other out and we do -0.
-    var bubbleXStart = animalSide === "left" ? connectingPoint + connectingLineLength - 2 : connectingPoint - connectingLineLength;
+    // -2 for left-facing is correct though unintuitive. One for zero-indexing, one for the fencepost.
+    // For right-facing they cancel each other out and we do -0.
+    var bubbleXStart = animalDirection === "left" ? connectingPoint + connectingLineLength - 2 : connectingPoint - connectingLineLength;
     return [finalLines, [finalLines.length - 1, bubbleXStart]];
 }
 
-// We need to do all this so that we can style (color) the speech bubble differently
-// from the animal.
+// Calculate the [y, x] offset where the animal should be drawn relative to the bubble.
+// y will always be positive, x may be negative.
 const calculateOffset = function(animal, bubbleEndpoint) {
+    // We need to do all this so that we can style (color) the speech bubble differently
+    // from the animal.
+
     // This is inefficient but still fast enough and I'm tired and at the airport.
     for (var i = 0; i < animal.length; i++) {
         for (var j = 0; j < animal[i].length; j++) {
@@ -192,9 +224,10 @@ const calculateOffset = function(animal, bubbleEndpoint) {
 
 // We need to pass x and y info differently because the origin (top-left of bubble) is always at y = 0, but
 // will be at some non-zero x when the animal is a right-facing animal.
-const getInitialPositionWithinBounds = function(yMax, xMax, yPadding, xPadding, yWidth, leftOffset, rightOffset) {
+const getRandomRectPositionWithinBounds = function(yMax, xMax, yPadding, xPadding, height, leftOffset, rightOffset) {
+    // Todo this function doesn't need to accept so many arguments
     return [
-        randBetweenIntegers(yPadding, yMax - yPadding - yWidth),
+        randBetweenIntegers(yPadding, yMax - yPadding - height),
         randBetweenIntegers(xPadding + leftOffset, xMax - xPadding - rightOffset)
     ];
 }

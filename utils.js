@@ -20,3 +20,26 @@ function mulberry32(a) {
       return ((t ^ t >>> 14) >>> 0) / 4294967296;
     }
 }
+
+export function rectsOverlap(rect1, rect2) {
+    // y, x, height, width
+    const overlap = (
+        (rect2[0] >= rect1[0] && rect2[0] <= rect1[0] + rect1[2]) ||
+        (rect1[0] >= rect2[0] && rect1[0] <= rect2[0] + rect2[2])
+    ) && (
+        (rect2[1] >= rect1[1] && rect2[1] <= rect1[1] + rect1[3]) ||
+        (rect1[1] >= rect2[1] && rect1[1] <= rect2[1] + rect2[3])
+    )
+    return overlap;
+}
+
+export function anyRectsOverlap(rects) {
+    for (var i = 0; i < rects.length; i++) {
+        for (var j = i + 1; j < rects.length; j++) {
+            if (rectsOverlap(rects[i], rects[j])) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
