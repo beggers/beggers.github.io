@@ -1,7 +1,7 @@
 import { getAnimal } from './animals.js';
 import { Enclosure } from './enclosure.js';
 import { getNSayings } from './sayings.js';
-import { randBetweenIntegers, anyRectsOverlap } from './utils.js';
+import { rand, randBetweenIntegers, anyRectsOverlap } from './utils.js';
 
 const SAYING_MAX_LINE_LENGTH = 35;
 
@@ -12,6 +12,7 @@ const PADDING_Y = 2;
 const PADDING_X = 5;
 const LINE_LENGTH = 3;
 const MAX_PLACEMENT_TRIES = 10;
+const TWO_ANIMAL_PROBABILITY = 0.2;
 
 // This is ugly. This function returns an HTML <body> formatted as a string.
 // It contains all the formatting needed to correctly display characters and colors,
@@ -47,7 +48,7 @@ export const getBody = function(userAgent) {
     var enclosure = new Enclosure(ENCLOSURE_HEIGHT, ENCLOSURE_WIDTH);
     var animals = [];
 
-    const numAnimals = randBetweenIntegers(0, 5) === 4 ? 2 : 1;
+    const numAnimals = rand() <= TWO_ANIMAL_PROBABILITY ? 2 : 1;
     const sayings = getNSayings(numAnimals);
 
     // Get animals and sayings; format sayings for the animals.

@@ -23,7 +23,6 @@ export const getSaying = function() {
 // The sayings themselves. If the list has two items, it's a dialogue and needs
 // two animals.
 export const sayings = [
-    "ok",
     "ben eggers dot com",
     "don't look back, you aren't going that way",
     "zero one one zero one one one zero one one zero zero one one",
