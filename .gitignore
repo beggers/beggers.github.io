@@ -1,3 +1,6 @@
+.aws-sam/
+example-sam-app/
+
 # dependencies
 node_modules/
 
