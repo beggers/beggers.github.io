@@ -7,7 +7,6 @@ export const randBetweenIntegers = function(min, max) {
 }
 
 export var seed = Math.random();
-console.log(seed);
 
 export var rand = mulberry32(seed);
 

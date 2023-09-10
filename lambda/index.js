@@ -1,5 +1,5 @@
-<!-- We only have the index page so it's probably fine to have everything hardcoded.
-     In the future I should perhaps separate things out properly. -->
+// Terrible, terrible stuff.
+export const index = (body) => `
 <!DOCTYPE html>
 <html>
     <head>
@@ -61,5 +61,6 @@
             }
         </style>
     </head>
-    ${d.body}
+    ${body}
 </html>
+`;

@@ -1,0 +1,25 @@
+{
+  "name": "beneggers.com",
+  "version": "1.0.0",
+  "description": "The greatest personal website the world has ever seen",
+  "main": "app.mjs",
+  "type": "module",
+  "repository": "https://github.com/beggers/beneggers.com",
+  "author": "Ben Eggers",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "node app.mjs",
+    "dev": "nodemon app.mjs -e tl,js,mjs"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-tl": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
