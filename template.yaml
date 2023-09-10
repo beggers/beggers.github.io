@@ -11,6 +11,7 @@ Globals:
     Tracing: Active
   Api:
     TracingEnabled: false
+
 Resources:
   BenEggersComFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -20,8 +21,17 @@ Resources:
       Runtime: python3.9
       Architectures:
       - x86_64
+      Events:
+        BenEggersCom:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
 
 Outputs:
+  BenEggersComApi:
+    Description: "API Gateway to actually get the thing"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
   BenEggersComFunction:
     Description: Ben Eggers Com Lambda Function ARN
     Value: !GetAtt BenEggersComFunction.Arn
