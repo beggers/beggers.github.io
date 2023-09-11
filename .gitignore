@@ -3,6 +3,8 @@ example-sam-app/
 .vscode/
 
 .terraform/
+*.tfstate
+*.tfstate.*
 
 # dependencies
 node_modules/

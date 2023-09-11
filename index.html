@@ -35,51 +35,51 @@
             .dialogue {
                 color: var(--base1);
             }
-            .light body {
-                background: var(--base3);
-            }
-            .light .cow {
-                color: var(--base01);
-            }
-            .light .bubble {
-                color: var(--base1);
-            }
-            .light .dialogue {
-                color: var(--base01);
+            .magenta {
+                color: var(--magenta);
             }
         </style>
     </head>
-    <body onload="loadTheme();">
+    <body onload="loadHearts();">
         <pre>
   <span class="bubble">------------------</span> 
 <span class="bubble"><</span><span class="dialogue"> ben eggers dot com </span><span class="bubble">></span>
   <span class="bubble">------------------</span> 
         <span class="bubble">\</span>   <span class="cow">^__^</span>
-         <span class="bubble">\</span>  <span class="cow">(oo)\_______</span>
+         <span class="bubble">\</span>  <span class="cow">(<span id="eyes">oo</span>)\_______</span>
             <span class="cow">(__)\       )\/\</span>
-                <span class="cow">||----</span><button onclick="toggleTheme();">w</button> <span class="cow">|</span>
+                <span class="cow">||----</span><button onclick="toggleHearts();">w</button> <span class="cow">|</span>
                 <span class="cow">||     ||</span>
         </pre>
     </body>
 </html>
 <script>
-    function toggleTheme() {
-        let htmlClassList = document.querySelector('html').classList;
+    function toggleHearts() {
+        let eyes = document.getElementById('eyes');
 
-        if (htmlClassList.contains('light')) {
-            window.localStorage.setItem('theme', '')
-            htmlClassList.remove('light')
+        if (eyes.innerHTML === 'oo') {
+            setHearts();
         }
         else {
-            window.localStorage.setItem('theme', 'light')
-            htmlClassList.add('light')
+            unsetHearts()
         }
     }
-    function loadTheme() {
-        const theme = window.localStorage.getItem('theme');
-        if (theme === 'light') {
-            let htmlClassList = document.querySelector('html').classList;
-            htmlClassList.add('light')
+    function loadHearts() {
+        const hearts = window.localStorage.getItem('hearts');
+        if (hearts === 'true') {
+            setHearts();
         }
+    }
+    function setHearts() {
+        let eyes = document.getElementById('eyes');
+        eyes.innerHTML = '♡♡';
+        eyes.classList.add('magenta');
+        window.localStorage.setItem('hearts', 'true');
+    }
+    function unsetHearts() {
+        let eyes = document.getElementById('eyes');
+        eyes.innerHTML = 'oo';
+        eyes.classList.remove('magenta');
+        window.localStorage.setItem('hearts', 'false');
     }
 </script>
