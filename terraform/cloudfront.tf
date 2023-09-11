@@ -27,7 +27,6 @@ resource "aws_cloudfront_distribution" "main" {
     cached_methods = ["GET", "HEAD"]
     target_origin_id = "S3-${aws_s3_bucket.main.bucket}"
 
-    # Forward all query strings, cookies and headers
     forwarded_values {
       query_string = true
        cookies {
@@ -47,9 +46,7 @@ resource "aws_cloudfront_distribution" "main" {
     }
   }
   
-  # SSL certificate for the service.
   viewer_certificate {
-    acm_certificate_arn = aws_acm_certificate.main.arn
-    ssl_support_method = "sni-only"
+    cloudfront_default_certificate = true
   }
 }

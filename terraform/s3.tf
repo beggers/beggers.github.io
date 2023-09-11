@@ -31,40 +31,13 @@ resource "aws_s3_bucket_ownership_controls" "main" {
 
 resource "aws_s3_bucket_acl" "main" {
     bucket = aws_s3_bucket.main.id
-    acl    = "public-read"
+    acl    = "private"
     depends_on = [aws_s3_bucket_ownership_controls.main]
 }
 
 resource "aws_s3_bucket_policy" "main" {
   bucket = aws_s3_bucket.main.id
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Principal = "*"
-        Action = [
-          "s3:*",
-        ]
-        Effect = "Allow"
-        Resource = [
-          "arn:aws:s3:::${var.bucketName}",
-          "arn:aws:s3:::${var.bucketName}/*"
-        ]
-      },
-      {
-        Sid = "PublicReadGetObject"
-        Principal = "*"
-        Action = [
-          "s3:GetObject",
-        ]
-        Effect   = "Allow"
-        Resource = [
-          "arn:aws:s3:::${var.bucketName}",
-          "arn:aws:s3:::${var.bucketName}/*"
-        ]
-      },
-    ]
-  })
+  policy = data.aws_iam_policy_document.website_policy.json
   depends_on = [aws_s3_bucket_public_access_block.main]
 }
 
