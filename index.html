@@ -13,6 +13,8 @@
                 --magenta: #d33682;
             }
             body {
+                white-space: pre;
+                font-family: monospace;
                 background: var(--base03);
                 border-radius: 1em;
                 padding: 1em;
@@ -40,7 +42,6 @@
         </style>
     </head>
     <body onload="loadHearts();">
-        <pre>
   <span class="bubble">------------------</span> 
 <span class="bubble"><</span><span class="dialogue"> ben eggers dot com </span><span class="bubble">></span>
   <span class="bubble">------------------</span> 
@@ -49,14 +50,13 @@
             <span class="cow">(__)\       )\/\</span>
                 <span class="cow">||----</span><button class="magenta" onclick="toggleHearts();">w</button> <span class="cow">|</span>
                 <span class="cow">||     ||</span>
-        </pre>
     </body>
 </html>
 <script>
     function toggleHearts() {
         let eyes = document.getElementById('eyes');
 
-        if (eyes.innerHTML === 'oo') {
+        if (window.localStorage.getItem('hearts') !== 'true') {
             setHearts();
         }
         else {
@@ -71,7 +71,7 @@
     }
     function setHearts() {
         let eyes = document.getElementById('eyes');
-        eyes.innerHTML = '♡♡';
+        eyes.innerHTML = '&#9829;&#9829;';
         eyes.classList.add('magenta');
         window.localStorage.setItem('hearts', 'true');
     }
