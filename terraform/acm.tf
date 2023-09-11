@@ -5,6 +5,7 @@ resource "aws_acm_certificate" "main" {
   lifecycle {
     create_before_destroy = true
   }
+  subject_alternative_names = [ "www.${var.domainName}" ]
 }
 
 resource "aws_acm_certificate_validation" "main" {

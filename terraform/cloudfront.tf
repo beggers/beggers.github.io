@@ -12,7 +12,7 @@ resource "aws_cloudfront_distribution" "main" {
   default_root_object = "index.html"
   enabled = true
   is_ipv6_enabled = true
-  aliases = [var.domainName]
+  aliases = [var.domainName, "www.${var.domainName}"]
 
   # If there is a 404, return index.html with a HTTP 200 Response
   custom_error_response {
@@ -38,7 +38,7 @@ resource "aws_cloudfront_distribution" "main" {
     default_ttl = 3600
     max_ttl = 86400
   }
-  
+
   price_class = "PriceClass_100"
   restrictions {
     geo_restriction {
