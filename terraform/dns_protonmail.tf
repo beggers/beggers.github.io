@@ -1,5 +1,3 @@
-// This is technically DNS but logically distinct enough to warrant its own file.
-
 resource "aws_route53_record" "protonmail_verification" {
   zone_id = aws_route53_zone.main.zone_id
   name    = "_protomail-verification.beneggers.com"
