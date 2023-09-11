@@ -14,7 +14,7 @@ resource "aws_s3_bucket_public_access_block" "main" {
 resource "aws_s3_bucket_website_configuration" "main" {
   bucket = aws_s3_bucket.main.id
   index_document {
-    suffix = "../index.html"
+    suffix = "index.html"
   }
   error_document {
     key = "../index.html"
@@ -70,7 +70,7 @@ resource "aws_s3_bucket_policy" "main" {
 
 resource "aws_s3_object" "index" {
   bucket        = aws_s3_bucket.main.id
-  key           = "../index.html"
+  key           = "index.html"
   source        = "../index.html"
   etag          = filemd5("../index.html")
   content_type  = "text/html"
@@ -78,7 +78,7 @@ resource "aws_s3_object" "index" {
 
 resource "aws_s3_object" "favicon" {
   bucket       = aws_s3_bucket.main.id
-  key          = "../favicon.ico"
+  key          = "favicon.ico"
   source       = "../favicon.ico"
   etag         = filemd5("../favicon.ico")
   content_type = "image/x-icon"
