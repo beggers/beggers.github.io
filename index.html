@@ -45,44 +45,56 @@
             }
         </style>
     </head>
-    <body onload="loadHearts();">
-  <span class="bubble">------------------</span> 
-<span class="bubble"><</span><span class="dialogue"> ben eggers dot com </span><span class="bubble">></span>
+    <body onload="load();">
+  <span class="bubble">----------------<button onClick="toggleTLD()">-</button>-</span> 
+<span class="bubble"><</span><span class="dialogue"> ben eggers dot <span id="tld">com</span> </span><span class="bubble">></span>
   <span class="bubble">------------------</span> 
         <span class="bubble">\</span>   <span class="cow">^__^</span>
          <span class="bubble">\</span>  <span class="cow">(<span id="eyes">oo</span>)\_______</span>
             <span class="cow">(__)\       )\/\</span>
-                <span class="cow">||----</span><button class="udder" onclick="toggleHearts();">w</button> <span class="cow">|</span>
+                <span class="cow">||----</span><button class="udder" onclick="toggleEyes();">w</button> <span class="cow">|</span>
                 <span class="cow">||     ||</span>
     </body>
 </html>
 <script>
-    function toggleHearts() {
+    function toggleEyes() {
         let eyes = document.getElementById('eyes');
 
-        if (window.localStorage.getItem('hearts') !== 'true') {
-            setHearts();
+        if (eyes.innerHTML === 'oo') {
+            eyes.innerHTML = '&#9829;&#9829;';
+            eyes.classList.add('heart-eyes');
         }
         else {
-            unsetHearts()
+            eyes.innerHTML = 'oo';
+            eyes.classList.remove('heart-eyes');
+        }
+        window.localStorage.setItem('eyes', eyes.innerHTML);
+    }
+    function toggleTLD() {
+        let tld = document.getElementById('tld');
+        if (tld.innerHTML === 'com') {
+            tld.innerHTML = 'gov';
+        }
+        else {
+            tld.innerHTML = 'com';
+        }
+        window.localStorage.setItem('tld', tld.innerHTML);
+    }
+    function load() {
+        loadEyes();
+        loadTLD();
+    }
+    function loadEyes() {
+        const eyes = window.localStorage.getItem('eyes');
+        if (eyes !== 'oo') {
+            toggleEyes();
         }
     }
-    function loadHearts() {
-        const hearts = window.localStorage.getItem('hearts');
-        if (hearts === 'true') {
-            setHearts();
+    function loadTLD() {
+        const tld = window.localStorage.getItem('tld');
+        if (tld === 'gov') {
+            toggleTLD();
         }
     }
-    function setHearts() {
-        let eyes = document.getElementById('eyes');
-        eyes.innerHTML = '&#9829;&#9829;';
-        eyes.classList.add('heart-eyes');
-        window.localStorage.setItem('hearts', 'true');
-    }
-    function unsetHearts() {
-        let eyes = document.getElementById('eyes');
-        eyes.innerHTML = 'oo';
-        eyes.classList.remove('heart-eyes');
-        window.localStorage.setItem('hearts', 'false');
-    }
+
 </script>
