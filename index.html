@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -46,9 +45,9 @@
         </style>
     </head>
     <body onload="load();">
-  <span class="bubble">----------------<button onClick="toggleTLD()">-</button>-</span> 
-<span class="bubble"><</span><span class="dialogue"> ben eggers dot <span id="tld">com</span> </span><span class="bubble">></span>
   <span class="bubble">------------------</span> 
+<span class="bubble"><</span><span class="dialogue"> ben eggers dot <span id="tld">com</span> </span><span class="bubble">></span>
+  <span class="bubble">----------------<button onClick="nextTLD()">-</button>-</span> 
         <span class="bubble">\</span>   <span class="cow">^__^</span>
          <span class="bubble">\</span>  <span class="cow">(<span id="eyes">oo</span>)\_______</span>
             <span class="cow">(__)\       )\/\</span>
@@ -57,44 +56,47 @@
     </body>
 </html>
 <script>
-    function toggleEyes() {
-        let eyes = document.getElementById('eyes');
-
-        if (eyes.innerHTML === 'oo') {
-            eyes.innerHTML = '&#9829;&#9829;';
-            eyes.classList.add('heart-eyes');
-        }
-        else {
-            eyes.innerHTML = 'oo';
-            eyes.classList.remove('heart-eyes');
-        }
-        window.localStorage.setItem('eyes', eyes.innerHTML);
-    }
-    function toggleTLD() {
-        let tld = document.getElementById('tld');
-        if (tld.innerHTML === 'com') {
-            tld.innerHTML = 'gov';
-        }
-        else {
-            tld.innerHTML = 'com';
-        }
-        window.localStorage.setItem('tld', tld.innerHTML);
-    }
+    const EYES_CLASS = 'heart-eyes';
+    const EYES_ID = 'eyes';
+    const TLD_ID = 'tld';
+    const TLDS = ['com', 'gov', 'net', 'app', 'ben'];
     function load() {
         loadEyes();
         loadTLD();
     }
     function loadEyes() {
-        const eyes = window.localStorage.getItem('eyes');
+        const eyes = window.localStorage.getItem(EYES_ID);
         if (eyes !== 'oo') {
             toggleEyes();
         }
     }
     function loadTLD() {
-        const tld = window.localStorage.getItem('tld');
-        if (tld === 'gov') {
-            toggleTLD();
+        const tld = window.localStorage.getItem(TLD_ID);
+        const tldElem = document.getElementById(TLD_ID);
+        tldElem.innerHTML = tld;
+    }
+    function toggleEyes() {
+        const eyesElem = document.getElementById(EYES_ID);
+        if (eyesElem.innerHTML === 'oo') {
+            eyesElem.innerHTML = '&#9829;&#9829;';
+            eyesElem.classList.add(EYES_CLASS);
+        } else {
+            eyesElem.innerHTML = 'oo';
+            eyesElem.classList.remove(EYES_CLASS);
+        }
+        window.localStorage.setItem(EYES_ID, eyesElem.innerHTML);
+    }
+    function nextTLD() {
+        const tldElem = document.getElementById(TLD_ID);
+        tldElem.innerHTML = next(TLDS, tldElem.innerHTML);
+        window.localStorage.setItem(TLD_ID, tldElem.innerHTML);
+    }
+    function next(list, item) {
+        const index = list.indexOf(item);
+        if (index === -1) {
+            return list[0];
+        } else {
+            return list[(index + 1) % list.length];
         }
     }
-
 </script>
