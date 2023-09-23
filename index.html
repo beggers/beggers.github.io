@@ -82,9 +82,9 @@
     <body onload="load();">
         <canvas id="canvas"></canvas>
         <div class="cow-container">
-       <span class="bubble">--------------------------</span> 
+       <span class="bubble">--------------------</span> 
      <span class="bubble"><</span><span id="speech" class="dialogue"></span><span class="bubble">></span>
-       <span class="bubble">------------------------<button onClick="incrementTld()">-</button>-</span> 
+       <span class="bubble">------------------<button onClick="incrementTld()">-</button>-</span> 
              <span class="cow">^__^</span>   <span class="bubble">/</span>   
      <span class="cow">_______/(<span id="eyes">oo</span>)  </span><span class="bubble">/</span>  
 <span class="cow">\/\/(       /(__)</span>
@@ -104,10 +104,10 @@
     const FLYING_CUTOFF = 10;
     const MAX_DISPLAY_DISTANCE = 9999;
     const MAX_DISTANCE = 1000;
-    const PADDED_TEXT_WIDTH = 28;
+    const PADDED_TEXT_WIDTH = 22;
     const SPEECH_CHANGE_DISTANCE = 80;
     const SPEECH_PAUSE = 24;
-    const STAR_TEXT = 'the world is so beautiful.';
+    const STAR_TEXT = 'try chroma dot ${tld}';
     const TYPING_SLOWDOWN_FACTOR = 2;
 
     const CANVAS_ID = 'canvas';
@@ -116,7 +116,7 @@
     const EYES_ID = 'eyes';
     const RESET_BUTTON_ID = 'reset-button';
     const SPEECH_ID = 'speech';
-    const TLDS = ['com', 'gov', 'net', 'app', 'ben'];
+    const TLDS = ['com', 'org', 'net', 'app', 'xxx', 'edu', 'art', 'xyz', 'bet', 'gov', 'ben'];
     const TLD_ID = 'tld';
 
     var animationInterval = null;
@@ -225,10 +225,10 @@
             const empty_speech_distance = SPEECH_CHANGE_DISTANCE + DEFAULT_TEXT.length*DELETE_SLOWDOWN_FACTOR;
             const star_text_distance = empty_speech_distance + SPEECH_PAUSE + STAR_TEXT.length*TYPING_SLOWDOWN_FACTOR;
             if (distance < empty_speech_distance) {
-                speech = speech.substring(0, speech.length - (distance-SPEECH_CHANGE_DISTANCE) / DELETE_SLOWDOWN_FACTOR);
+                speech = speech.replace('${tld}', tld).substring(0, speech.length - (distance-SPEECH_CHANGE_DISTANCE) / DELETE_SLOWDOWN_FACTOR);
             } else {
                 speech = STAR_TEXT;
-                speech = speech.substring(0, speech.length - (star_text_distance - distance) / TYPING_SLOWDOWN_FACTOR);
+                speech = speech.replace('${tld}', tld).substring(0, speech.length - (star_text_distance - distance) / TYPING_SLOWDOWN_FACTOR);
             }
         }
         const padding = Math.floor((PADDED_TEXT_WIDTH - speech.length) / 2);
