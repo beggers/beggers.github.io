@@ -107,7 +107,7 @@
     const PADDED_TEXT_WIDTH = 22;
     const SPEECH_CHANGE_DISTANCE = 80;
     const SPEECH_PAUSE = 24;
-    const STAR_TEXT = 'try chroma dot ${tld}';
+    const STAR_TEXT = 'try chroma dot com';
     const TYPING_SLOWDOWN_FACTOR = 2;
 
     const CANVAS_ID = 'canvas';
@@ -225,10 +225,9 @@
             const empty_speech_distance = SPEECH_CHANGE_DISTANCE + DEFAULT_TEXT.length*DELETE_SLOWDOWN_FACTOR;
             const star_text_distance = empty_speech_distance + SPEECH_PAUSE + STAR_TEXT.length*TYPING_SLOWDOWN_FACTOR;
             if (distance < empty_speech_distance) {
-                speech = speech.replace('${tld}', tld).substring(0, speech.length - (distance-SPEECH_CHANGE_DISTANCE) / DELETE_SLOWDOWN_FACTOR);
+                speech = speech.substring(0, speech.length - (distance-SPEECH_CHANGE_DISTANCE) / DELETE_SLOWDOWN_FACTOR);
             } else {
-                speech = STAR_TEXT;
-                speech = speech.replace('${tld}', tld).substring(0, speech.length - (star_text_distance - distance) / TYPING_SLOWDOWN_FACTOR);
+                speech = STAR_TEXT.substring(0, speech.length - (star_text_distance - distance) / TYPING_SLOWDOWN_FACTOR);
             }
         }
         const padding = Math.floor((PADDED_TEXT_WIDTH - speech.length) / 2);
