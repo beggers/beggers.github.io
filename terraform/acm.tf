@@ -1,10 +1,7 @@
 resource "aws_acm_certificate" "main" {
-  provider          = aws.acm_provider
-  domain_name       = var.domainName
-  validation_method = "DNS"
-  lifecycle {
-    create_before_destroy = true
-  }
+  provider                  = aws.acm_provider
+  domain_name               = var.domainName
+  validation_method         = "DNS"
   subject_alternative_names = ["*.${var.domainName}"]
 }
 
@@ -15,10 +12,18 @@ resource "aws_acm_certificate_validation" "main" {
 }
 
 resource "aws_route53_record" "acm_validation" {
-  zone_id = aws_route53_zone.main.zone_id
-  name    = element(aws_acm_certificate.main.domain_validation_options.*.resource_record_name, count.index)
-  count   = length(aws_acm_certificate.main.domain_validation_options)
-  type    = element(aws_acm_certificate.main.domain_validation_options.*.resource_record_type, count.index)
-  records = [element(aws_acm_certificate.main.domain_validation_options.*.resource_record_value, count.index)]
-  ttl     = 60
+  for_each = {
+    for dvo in aws_acm_certificate.main.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
+
+  zone_id         = aws_route53_zone.main.zone_id
+  name            = each.value.name
+  type            = each.value.type
+  records         = [each.value.record]
+  ttl             = 60
+  allow_overwrite = true
 }
