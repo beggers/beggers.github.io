@@ -38,8 +38,8 @@ output "acm_validation_record_fqdns" {
   value = [for record in aws_route53_record.acm_validation : record.fqdn]
 }
 
-output "cloudfront_domain_name" {
-  value = aws_cloudfront_distribution.main.domain_name
+output "cloudfront_distribution_id" {
+  value = aws_cloudfront_distribution.main.id
 }
 
 output "cloudfront_zone_id" {
