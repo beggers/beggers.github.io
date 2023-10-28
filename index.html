@@ -1,283 +1,264 @@
+<!-- This code is as ugly as my terraform is pretty. -->
 <!DOCTYPE html>
 <html>
-
-<head>
-	<title>Ben Eggers dot com</title>
-	<link rel="icon" type="image/x-icon" href="/favicon.ico">
-	<style>
-		:root {
-			--base03: #002b36;
-			--base01: #586e75;
-			--base1: #93a1a1;
-			--magenta: #d33682;
-		}
-
-		html {
-			position: fixed;
-			margin: 0;
-			padding: 0;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-		}
-
-		body {
-			margin: 0;
-			padding: 0;
-			background: var(--base03);
-			width: 100%;
-			height: 100%;
-			position: absolute;
-		}
-
-		canvas {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			z-index: -1;
-		}
-
-		button {
-			all: unset;
-		}
-
-		span {
-			display: inline-block;
-		}
-
-		.cow {
-			color: var(--base1);
-		}
-
-		.cow-container {
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			white-space: pre;
-			font-size: 1.2em;
-			font-family: monospace;
-			z-index: 1;
-		}
-
-		.bubble {
-			color: var(--base01);
-		}
-
-		.dialogue {
-			color: var(--base1);
-		}
-
-		.udder {
-			color: var(--magenta);
-		}
-
-		.heart-eyes {
-			color: var(--magenta);
-			transform: translate(0em, 0.2em) scale(1, 0.9);
-		}
-
-		.distance {
-			color: var(--base1);
-		}
-
-		.reset-button {
-			color: var(--base1)
-		}
-
-		.hidden {
-			display: none;
-		}
-	</style>
-</head>
-
-<body onload="load();">
-	<canvas id="canvas"></canvas>
-	<div class="cow-container">
-		<span class="bubble">--------------------</span>
-		<span class="bubble">
-			<< /span><span id="speech" class="dialogue"></span><span class="bubble">></span>
-				<span class="bubble">------------------<button onClick="incrementTld()">-</button>-</span>
-				<span class="cow">^__^</span> <span class="bubble">/</span>
-				<span class="cow">_______/(<span id="eyes">oo</span>) </span><span class="bubble">/</span>
-				<span class="cow">\/\/( /(__)</span>
-				<span class="cow">|</span> <button class="udder" onclick="toggleEyes();">w</button><span
-					class="cow">----||</span>
-				<span class="cow">|| ||</span>
-				<span id="distance" class="distance hidden"></span> <button id="reset-button" class="reset-button hidden"
-					onClick="reset();">(r)</button>
-	</div>
-</body>
-
+    <head>
+        <title>Ben Eggers dot com</title>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        <style> 
+            :root {
+                --base03: #002b36;
+                --base01: #586e75;
+                --base1: #93a1a1;
+                --magenta: #d33682;
+            }
+            html {
+                position: fixed;
+                margin: 0;
+                padding: 0;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+            body {
+                margin: 0;
+                padding: 0;
+                background: var(--base03);
+                width: 100%;
+                height: 100%;
+                position: absolute;
+            }
+            canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+            }
+            button {
+                all: unset;
+            }
+            span {
+                display: inline-block;
+            }
+            .cow {
+                color: var(--base1);
+            }
+            .cow-container {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                white-space: pre;
+                font-size: 1.2em;
+                font-family: monospace;
+                z-index: 1;
+            }
+            .bubble {
+                color: var(--base01);
+            }
+            .dialogue {
+                color: var(--base1);
+            }
+            .udder {
+                color: var(--magenta);
+            }
+            .heart-eyes {
+                color: var(--magenta);
+                transform: translate(0em, 0.2em) scale(1, 0.9);
+            }
+            .distance {
+                color: var(--base1);
+            }
+            .reset-button {
+                color: var(--base1)
+            }
+            .hidden {
+                display: none;
+            }
+        </style>
+    </head>
+    <body onload="load();">
+        <canvas id="canvas"></canvas>
+        <div class="cow-container">
+       <span class="bubble">--------------------</span> 
+     <span class="bubble"><</span><span id="speech" class="dialogue"></span><span class="bubble">></span>
+       <span class="bubble">------------------<button onClick="incrementTld()">-</button>-</span> 
+             <span class="cow">^__^</span>   <span class="bubble">/</span>   
+     <span class="cow">_______/(<span id="eyes">oo</span>)  </span><span class="bubble">/</span>  
+<span class="cow">\/\/(       /(__)</span>
+    <span class="cow">|</span> <button class="udder" onclick="toggleEyes();">w</button><span class="cow">----||</span>
+    <span class="cow">||     ||</span>    
+                 <span id="distance" class="distance hidden"></span> <button id="reset-button" class="reset-button hidden" onClick="reset();">(r)</button>
+        </div>
+    </body>
 </html>
 <script>
-	const REFRESH_TIME_MS = 100;
-	const BLACK_DISTANCE = 100;
-	const DEFAULT_BG_COLOR = '#002b36';
-	const DEFAULT_TEXT = 'ben eggers dot ${tld}';
-	const DELETE_SLOWDOWN_FACTOR = 1;
-	const DISTANCE_TEXT = 'd = ${distance}';
-	const FLYING_CUTOFF = 10;
-	const MAX_DISPLAY_DISTANCE = 9999;
-	const MAX_DISTANCE = 1000;
-	const PADDED_TEXT_WIDTH = 22;
-	const SPEECH_CHANGE_DISTANCE = 80;
-	const SPEECH_PAUSE = 24;
-	const STAR_TEXT = 'try chroma dot com';
-	const TYPING_SLOWDOWN_FACTOR = 2;
+    const REFRESH_TIME_MS = 100;
+    const BLACK_DISTANCE = 100;
+    const DEFAULT_BG_COLOR = '#002b36';
+    const DEFAULT_TEXT = 'ben eggers dot ${tld}';
+    const DELETE_SLOWDOWN_FACTOR = 1;
+    const DISTANCE_TEXT = 'd = ${distance}';
+    const FLYING_CUTOFF = 10;
+    const MAX_DISPLAY_DISTANCE = 9999;
+    const MAX_DISTANCE = 1000;
+    const PADDED_TEXT_WIDTH = 22;
+    const SPEECH_CHANGE_DISTANCE = 80;
+    const SPEECH_PAUSE = 24;
+    const STAR_TEXT = 'try chroma dot com';
+    const TYPING_SLOWDOWN_FACTOR = 2;
 
-	const CANVAS_ID = 'canvas';
-	const DISTANCE_ID = 'distance';
-	const EYES_CLASS = 'heart-eyes';
-	const EYES_ID = 'eyes';
-	const RESET_BUTTON_ID = 'reset-button';
-	const SPEECH_ID = 'speech';
-	const TLDS = ['com', 'org', 'net', 'app', 'xxx', 'edu', 'art', 'xyz', 'bet', 'gov', 'ben'];
-	const TLD_ID = 'tld';
+    const CANVAS_ID = 'canvas';
+    const DISTANCE_ID = 'distance';
+    const EYES_CLASS = 'heart-eyes';
+    const EYES_ID = 'eyes';
+    const RESET_BUTTON_ID = 'reset-button';
+    const SPEECH_ID = 'speech';
+    const TLDS = ['com', 'org', 'net', 'app', 'xxx', 'edu', 'art', 'xyz', 'bet', 'gov', 'ben'];
+    const TLD_ID = 'tld';
 
-	var animationInterval = null;
-	var distance = 0;
-	var tld = 'com';
+    var animationInterval = null;
+    var distance = 0;
+    var tld = 'com';
 
-	function load() {
-		initializeCanvas();
-		loadEyes();
-		loadTLD();
-		setDistance(0);
-	}
+    function load() {
+        initializeCanvas();
+        loadEyes();
+        loadTLD();
+        setDistance(0);
+    }
 
-	function initializeCanvas() {
-		const canvasElem = document.getElementById(CANVAS_ID);
-		canvasElem.width = window.innerWidth;
-		canvasElem.height = window.innerHeight;
+    function initializeCanvas() {
+        const canvasElem = document.getElementById(CANVAS_ID);
+        canvasElem.width = window.innerWidth;
+        canvasElem.height = window.innerHeight;
 
-		const ctx = canvas.getContext('2d');
-		ctx.shadowBlur = 10;
-		ctx.shadowColor = 'white';
-	}
+        const ctx = canvas.getContext('2d');
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'white';
+    }
 
-	function loadEyes() {
-		const eyes = window.localStorage.getItem(EYES_ID);
-		if (eyes !== 'oo') toggleEyes();
-	}
+    function loadEyes() {
+        const eyes = window.localStorage.getItem(EYES_ID);
+        if (eyes !== 'oo') toggleEyes();
+    }
 
-	function loadTLD() {
-		var storageTld = window.localStorage.getItem(TLD_ID);
-		tld = storageTld ? storageTld : 'com';
-	}
+    function loadTLD() {
+        var storageTld = window.localStorage.getItem(TLD_ID);
+        tld = storageTld ? storageTld : 'com';
+    }
+    
+    function toggleEyes() {
+        const eyesElem = document.getElementById(EYES_ID);
+        if (eyesElem.innerHTML === 'oo') {
+            eyesElem.innerHTML = '&#9829;&#9829;';
+            eyesElem.classList.add(EYES_CLASS);
+        } else {
+            eyesElem.innerHTML = 'oo';
+            eyesElem.classList.remove(EYES_CLASS);
+        }
+        window.localStorage.setItem(EYES_ID, eyesElem.innerHTML);
+    }
 
-	function toggleEyes() {
-		const eyesElem = document.getElementById(EYES_ID);
-		if (eyesElem.innerHTML === 'oo') {
-			eyesElem.innerHTML = '&#9829;&#9829;';
-			eyesElem.classList.add(EYES_CLASS);
-		} else {
-			eyesElem.innerHTML = 'oo';
-			eyesElem.classList.remove(EYES_CLASS);
-		}
-		window.localStorage.setItem(EYES_ID, eyesElem.innerHTML);
-	}
+    function incrementTld() {
+        const index = TLDS.indexOf(tld);
+        const nextIndex = (index + 1) % TLDS.length;
+        tld = TLDS[nextIndex];
+        window.localStorage.setItem(TLD_ID, tld);
+        setSpeech();
+    }
 
-	function incrementTld() {
-		const index = TLDS.indexOf(tld);
-		const nextIndex = (index + 1) % TLDS.length;
-		tld = TLDS[nextIndex];
-		window.localStorage.setItem(TLD_ID, tld);
-		setSpeech();
-	}
+    function getDisplayDistance(distance) {
+        if (distance <= FLYING_CUTOFF) return distance;
+        return Math.min(MAX_DISPLAY_DISTANCE, FLYING_CUTOFF + (distance - FLYING_CUTOFF)**2);
+    }
 
-	function getDisplayDistance(distance) {
-		if (distance <= FLYING_CUTOFF) return distance;
-		return Math.min(MAX_DISPLAY_DISTANCE, FLYING_CUTOFF + (distance - FLYING_CUTOFF) ** 2);
-	}
+    function reset() {
+        clearInterval(animationInterval);
+        setDistance(0);
+        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+    }
 
-	function reset() {
-		clearInterval(animationInterval);
-		setDistance(0);
-		canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-	}
+    function setDistance(d) {
+        if (d < 0) d = 0;
+        if (distance >= MAX_DISTANCE) return;
+        distance = d;
+        const distanceElem = document.getElementById(DISTANCE_ID);
+        const resetButtonElem = document.getElementById(RESET_BUTTON_ID);
+        if (distance === 0) {
+            resetButtonElem.classList.add('hidden');
+            distanceElem.classList.add('hidden');
+        } else {
+            resetButtonElem.classList.remove('hidden');
+            distanceElem.classList.remove('hidden');
+        }
+        if (distance === FLYING_CUTOFF + 1) animationInterval = setInterval(animate, REFRESH_TIME_MS);
+        distanceElem.innerHTML = DISTANCE_TEXT.replace('${distance}', getDisplayDistance(distance));
+        if (distance <= BLACK_DISTANCE) setBgColor();
+        setSpeech();
+    }
 
-	function setDistance(d) {
-		if (d < 0) d = 0;
-		if (distance >= MAX_DISTANCE) return;
-		distance = d;
-		const distanceElem = document.getElementById(DISTANCE_ID);
-		const resetButtonElem = document.getElementById(RESET_BUTTON_ID);
-		if (distance === 0) {
-			resetButtonElem.classList.add('hidden');
-			distanceElem.classList.add('hidden');
-		} else {
-			resetButtonElem.classList.remove('hidden');
-			distanceElem.classList.remove('hidden');
-		}
-		if (distance === FLYING_CUTOFF + 1) animationInterval = setInterval(animate, REFRESH_TIME_MS);
-		distanceElem.innerHTML = DISTANCE_TEXT.replace('${distance}', getDisplayDistance(distance));
-		if (distance <= BLACK_DISTANCE) setBgColor();
-		setSpeech();
-	}
+    function setBgColor() {
+        const root = document.documentElement;
+        const interpolation_ratio = 1 - distance / BLACK_DISTANCE;
+        var r = '00';
+        var g = Math.max(0,
+                    Math.ceil(
+                        parseInt(DEFAULT_BG_COLOR.substring(3, 5), 16) * interpolation_ratio
+                    )).toString(16);
+        var b = Math.max(0,
+                    Math.ceil(
+                        parseInt(DEFAULT_BG_COLOR.substring(5, 7), 16) * interpolation_ratio)
+                    ).toString(16);
+        b = b.length === 2 ? b : '0' + b;
+        g = g.length === 2 ? g : '0' + g;
+        root.style.setProperty('--base03', '#' + r.toString(16) + g.toString(16) + b.toString(16));
+    }
 
-	function setBgColor() {
-		const root = document.documentElement;
-		const interpolation_ratio = 1 - distance / BLACK_DISTANCE;
-		var r = '00';
-		var g = Math.max(0,
-			Math.ceil(
-				parseInt(DEFAULT_BG_COLOR.substring(3, 5), 16) * interpolation_ratio
-			)).toString(16);
-		var b = Math.max(0,
-			Math.ceil(
-				parseInt(DEFAULT_BG_COLOR.substring(5, 7), 16) * interpolation_ratio)
-		).toString(16);
-		b = b.length === 2 ? b : '0' + b;
-		g = g.length === 2 ? g : '0' + g;
-		root.style.setProperty('--base03', '#' + r.toString(16) + g.toString(16) + b.toString(16));
-	}
+    function setSpeech() {
+        const speechElem = document.getElementById(SPEECH_ID);
+        var speech = DEFAULT_TEXT.replace('${tld}', tld);
+        if (distance > SPEECH_CHANGE_DISTANCE) {
+            // Derivable from constants so shouldn't be their own global constants.
+            const empty_speech_distance = SPEECH_CHANGE_DISTANCE + DEFAULT_TEXT.length*DELETE_SLOWDOWN_FACTOR;
+            const star_text_distance = empty_speech_distance + SPEECH_PAUSE + STAR_TEXT.length*TYPING_SLOWDOWN_FACTOR;
+            if (distance < empty_speech_distance) {
+                speech = speech.substring(0, speech.length - (distance-SPEECH_CHANGE_DISTANCE) / DELETE_SLOWDOWN_FACTOR);
+            } else {
+                speech = STAR_TEXT.substring(0, speech.length - (star_text_distance - distance) / TYPING_SLOWDOWN_FACTOR);
+            }
+        }
+        const padding = Math.floor((PADDED_TEXT_WIDTH - speech.length) / 2);
+        var paddedSpeech = ' '.repeat(padding) + speech;
+        paddedSpeech = paddedSpeech + ' '.repeat(PADDED_TEXT_WIDTH - paddedSpeech.length);
+        speechElem.innerHTML = paddedSpeech;
+    }
+    
+    function animate() {
+        setDistance(distance + 1);
+        // https://codepen.io/klakshmanan/pen/ExNMLLv
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const w = canvas.width;
+        const h = canvas.height;
+        
+        var x = Math.random() * w;
+        var y = Math.random() * h;
+        var r = Math.random() * 2.5
 
-	function setSpeech() {
-		const speechElem = document.getElementById(SPEECH_ID);
-		var speech = DEFAULT_TEXT.replace('${tld}', tld);
-		if (distance > SPEECH_CHANGE_DISTANCE) {
-			// Derivable from constants so shouldn't be their own global constants.
-			const empty_speech_distance = SPEECH_CHANGE_DISTANCE + DEFAULT_TEXT.length * DELETE_SLOWDOWN_FACTOR;
-			const star_text_distance = empty_speech_distance + SPEECH_PAUSE + STAR_TEXT.length * TYPING_SLOWDOWN_FACTOR;
-			if (distance < empty_speech_distance) {
-				speech = speech.substring(0, speech.length - (distance - SPEECH_CHANGE_DISTANCE) / DELETE_SLOWDOWN_FACTOR);
-			} else {
-				speech = STAR_TEXT.substring(0, speech.length - (star_text_distance - distance) / TYPING_SLOWDOWN_FACTOR);
-			}
-		}
-		const padding = Math.floor((PADDED_TEXT_WIDTH - speech.length) / 2);
-		var paddedSpeech = ' '.repeat(padding) + speech;
-		paddedSpeech = paddedSpeech + ' '.repeat(PADDED_TEXT_WIDTH - paddedSpeech.length);
-		speechElem.innerHTML = paddedSpeech;
-	}
+        ctx.beginPath();
+        ctx.fillStyle = 'white';
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.closePath();
+        ctx.stroke();
+    }
 
-	function animate() {
-		setDistance(distance + 1);
-		// https://codepen.io/klakshmanan/pen/ExNMLLv
-		const canvas = document.getElementById('canvas');
-		const ctx = canvas.getContext('2d');
-		const w = canvas.width;
-		const h = canvas.height;
-
-		var x = Math.random() * w;
-		var y = Math.random() * h;
-		var r = Math.random() * 2.5
-
-		ctx.beginPath();
-		ctx.fillStyle = 'white';
-		ctx.arc(x, y, r, 0, Math.PI * 2);
-		ctx.fill();
-		ctx.closePath();
-		ctx.stroke();
-	}
-
-	document.addEventListener('keydown', function (event) {
-		if (event.keyCode === 39 && distance <= FLYING_CUTOFF) setDistance(distance + 1);
-		if (event.keyCode === 37 && distance <= FLYING_CUTOFF) setDistance(distance - 1);
-		if (event.keyCode === 82) reset();
-	});
+    document.addEventListener('keydown', function(event) {
+        if (event.keyCode === 39 && distance <= FLYING_CUTOFF) setDistance(distance + 1);
+        if (event.keyCode === 37 && distance <= FLYING_CUTOFF) setDistance(distance - 1);
+        if (event.keyCode === 82) reset();
+    });
 </script>
