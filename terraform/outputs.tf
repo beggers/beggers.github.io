@@ -1,25 +1,9 @@
-output "s3_bucket_id" {
-  value = aws_s3_bucket.main.id
-}
-
-output "s3_website" {
-  value = aws_s3_bucket_website_configuration.main.website_endpoint
-}
-
-output "s3_website_domain" {
-  value = aws_s3_bucket_website_configuration.main.website_domain
-}
-
-output "s3_hosted_zone_id" {
-  value = aws_s3_bucket.main.hosted_zone_id
-}
-
-output "s3_bucket_arn" {
-  value = aws_s3_bucket.main.arn
-}
-
 output "nameservers" {
   value = aws_route53_zone.main.name_servers
+}
+
+output "ptr_record" {
+  value = aws_route53_record.ptr.records
 }
 
 output "acm_arn" {
@@ -36,12 +20,4 @@ output "acm_validation_fqdns" {
 
 output "acm_validation_record_fqdns" {
   value = [for record in aws_route53_record.acm_validation : record.fqdn]
-}
-
-output "cloudfront_distribution_id" {
-  value = aws_cloudfront_distribution.main.id
-}
-
-output "cloudfront_zone_id" {
-  value = aws_cloudfront_distribution.main.hosted_zone_id
 }

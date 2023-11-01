@@ -1,10 +1,8 @@
 resource "aws_route53_record" "fastmail_spf" {
   zone_id = aws_route53_zone.main.zone_id
-  // Route53 only allows one TXT record. So, what, I can't
-  // use DMARC?
-  name = var.domainName
-  type = "TXT"
-  ttl  = "300"
+  name    = var.domainName
+  type    = "TXT"
+  ttl     = "300"
   records = [
     "v=spf1 include:spf.messagingengine.com ?all",
   ]

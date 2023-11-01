@@ -1,9 +1,9 @@
 data "aws_iam_policy_document" "website_policy" {
   statement {
     principals {
-      type        = "AWS"
+      type = "AWS"
       identifiers = [
-        aws_cloudfront_origin_access_identity.main.iam_arn
+        var.cloudfront_access_identity_arn
       ]
     }
     actions = [
@@ -12,8 +12,8 @@ data "aws_iam_policy_document" "website_policy" {
     ]
     effect = "Allow"
     resources = [
-      "arn:aws:s3:::${var.bucketName}",
-      "arn:aws:s3:::${var.bucketName}/*"
+      "arn:aws:s3:::${var.fqdn}",
+      "arn:aws:s3:::${var.fqdn}/*"
     ]
   }
 }
