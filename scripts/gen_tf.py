@@ -14,14 +14,12 @@ SUBDOMAIN_MODULE_BLOCK = """
 module "{subdomain}" {{
   source = "./zone_deployment"
 
-  cloudfront_access_identity_arn  = aws_cloudfront_origin_access_identity.main.iam_arn
-  cloudfront_access_identity_path = aws_cloudfront_origin_access_identity.main.cloudfront_access_identity_path
-  content_type                    = "text/html"
-  domain_aliases                  = {domain_aliases}
-  file                            = "{file_name}"
-  file_directory                  = "../pages/"
-  fqdn                            = "{fqdn}"
-  zone_id                         = aws_route53_zone.main.zone_id
+  content_type   = "text/html"
+  domain_aliases = {domain_aliases}
+  file           = "{file_name}"
+  file_directory = "../pages/"
+  fqdn           = "{fqdn}"
+  zone_id        = aws_route53_zone.main.zone_id
 }}
 """
 
@@ -39,10 +37,6 @@ output "{subdomain}_bucket_id" {{
   value = module.{subdomain}.bucket_id
 }}
 
-output "{subdomain}_bucket" {{
-  value = module.{subdomain}.bucket
-}}
-
 output "{subdomain}_bucket_regional_domain_name" {{
   value = module.{subdomain}.bucket_regional_domain_name
 }}
@@ -52,7 +46,7 @@ output "{subdomain}_cert_arn" {{
 }}
 
 output "{subdomain}_cert_validation_record" {{
-    value = module.{subdomain}.acm_cert_validation_record
+  value = module.{subdomain}.cert_validation_record
 }}
 
 """

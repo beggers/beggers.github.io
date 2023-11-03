@@ -8,7 +8,7 @@ module "index" {
   domain_aliases = ["www.${var.domainName}"]
   file           = "index.html"
   file_directory = "../pages/"
-  fqdn           = var.domainName
+  fqdn           = "${var.domainName}"
   zone_id        = aws_route53_zone.main.zone_id
 }
 

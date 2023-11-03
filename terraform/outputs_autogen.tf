@@ -13,13 +13,18 @@ output "index_bucket_id" {
   value = module.index.bucket_id
 }
 
-output "index_bucket" {
-  value = module.index.bucket
-}
-
 output "index_bucket_regional_domain_name" {
   value = module.index.bucket_regional_domain_name
 }
+
+output "index_cert_arn" {
+  value = module.index.cert_arn
+}
+
+output "index_cert_validation_record" {
+  value = module.index.cert_validation_record
+}
+
 
 output "about_cloudfront_distribution_id" {
   value = module.about.cloudfront_distribution_id
@@ -33,10 +38,15 @@ output "about_bucket_id" {
   value = module.about.bucket_id
 }
 
-output "about_bucket" {
-  value = module.about.bucket
-}
-
 output "about_bucket_regional_domain_name" {
   value = module.about.bucket_regional_domain_name
 }
+
+output "about_cert_arn" {
+  value = module.about.cert_arn
+}
+
+output "about_cert_validation_record" {
+  value = module.about.cert_validation_record
+}
+
