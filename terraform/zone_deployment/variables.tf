@@ -1,18 +1,3 @@
-variable "cert_arn" {
-  default = "ERROR - NO CERT ARN SET"
-  type    = string
-}
-
-variable "cloudfront_access_identity_arn" {
-  default = "ERROR - NO CLOUDFRONT ACCESS IDENTITY ARN SET"
-  type    = string
-}
-
-variable "cloudfront_access_identity_path" {
-  default = "ERROR - NO CLOUDFRONT ACCESS IDENTITY PATH SET"
-  type    = string
-}
-
 variable "content_type" {
   default = "ERROR - NO CONTENT TYPE SET"
   type    = string

@@ -3,7 +3,7 @@ data "aws_iam_policy_document" "website_policy" {
     principals {
       type = "AWS"
       identifiers = [
-        var.cloudfront_access_identity_arn
+        aws_cloudfront_origin_access_identity.main.iam_arn
       ]
     }
     actions = [

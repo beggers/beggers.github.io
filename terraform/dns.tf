@@ -26,13 +26,3 @@ resource "aws_route53_record" "soa" {
     "ns-578.awsdns-08.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 300"
   ]
 }
-
-resource "aws_route53_record" "ptr" {
-  zone_id = aws_route53_zone.main.zone_id
-  name    = var.domainName
-  type    = "PTR"
-  ttl     = "300"
-  records = [
-    "https://about.beneggers.com",
-  ]
-}

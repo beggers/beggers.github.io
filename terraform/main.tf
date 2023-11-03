@@ -4,27 +4,21 @@
 module "index" {
   source = "./zone_deployment"
 
-  cert_arn                        = aws_acm_certificate.main.arn
-  cloudfront_access_identity_arn  = aws_cloudfront_origin_access_identity.main.iam_arn
-  cloudfront_access_identity_path = aws_cloudfront_origin_access_identity.main.cloudfront_access_identity_path
-  content_type                    = "text/html"
-  domain_aliases                  = ["www.${var.domainName}"]
-  file                            = "index.html"
-  file_directory                  = "../pages/"
-  fqdn                            = "${var.domainName}"
-  zone_id                         = aws_route53_zone.main.zone_id
+  content_type   = "text/html"
+  domain_aliases = ["www.${var.domainName}"]
+  file           = "index.html"
+  file_directory = "../pages/"
+  fqdn           = var.domainName
+  zone_id        = aws_route53_zone.main.zone_id
 }
 
 module "about" {
   source = "./zone_deployment"
 
-  cert_arn                        = aws_acm_certificate.main.arn
-  cloudfront_access_identity_arn  = aws_cloudfront_origin_access_identity.main.iam_arn
-  cloudfront_access_identity_path = aws_cloudfront_origin_access_identity.main.cloudfront_access_identity_path
-  content_type                    = "text/html"
-  domain_aliases                  = []
-  file                            = "about.html"
-  file_directory                  = "../pages/"
-  fqdn                            = "about.${var.domainName}"
-  zone_id                         = aws_route53_zone.main.zone_id
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "about.html"
+  file_directory = "../pages/"
+  fqdn           = "about.${var.domainName}"
+  zone_id        = aws_route53_zone.main.zone_id
 }

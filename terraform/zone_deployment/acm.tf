@@ -1,8 +1,7 @@
 resource "aws_acm_certificate" "main" {
-  provider                  = aws.acm_provider
-  domain_name               = var.domainName
-  validation_method         = "DNS"
-  subject_alternative_names = ["*.${var.domainName}"]
+  provider          = aws.acm_provider
+  domain_name       = var.fqdn
+  validation_method = "DNS"
 }
 
 resource "aws_acm_certificate_validation" "main" {
@@ -20,7 +19,7 @@ resource "aws_route53_record" "acm_validation" {
     }
   }
 
-  zone_id         = aws_route53_zone.main.zone_id
+  zone_id         = var.zone_id
   name            = each.value.name
   type            = each.value.type
   records         = [each.value.record]

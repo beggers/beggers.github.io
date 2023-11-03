@@ -14,7 +14,6 @@ SUBDOMAIN_MODULE_BLOCK = """
 module "{subdomain}" {{
   source = "./zone_deployment"
 
-  cert_arn                        = aws_acm_certificate.main.arn
   cloudfront_access_identity_arn  = aws_cloudfront_origin_access_identity.main.iam_arn
   cloudfront_access_identity_path = aws_cloudfront_origin_access_identity.main.cloudfront_access_identity_path
   content_type                    = "text/html"
@@ -47,6 +46,15 @@ output "{subdomain}_bucket" {{
 output "{subdomain}_bucket_regional_domain_name" {{
   value = module.{subdomain}.bucket_regional_domain_name
 }}
+
+output "{subdomain}_cert_arn" {{
+  value = module.{subdomain}.cert_arn
+}}
+
+output "{subdomain}_cert_validation_record" {{
+    value = module.{subdomain}.acm_cert_validation_record
+}}
+
 """
 
 DOMAIN_FILE = "main.tf"
