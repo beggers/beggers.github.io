@@ -1,4 +1,4 @@
-deploy: tf clear-caches
+deploy: clean content gen-tf tf clear-caches
 
 gen-tf:
 	python3 scripts/gen_tf.py
