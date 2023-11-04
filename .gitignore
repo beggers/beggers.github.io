@@ -2,6 +2,10 @@
 example-sam-app/
 .vscode/
 
+# Buildable by hugo
+public/
+resources/
+
 .terraform/
 *.tfstate
 *.tfstate.*
