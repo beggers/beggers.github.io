@@ -2,6 +2,7 @@
 This script generates the requisite terrafrom to deploy the site.
 """
 
+import mime_types
 
 import os
 
@@ -14,7 +15,7 @@ SUBDOMAIN_MODULE_BLOCK = """
 module "{subdomain}" {{
   source = "./zone_deployment"
 
-  content_type   = "text/html"
+  content_type   = "{content_type}"
   domain_aliases = {domain_aliases}
   file           = "{file_name}"
   file_directory = "../pages/"
@@ -54,7 +55,7 @@ output "{subdomain}_cert_validation_record" {{
 DOMAIN_FILE = "main.tf"
 OUTPUT_FILE = "outputs_autogen.tf"
 
-PAGES_DIRETORY = "pages"
+PAGES_DIRETORY = "public"
 TERRAFORM_DIRETORY = "terraform"
 
 
@@ -79,19 +80,24 @@ def generate_domain_file(filenames):
     blocks = []
     for filename in filenames:
         subdomain = filename.split(".")[0]
+        extension = filename.split(".")[1]
+        content_type = mime_types.extensions_to_types[extension]
         # Cool and normal best practices.
         domain_aliases = domain_aliases_as_string(
             ["www.${var.domainName}"] if subdomain == "index" else []
         )
-        block = generate_subdomain_module_block(subdomain, domain_aliases, filename)
+        block = generate_subdomain_module_block(
+            subdomain, content_type, domain_aliases, filename
+        )
         blocks.append(block)
 
     write_blocks_to_file(blocks, os.path.join(TERRAFORM_DIRETORY, DOMAIN_FILE))
 
 
-def generate_subdomain_module_block(subdomain, domain_aliases, file_name):
+def generate_subdomain_module_block(subdomain, content_type, domain_aliases, file_name):
     return SUBDOMAIN_MODULE_BLOCK.format(
         subdomain=subdomain,
+        content_type=content_type,
         domain_aliases=domain_aliases,
         file_name=file_name,
         fqdn=fqdn(subdomain),
