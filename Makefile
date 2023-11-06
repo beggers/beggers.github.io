@@ -15,7 +15,7 @@ clean:
 
 .PHONY: content
 content:
-	cp -r pages/* public/ && cp -r static/* public/
+	python3 scripts/ssg.py
 
 dev: content
 	python3 scripts/server.py
