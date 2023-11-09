@@ -2,6 +2,8 @@
 example-sam-app/
 .vscode/
 
+drafts/
+
 # Buildable by hugo
 public/
 resources/

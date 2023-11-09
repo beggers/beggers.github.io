@@ -3,15 +3,14 @@ A basic webserver to test the site layout and pages.
 """
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import json
+import logging
 import os
 
 import mime_types
 
-hostName = "localhost"
-serverPort = 8080
 
-
-CONTENT_DIR = "public"
+config = json.load(open("config.json"))
 
 
 def find_file(host):
@@ -19,12 +18,13 @@ def find_file(host):
     fragments.reverse()
 
     # Build the path up to either the file or the directory.
-    path = CONTENT_DIR
+    path = config["content_dir"]
     for fragment in fragments[:-1]:
         path = os.path.join(path, fragment)
 
     # If it's a directory, look for index.html.
     if os.path.isdir(os.path.join(path, fragments[-1] if fragments else "")):
+        logging.info(f"Found directory matching host {host}: {path}")
         path = os.path.join(path, "index.html")
         with open(path, "rb") as f:
             return f.read(), "html"
@@ -35,29 +35,43 @@ def find_file(host):
         raise ValueError(f"Multiple or no files found for {host}: {files}")
     file = files[0]
     path = os.path.join(path, file)
+    logging.info(f"Found file {file} matching {host} at {path}")
 
     with open(path, "rb") as f:
         return f.read(), file.split(".")[-1]
 
 
-class MyServer(BaseHTTPRequestHandler):
+class DevBenEggersComServer(BaseHTTPRequestHandler):
     def do_GET(self):
         host = self.headers["Host"]
+        logging.info(f"GET {host}")
+
         resp, ext = find_file(host)
         self.send_response(200)
-        self.send_header("Content-type", mime_types.extensions_to_types[ext])
+
+        content_type = mime_types.extensions_to_types[ext]
+        logging.info(f"Content-Type: {content_type}")
+        self.send_header("Content-type", content_type)
+
         self.end_headers()
         self.wfile.write(resp)
 
 
 if __name__ == "__main__":
-    webServer = HTTPServer((hostName, serverPort), MyServer)
-    print("Server started http://%s:%s" % (hostName, serverPort))
+    logging.basicConfig(level=config.get("log_level", "INFO"))
+
+    server = HTTPServer(
+        (config["dev_hostname"], config["dev_port"]), DevBenEggersComServer
+    )
+    server.content_dir = config["content_dir"]
+    logging.info(
+        "Server started http://%s:%s" % (config["dev_hostname"], config["dev_port"])
+    )
 
     try:
-        webServer.serve_forever()
+        server.serve_forever()
     except KeyboardInterrupt:
         pass
 
-    webServer.server_close()
-    print("Server stopped.")
+    server.server_close()
+    logging.info("Server stopped.")

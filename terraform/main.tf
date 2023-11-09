@@ -7,7 +7,7 @@ module "favicon" {
   content_type   = "image/x-icon"
   domain_aliases = []
   file           = "favicon.ico"
-  file_directory = "../pages/"
+  file_directory = "../public/"
   fqdn           = "favicon.${var.domainName}"
   zone_id        = aws_route53_zone.main.zone_id
 }
@@ -18,7 +18,7 @@ module "index" {
   content_type   = "text/html"
   domain_aliases = ["www.${var.domainName}"]
   file           = "index.html"
-  file_directory = "../pages/"
+  file_directory = "../public/"
   fqdn           = "${var.domainName}"
   zone_id        = aws_route53_zone.main.zone_id
 }

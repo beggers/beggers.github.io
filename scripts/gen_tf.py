@@ -18,7 +18,7 @@ module "{subdomain}" {{
   content_type   = "{content_type}"
   domain_aliases = {domain_aliases}
   file           = "{file_name}"
-  file_directory = "../pages/"
+  file_directory = "../{content_dir}/"
   fqdn           = "{fqdn}"
   zone_id        = aws_route53_zone.main.zone_id
 }}
@@ -55,7 +55,7 @@ output "{subdomain}_cert_validation_record" {{
 DOMAIN_FILE = "main.tf"
 OUTPUT_FILE = "outputs_autogen.tf"
 
-PAGES_DIRETORY = "public"
+PAGES_DIRETORY = "public"  # TODO get from config
 TERRAFORM_DIRETORY = "terraform"
 
 
@@ -83,7 +83,7 @@ def generate_domain_file(filenames):
         extension = filename.split(".")[1]
         content_type = mime_types.extensions_to_types[extension]
         # Cool and normal best practices.
-        domain_aliases = domain_aliases_as_string(
+        domain_aliases = list_as_string(
             ["www.${var.domainName}"] if subdomain == "index" else []
         )
         block = generate_subdomain_module_block(
@@ -104,14 +104,8 @@ def generate_subdomain_module_block(subdomain, content_type, domain_aliases, fil
     )
 
 
-def domain_aliases_as_string(aliases):
-    # f-strings insert lists of strings as single-quoted by default, but we
-    # need them to be double-quoted. I googled for five minutes but decided it
-    # would be more fun to write this function.
-    #
-    # This is pretty dumb so we're overwhelmingly likely to only ever use it
-    # for index and www.
-    return "[" + ", ".join([f'"{alias}"' for alias in aliases]) + "]"
+def list_as_string(l):
+    return "[" + ", ".join([f'"{item}"' for item in l]) + "]"
 
 
 def fqdn(subdomain):
