@@ -18,6 +18,8 @@ import os
 import re
 import shutil
 
+import markdown
+
 
 CONFIG_FILE = "config.json"
 LAYOUTS_DIR = "layouts"
@@ -25,6 +27,9 @@ PAGES_DIR = "pages"
 STATIC_DIR = "static"
 STYLE_DIR = "styles"
 
+# I should really use a CSS templater/renderer, but this does everything I need.
+# Same with HTML. Plus it was fun to write!
+CSS_IMPORT_REGEX = re.compile(r"@import '(?P<file>.+?)';")
 END_REGEX = re.compile(r"{% end %}")
 FOR_REGEX = re.compile(r"{% for (?P<var>.+?) in (?P<iter>.+?) %}")
 LAYOUT_DEF_REGEX = re.compile(r"{% define (?P<layout>.+?) %}")
@@ -36,12 +41,16 @@ DEFAULT_DESCRIPTION = "No description specified for this page, sorry!"
 
 
 class SiteGenerator:
-    def __init__(self, hostname, title, description, protocol):
+    def __init__(
+        self, hostname, title, description, protocol, default_layout, default_style
+    ):
         self.site_config = {
             "url": hostname,
             "title": title,
             "description": description,
             "protocol": protocol,
+            "default_layout": default_layout,
+            "default_style": default_style,
         }
         logging.info("Site config: %s", self.site_config)
 
@@ -54,6 +63,10 @@ class SiteGenerator:
         self.layouts_dir = None
         self.layouts = {}
         self.partials = {}
+
+        self.styles_dir = None
+        self.styles = {}
+        self.rendered_styles = {}
 
     def ingest_markdown_directory(self, path):
         logging.info("Ingesting markdown directory %s", path)
@@ -116,8 +129,7 @@ class SiteGenerator:
         self.markdowns[path] = page_data
 
     def _md_to_html(self, lines):
-        # TODO
-        return "".join(lines)
+        return markdown.markdown("".join(lines))
 
     def ingest_layouts_directory(self, path):
         logging.info("Ingesting layouts directory %s", path)
@@ -151,7 +163,7 @@ class SiteGenerator:
             logging.debug("Partial content: %s", content)
         else:
             content = "".join(lines)
-            self.layouts[os.path.basename(path).split(".")[0]] = content
+            self.layouts[os.path.basename(path)] = content
             logging.debug("Layout content: %s", content)
 
     def ingest_static_directory(self, path):
@@ -161,7 +173,18 @@ class SiteGenerator:
         logging.debug("Static files: %s", self.statics)
 
     def ingest_styles_directory(self, path):
-        pass
+        self.styles_dir = path
+        files = self._all_files_in_dir(path)
+        for f in files:
+            self._ingest_style_file(f)
+
+    def _ingest_style_file(self, path):
+        if not path.endswith(".css"):
+            raise ValueError("Style file {} does not end with .css.".format(path))
+        with open(path, "r") as f:
+            lines = f.readlines()
+        logging.debug("Read lines %s", lines)
+        self.styles[path.replace(self.styles_dir + "/", "")] = "".join(lines)
 
     def render(self, path):
         logging.info("Rendering site to %s", path)
@@ -171,17 +194,33 @@ class SiteGenerator:
             raise ValueError("No markdown directory set.")
         if not self.layouts_dir:
             raise ValueError("No layouts directory set.")
+        if not self.styles_dir:
+            raise ValueError("No styles directory set.")
 
         for static in self.statics:
             logging.debug("Copying static file %s", static)
             shutil.copy(static, static.replace(self.static_dir, path))
+
+        print(self.styles.keys())
+        for style_path, style in self.styles.items():
+            logging.debug("Rendering style %s", style)
+            rendered = style
+            match = CSS_IMPORT_REGEX.search(rendered)
+            while match:
+                logging.debug("Rendering import %s", match.group("file"))
+                file = match.group("file")
+                if file not in self.styles:
+                    raise ValueError(f"Style '{file}' not found.")
+                rendered = rendered.replace(match.group(0), self.styles[file])
+                match = CSS_IMPORT_REGEX.search(rendered)
+            self.rendered_styles[style_path] = rendered
 
         for md_path, md in self.markdowns.items():
             logging.debug("Rendering markdown file %s", md_path)
             self._render_page(md_path, md, path)
 
     def _render_page(self, md_path, md, path):
-        layout_name = md.get("layout", "_default")
+        layout_name = md.get("layout", self.site_config["default_layout"])
         logging.debug("Rendering page with layout %s", layout_name)
         if layout_name not in self.layouts:
             raise ValueError(f"Layout '{layout_name}' not found.")
@@ -203,6 +242,10 @@ class SiteGenerator:
             "page": page,
             "pages": list(self.markdowns.values()),
         }
+        page["style"] = self.rendered_styles.get(
+            page.get("style", ""),
+            self.rendered_styles[self.site_config["default_style"]],
+        )
         logging.debug("Eval variables: %s", eval_variables)
 
         include = LAYOUT_INCLUDE_REGEX.search(rendered)
@@ -299,7 +342,12 @@ def main():
     )
     protocol = "http" if args.dev else "https"
     generator = SiteGenerator(
-        host, config["site_title"], config["site_description"], protocol
+        host,
+        config["site_title"],
+        config["site_description"],
+        protocol,
+        config["default_layout"],
+        config["default_style"],
     )
 
     generator.ingest_markdown_directory(PAGES_DIR)

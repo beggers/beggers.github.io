@@ -5,5 +5,7 @@
   "dev_hostname": "localhost",
   "dev_port": 8091,
   "content_dir": "public",
-  "log_level": "DEBUG"
+  "log_level": "INFO",
+  "default_layout": "_default.html",
+  "default_style": "_default.css"
 }
