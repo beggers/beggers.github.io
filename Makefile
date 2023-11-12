@@ -22,3 +22,6 @@ dev-content: clean
 
 dev: dev-content
 	python3 scripts/dev_server.py
+
+post:
+	python3 scripts/new_post.py

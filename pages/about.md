@@ -1,6 +1,7 @@
 ---
 title: About
 description: About me! And this website.
+include_in_nav: true
 ---
 
 # About me

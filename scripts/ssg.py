@@ -104,15 +104,22 @@ class SiteGenerator:
         content = self._md_to_html(lines[metadata_end + 1 :])
         page_data["_content"] = content
 
-        if "title" not in page_data or page_data["title"] == "":
+        if path == os.path.join(self.markdown_dir, "index.md"):
+            page_data["description"] = self.site_config["description"]
             page_data["title"] = self.site_config["title"]
+            page_data["meta_title"] = self.site_config["title"]
         else:
-            page_data["title"] += " | " + self.site_config["title"]
-        logging.debug("Page title: %s", page_data["title"])
-
-        if "description" not in page_data or page_data["description"] == "":
-            page_data["description"] = DEFAULT_DESCRIPTION
-        logging.debug("Page description: %s", page_data["description"])
+            if "title" not in page_data or not page_data["title"]:
+                page_data["title"] = (
+                    os.path.basename(path).replace(".md", "").replace("-", " ").title()
+                )
+                logging.warning("No title specified for %s", path)
+            page_data["meta_title"] = (
+                page_data["title"] + " | " + self.site_config["title"]
+            )
+            if "description" not in page_data or not page_data["description"]:
+                page_data["description"] = DEFAULT_DESCRIPTION
+            logging.debug("Page description: %s", page_data["description"])
 
         url = path.replace(self.markdown_dir, "")[:-3].split("/")
         if url[-1] == "index":
