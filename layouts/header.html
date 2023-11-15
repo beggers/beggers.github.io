@@ -1,8 +1,8 @@
 {% define header %}
 <nav class="navigation">
-  <h1 class="site-title"><a href="{% site['protocol'] %}://{% site['url'] %}">{% site['title'].lower() %}</a></h1>
+  <h1 class="site-title"><a class="site-title-inner" href="{% site['protocol'] %}://{% site['url'] %}">{% site['title'].lower() %}</a></h1>
   <ul>
-    {% for item in [page for page in pages if page.get("include_in_nav", False)] %}
+    {% for item in [page for page in pages if page.get("nav", False)] %}
     <li class="nav-item">
       <a href="{% item['url'] %}" class="nav-link">{% item['title'].lower() %}</a>
     </li>

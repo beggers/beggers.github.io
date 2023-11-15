@@ -1,0 +1,215 @@
+:root {
+    --font-monospace: "Fira Mono", monospace;
+}
+
+body {
+    font-family: var(--font-monospace);
+    font-size: 16px;
+    line-height: 1.5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 1.0rem;
+    margin: 1.25rem 0 0 0;
+    font-weight: 600;
+    color: var(--header);
+}
+
+h1+h2,
+h1+h3,
+h1+h4,
+h1+h5,
+h1+h6,
+h2+h3,
+h2+h4,
+h2+h5,
+h2+h6,
+h3+h4,
+h3+h5,
+h3+h6,
+h4+h5,
+h4+h6,
+h5+h6 {
+    margin: 0;
+}
+
+h1:before {
+    content: "# ";
+}
+
+h2:before {
+    content: "## ";
+}
+
+h3:before {
+    content: "### ";
+}
+
+h4:before {
+    content: "#### ";
+}
+
+h5:before {
+    content: "##### ";
+}
+
+h6:before {
+    content: "###### ";
+}
+
+h1:before,
+h2:before,
+h3:before,
+h4:before,
+h5:before,
+h6:before {
+    color: var(--muted);
+}
+
+h1:first-child {
+    margin-top: 0;
+}
+
+p {
+    margin: 0 0 1.25rem 0;
+}
+
+a:link,
+a:visited {
+    color: var(--link);
+}
+
+a:hover,
+a:active,
+a.active {
+    color: var(--hover);
+}
+
+ul {
+    margin: 0 0 1.25rem 0;
+    padding-left: 1.25rem;
+}
+
+ol {
+    margin: 0 0 1.25rem 0;
+    padding-left: 3.75rem;
+}
+
+ul ul,
+ul ol,
+ol ul,
+ol ol {
+    margin: 0;
+}
+
+ul li::marker {
+    content: '\2192\00A0';
+    color: var(--muted);
+}
+
+dt {
+    margin: 0;
+    font-weight: bold;
+}
+
+dd {
+    margin: 0 0 0 1.5rem;
+    font-style: italic;
+}
+
+dd+dt {
+    margin-top: 1.5rem;
+}
+
+dl {
+    margin: 0 0 1.5rem 0;
+}
+
+blockquote {
+    position: relative;
+    margin: 0 0 1.5rem 1.5rem;
+}
+
+blockquote::before {
+    position: absolute;
+    left: -1.5rem;
+    content: ">";
+    color: var(--muted);
+}
+
+pre,
+code,
+kbd,
+samp {
+    background: var(--bg) !important;
+    font-family: var(--font-monospace);
+}
+
+code:before {
+    content: "`";
+    color: var(--muted);
+}
+
+code:after {
+    content: "`";
+    color: var(--muted);
+}
+
+pre {
+    overflow-x: auto;
+    padding: 1.5rem;
+    margin: 0 0 1.5rem 0;
+}
+
+b,
+strong {
+    font-weight: 600;
+}
+
+::selection,
+mark {
+    background-color: var(--highlight);
+    color: var(--bg);
+}
+
+hr {
+    border: 0;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+hr:after {
+    content: '---';
+    color: var(--muted);
+}
+
+table {
+    border-spacing: 0;
+    margin: 0 0 1.5rem 0;
+    overflow-wrap: anywhere;
+}
+
+th,
+td {
+    padding: 0 .75rem;
+    vertical-align: top;
+}
+
+th:first-child,
+td:first-child {
+    padding-left: 0;
+}
+
+th {
+    text-align: inherit;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}

@@ -16,14 +16,17 @@ config = json.load(open("config.json"))
 def find_file(host):
     fragments = host.split(".")[:-1]
     fragments.reverse()
+    logging.debug(f"Finding file for host {host} with fragments {fragments}")
 
     # Build the path up to either the file or the directory.
     path = config["content_dir"]
     for fragment in fragments[:-1]:
         path = os.path.join(path, fragment)
+    logging.debug(f"Search path for host {host}: {path}")
 
     # If it's a directory, look for index.html.
     if os.path.isdir(os.path.join(path, fragments[-1] if fragments else "")):
+        path = os.path.join(path, fragments[-1] if fragments else "")
         logging.info(f"Found directory matching host {host}: {path}")
         path = os.path.join(path, "index.html")
         with open(path, "rb") as f:

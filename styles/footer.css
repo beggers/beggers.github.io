@@ -1,0 +1,7 @@
+footer {
+    color: var(--muted);
+}
+
+footer p {
+    margin: 0;
+}

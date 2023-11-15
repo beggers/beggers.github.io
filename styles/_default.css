@@ -1,0 +1,18 @@
+@import 'themes/solarized-dark.css';
+
+@import 'colors.css';
+@import 'footer.css';
+@import 'header.css';
+@import 'site-title.css';
+@import 'typography.css';
+
+html {
+    max-width: 56rem;
+    margin: 1rem auto;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--fg);
+    overflow-wrap: break-word;
+}
