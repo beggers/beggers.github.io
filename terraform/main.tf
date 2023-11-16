@@ -36,3 +36,27 @@ module "about" {
   source_hash    = filemd5("../public/about.html")
   zone_id        = aws_route53_zone.main.zone_id
 }
+
+module "posts" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "index.html"
+  file_directory = "../public/posts/"
+  fqdn           = "posts.${var.domainName}"
+  source_hash    = filemd5("../public/posts/index.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "_60_40_posts" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "60-40.html"
+  file_directory = "../public/posts/"
+  fqdn           = "60-40.posts.${var.domainName}"
+  source_hash    = filemd5("../public/posts/60-40.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}

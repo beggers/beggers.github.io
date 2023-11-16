@@ -75,3 +75,53 @@ output "about_cert_validation_record" {
   value = module.about.cert_validation_record
 }
 
+
+output "posts_cloudfront_distribution_id" {
+  value = module.posts.cloudfront_distribution_id
+}
+
+output "posts_hosted_zone_id" {
+  value = module.posts.hosted_zone_id
+}
+
+output "posts_bucket_id" {
+  value = module.posts.bucket_id
+}
+
+output "posts_bucket_regional_domain_name" {
+  value = module.posts.bucket_regional_domain_name
+}
+
+output "posts_cert_arn" {
+  value = module.posts.cert_arn
+}
+
+output "posts_cert_validation_record" {
+  value = module.posts.cert_validation_record
+}
+
+
+output "_60_40_posts_cloudfront_distribution_id" {
+  value = module._60_40_posts.cloudfront_distribution_id
+}
+
+output "_60_40_posts_hosted_zone_id" {
+  value = module._60_40_posts.hosted_zone_id
+}
+
+output "_60_40_posts_bucket_id" {
+  value = module._60_40_posts.bucket_id
+}
+
+output "_60_40_posts_bucket_regional_domain_name" {
+  value = module._60_40_posts.bucket_regional_domain_name
+}
+
+output "_60_40_posts_cert_arn" {
+  value = module._60_40_posts.cert_arn
+}
+
+output "_60_40_posts_cert_validation_record" {
+  value = module._60_40_posts.cert_validation_record
+}
+
