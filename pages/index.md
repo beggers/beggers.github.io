@@ -1,4 +1,3 @@
 ---
+layout: index.html
 ---
-
-Ben Eggers Dot Com !!!
