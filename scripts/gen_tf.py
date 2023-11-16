@@ -4,6 +4,7 @@ This script generates the requisite terrafrom to deploy the site.
 
 import mime_types
 
+import json
 import os
 
 
@@ -55,8 +56,10 @@ output "{subdomain}_cert_validation_record" {{
 DOMAIN_FILE = "main.tf"
 OUTPUT_FILE = "outputs_autogen.tf"
 
-PAGES_DIRETORY = "public"  # TODO get from config
 TERRAFORM_DIRETORY = "terraform"
+
+
+config = json.load(open("config.json", "r"))
 
 
 def main():
@@ -71,8 +74,8 @@ def main():
 def get_filenames():
     return [
         f
-        for f in os.listdir(PAGES_DIRETORY)
-        if not os.path.isdir(os.path.join(PAGES_DIRETORY, f))
+        for f in os.listdir(config["content_dir"])
+        if not os.path.isdir(os.path.join(config["content_dir"], f))
     ]
 
 
@@ -87,17 +90,20 @@ def generate_domain_file(filenames):
             ["www.${var.domainName}"] if subdomain == "index" else []
         )
         block = generate_subdomain_module_block(
-            subdomain, content_type, domain_aliases, filename
+            subdomain, content_type, config["content_dir"], domain_aliases, filename
         )
         blocks.append(block)
 
     write_blocks_to_file(blocks, os.path.join(TERRAFORM_DIRETORY, DOMAIN_FILE))
 
 
-def generate_subdomain_module_block(subdomain, content_type, domain_aliases, file_name):
+def generate_subdomain_module_block(
+    subdomain, content_type, content_dir, domain_aliases, file_name
+):
     return SUBDOMAIN_MODULE_BLOCK.format(
         subdomain=subdomain,
         content_type=content_type,
+        content_dir=content_dir,
         domain_aliases=domain_aliases,
         file_name=file_name,
         fqdn=fqdn(subdomain),
