@@ -50,3 +50,28 @@ output "index_cert_validation_record" {
   value = module.index.cert_validation_record
 }
 
+
+output "about_cloudfront_distribution_id" {
+  value = module.about.cloudfront_distribution_id
+}
+
+output "about_hosted_zone_id" {
+  value = module.about.hosted_zone_id
+}
+
+output "about_bucket_id" {
+  value = module.about.bucket_id
+}
+
+output "about_bucket_regional_domain_name" {
+  value = module.about.bucket_regional_domain_name
+}
+
+output "about_cert_arn" {
+  value = module.about.cert_arn
+}
+
+output "about_cert_validation_record" {
+  value = module.about.cert_validation_record
+}
+

@@ -1,4 +1,4 @@
-full: clean content gen-tf tf clear-caches
+full: clean content gen-tf deploy clear-caches
 
 gen-tf:
 	python3 scripts/gen_tf.py
@@ -25,3 +25,7 @@ dev: dev-content
 
 post:
 	python3 scripts/new_post.py
+
+.PHONY: output
+output:
+	terraform -chdir=terraform output

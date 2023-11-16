@@ -23,6 +23,11 @@ variable "fqdn" {
   type    = string
 }
 
+variable "source_hash" {
+  default = "ERROR - NO HASH SET"
+  type    = string
+}
+
 variable "zone_id" {
   default = "ERROR - NO ZONE ID SET"
   type    = string

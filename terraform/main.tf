@@ -9,6 +9,7 @@ module "favicon" {
   file           = "favicon.ico"
   file_directory = "../public/"
   fqdn           = "favicon.${var.domainName}"
+  source_hash    = filemd5("../public/favicon.ico")
   zone_id        = aws_route53_zone.main.zone_id
 }
 
@@ -20,5 +21,18 @@ module "index" {
   file           = "index.html"
   file_directory = "../public/"
   fqdn           = "${var.domainName}"
+  source_hash    = filemd5("../public/index.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "about" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "about.html"
+  file_directory = "../public/"
+  fqdn           = "about.${var.domainName}"
+  source_hash    = filemd5("../public/about.html")
   zone_id        = aws_route53_zone.main.zone_id
 }

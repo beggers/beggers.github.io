@@ -21,6 +21,7 @@ module "{subdomain}" {{
   file           = "{file_name}"
   file_directory = "../{content_dir}/"
   fqdn           = "{fqdn}"
+  source_hash    = filemd5("../{content_dir}/{file_name}")
   zone_id        = aws_route53_zone.main.zone_id
 }}
 """

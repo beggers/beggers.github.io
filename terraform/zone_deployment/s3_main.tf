@@ -48,6 +48,6 @@ resource "aws_s3_object" "index" {
   bucket       = aws_s3_bucket.main.id
   key          = var.file
   source       = "${var.file_directory}${var.file}"
-  etag         = filemd5("${var.file_directory}${var.file}")
+  source_hash  = var.source_hash
   content_type = var.content_type
 }
