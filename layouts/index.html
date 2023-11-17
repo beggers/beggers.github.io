@@ -39,7 +39,7 @@
     </style>
   </head>
 
-  <body class="page-body">
+  <body class="page-body" onload="loadEyes()">
     <div class="content">
       <header class="page-header">
         {% include header %}
@@ -64,9 +64,6 @@
 <script>
   const EYES_CLASS = 'heart-eyes';
   const EYES_ID = 'eyes';
-  function load() {
-    loadEyes();
-  }
   function loadEyes() {
     const eyes = window.localStorage.getItem(EYES_ID);
     if (eyes !== 'oo') toggleEyes();
