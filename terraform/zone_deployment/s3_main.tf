@@ -46,7 +46,7 @@ resource "aws_s3_bucket_policy" "main" {
 
 resource "aws_s3_object" "index" {
   bucket       = aws_s3_bucket.main.id
-  key          = var.file
+  key          = "index.html"
   source       = "${var.file_directory}${var.file}"
   source_hash  = var.source_hash
   content_type = var.content_type

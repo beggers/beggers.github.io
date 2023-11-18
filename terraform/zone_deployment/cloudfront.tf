@@ -18,7 +18,7 @@ resource "aws_cloudfront_distribution" "main" {
     error_caching_min_ttl = 3000
     error_code            = 404
     response_code         = 200
-    response_page_path    = "/${var.file}"
+    response_page_path    = "/"
   }
 
   default_cache_behavior {
