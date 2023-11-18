@@ -78,6 +78,7 @@ def get_filenames(path):
     for root, _, fs in os.walk(path):
         for f in fs:
             files.append(os.path.join(root, f))
+    files.sort()
     return files
 
 
