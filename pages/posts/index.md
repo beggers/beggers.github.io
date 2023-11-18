@@ -1,7 +1,7 @@
 ---
 Title: Posts
 Description: Posts
-Nav: True
+Nav: 2
 ---
 
 # Posts

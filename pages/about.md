@@ -1,7 +1,7 @@
 ---
 title: About
 description: About me! And this website.
-nav: true
+nav: 1
 ---
 
 # About me

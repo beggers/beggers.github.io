@@ -76,6 +76,31 @@ output "about_cert_validation_record" {
 }
 
 
+output "advent_of_rfcs_cloudfront_distribution_id" {
+  value = module.advent_of_rfcs.cloudfront_distribution_id
+}
+
+output "advent_of_rfcs_hosted_zone_id" {
+  value = module.advent_of_rfcs.hosted_zone_id
+}
+
+output "advent_of_rfcs_bucket_id" {
+  value = module.advent_of_rfcs.bucket_id
+}
+
+output "advent_of_rfcs_bucket_regional_domain_name" {
+  value = module.advent_of_rfcs.bucket_regional_domain_name
+}
+
+output "advent_of_rfcs_cert_arn" {
+  value = module.advent_of_rfcs.cert_arn
+}
+
+output "advent_of_rfcs_cert_validation_record" {
+  value = module.advent_of_rfcs.cert_validation_record
+}
+
+
 output "posts_cloudfront_distribution_id" {
   value = module.posts.cloudfront_distribution_id
 }
@@ -98,6 +123,31 @@ output "posts_cert_arn" {
 
 output "posts_cert_validation_record" {
   value = module.posts.cert_validation_record
+}
+
+
+output "joy_of_shipping_posts_cloudfront_distribution_id" {
+  value = module.joy_of_shipping_posts.cloudfront_distribution_id
+}
+
+output "joy_of_shipping_posts_hosted_zone_id" {
+  value = module.joy_of_shipping_posts.hosted_zone_id
+}
+
+output "joy_of_shipping_posts_bucket_id" {
+  value = module.joy_of_shipping_posts.bucket_id
+}
+
+output "joy_of_shipping_posts_bucket_regional_domain_name" {
+  value = module.joy_of_shipping_posts.bucket_regional_domain_name
+}
+
+output "joy_of_shipping_posts_cert_arn" {
+  value = module.joy_of_shipping_posts.cert_arn
+}
+
+output "joy_of_shipping_posts_cert_validation_record" {
+  value = module.joy_of_shipping_posts.cert_validation_record
 }
 
 

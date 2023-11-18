@@ -37,6 +37,18 @@ module "about" {
   zone_id        = aws_route53_zone.main.zone_id
 }
 
+module "advent_of_rfcs" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "advent-of-rfcs.html"
+  file_directory = "../public/"
+  fqdn           = "advent-of-rfcs.${var.domainName}"
+  source_hash    = filemd5("../public/advent-of-rfcs.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
 module "posts" {
   source = "./zone_deployment"
 
@@ -46,6 +58,18 @@ module "posts" {
   file_directory = "../public/posts/"
   fqdn           = "posts.${var.domainName}"
   source_hash    = filemd5("../public/posts/index.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "joy_of_shipping_posts" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "joy-of-shipping.html"
+  file_directory = "../public/posts/"
+  fqdn           = "joy-of-shipping.posts.${var.domainName}"
+  source_hash    = filemd5("../public/posts/joy-of-shipping.html")
   zone_id        = aws_route53_zone.main.zone_id
 }
 
