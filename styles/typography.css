@@ -1,5 +1,6 @@
 :root {
     --font-monospace: "Fira Mono", monospace;
+    --font: "Fira"
 }
 
 body {
@@ -18,6 +19,18 @@ h6 {
     margin: 1.25rem 0 0 0;
     font-weight: 600;
     color: var(--header);
+}
+
+.post-title {
+    font-size: 1.5rem;
+    margin: 0 0 1.25rem 0;
+    font-weight: 600;
+    color: var(--header);
+    text-align: center;
+}
+
+.post-title:before {
+    content: none;
 }
 
 h1+h2,
@@ -183,9 +196,15 @@ hr {
     margin-bottom: 1.25rem;
 }
 
+hr:before {
+    content: '---';
+    color: var(--muted);
+}
+
 hr:after {
     content: '---';
     color: var(--muted);
+    float: right;
 }
 
 table {

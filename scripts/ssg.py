@@ -125,18 +125,16 @@ class SiteGenerator:
         if url[-1] == "index":
             url = url[:-1]
         url.reverse()
-        page_data["url"] = (
-            self.site_config["protocol"]
-            + "://"
-            + ".".join(url)
-            + self.site_config["url"]
-        )
+        url = ".".join(url) + self.site_config["url"]
+        if len(url) > 255:
+            raise ValueError(f"URL too long. {url}")
+        page_data["url"] = self.site_config["protocol"] + "://" + url
         logging.debug("Page URL: %s", page_data["url"])
 
         self.markdowns[path] = page_data
 
     def _md_to_html(self, lines):
-        return markdown.markdown("".join(lines))
+        return markdown.markdown("".join(lines)).replace("<hr />", "")
 
     def ingest_layouts_directory(self, path):
         logging.info("Ingesting layouts directory %s", path)
@@ -195,6 +193,7 @@ class SiteGenerator:
 
     def render(self, path):
         logging.info("Rendering site to %s", path)
+        print(self.layouts.keys())
         if not self.static_dir:
             raise ValueError("No static directory set.")
         if not self.markdown_dir:
@@ -208,7 +207,6 @@ class SiteGenerator:
             logging.debug("Copying static file %s", static)
             shutil.copy(static, static.replace(self.static_dir, path))
 
-        print(self.styles.keys())
         for style_path, style in self.styles.items():
             logging.debug("Rendering style %s", style)
             rendered = style
@@ -264,6 +262,7 @@ class SiteGenerator:
             rendered = rendered.replace(include.group(0), self.partials[partial_name])
             include = LAYOUT_INCLUDE_REGEX.search(rendered)
 
+        print(page["_content"])
         rendered = rendered.replace("{% slot %}", page["_content"])
 
         for_match = FOR_REGEX.search(rendered)

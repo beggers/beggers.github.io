@@ -27,6 +27,7 @@ title: {title}
 subtitle: {subtitle}
 date: {date}
 tags: {tags}
+layout: post.html
 ---
 
 """
