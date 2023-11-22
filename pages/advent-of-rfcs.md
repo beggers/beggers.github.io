@@ -23,3 +23,5 @@ RFCs I want to read.
 - [RFC 4271 BGP (latest)](https://datatracker.ietf.org/doc/html/rfc4271)
 - [RFC 1035 DNS](https://datatracker.ietf.org/doc/html/rfc1035)
 - [RFC 2822 email format](https://datatracker.ietf.org/doc/html/rfc2822)
+- [RFC 9000 QUIC](https://datatracker.ietf.org/doc/html/rfc9000)
+- [RFC 9114 HTTP/3](https://datatracker.ietf.org/doc/html/rfc9114)

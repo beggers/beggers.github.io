@@ -84,3 +84,15 @@ module "joy_of_shipping_posts" {
   source_hash    = filemd5("../public/posts/joy-of-shipping.html")
   zone_id        = aws_route53_zone.main.zone_id
 }
+
+module "pets_vs_cattle_posts" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "pets-vs-cattle.html"
+  file_directory = "../public/posts/"
+  fqdn           = "pets-vs-cattle.posts.${var.domainName}"
+  source_hash    = filemd5("../public/posts/pets-vs-cattle.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}

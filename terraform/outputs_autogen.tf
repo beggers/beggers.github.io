@@ -175,3 +175,28 @@ output "joy_of_shipping_posts_cert_validation_record" {
   value = module.joy_of_shipping_posts.cert_validation_record
 }
 
+
+output "pets_vs_cattle_posts_cloudfront_distribution_id" {
+  value = module.pets_vs_cattle_posts.cloudfront_distribution_id
+}
+
+output "pets_vs_cattle_posts_hosted_zone_id" {
+  value = module.pets_vs_cattle_posts.hosted_zone_id
+}
+
+output "pets_vs_cattle_posts_bucket_id" {
+  value = module.pets_vs_cattle_posts.bucket_id
+}
+
+output "pets_vs_cattle_posts_bucket_regional_domain_name" {
+  value = module.pets_vs_cattle_posts.bucket_regional_domain_name
+}
+
+output "pets_vs_cattle_posts_cert_arn" {
+  value = module.pets_vs_cattle_posts.cert_arn
+}
+
+output "pets_vs_cattle_posts_cert_validation_record" {
+  value = module.pets_vs_cattle_posts.cert_validation_record
+}
+
