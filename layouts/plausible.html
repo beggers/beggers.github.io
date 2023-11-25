@@ -8,7 +8,7 @@ into analytics-legible paths. -->
     function z(s) {
       if (!s || s == "") return s;
       const [ p, d ] = s.split("://");
-      return p + "://beneggers.com/" + d.replace("beneggers.com", "").split(".").filter(s => !!s).reverse().join("/").replace(/\/\/+/, "") + "/";
+      return p + "://beneggers.com/" + d.replace("/", "").replace("beneggers.com", "").split(".").filter(s => !!s).reverse().join("/").replace(/\/\/+/, "");
     }
     var a = window.location,
         r = window.document,
