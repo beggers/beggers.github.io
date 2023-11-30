@@ -4,8 +4,6 @@ description: Reading 1 RFC per day for the month of December
 nav: 3
 ---
 
-# Advent of RFCs
-
 Inspired by [365 RFCs](https://write.as/365-rfcs/), I plan to spend the first 24 days of December reading one RFC per day and writing about it. Unlike Mr. Kazemi (the author of _365 RFCs_), I plan to read whichever RFCs pique my interest the most.
 
 # Read

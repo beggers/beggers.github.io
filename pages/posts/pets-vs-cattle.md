@@ -3,7 +3,6 @@ title: Pets vs Cattle
 subtitle: 
 date: 2023-11-20
 tags: ['frameworks', 'software']
-layout: post.html
 ---
 
 One of the most useful questions I ask myself about a software project is: "Is this a pet or is it cattle?" I've been surprised how often asking this question helps clarify my thinking.

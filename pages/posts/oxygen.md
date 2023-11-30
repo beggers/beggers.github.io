@@ -3,7 +3,6 @@ title: Oxygen
 subtitle: How to breathe in a polluted world
 date: 2023-11-30
 tags: [frameworks]
-layout: post.html
 ---
 
 Some people get anxious when they talk about something important to them. Their speech becomes pressured, coming out in a laser-focused stream of affect instead of the usual ebbs and flows of conversation. Why?
