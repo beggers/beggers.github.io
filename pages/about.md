@@ -14,7 +14,11 @@ I work on computer stuff -- mainly "infrastructure," which seems to mean the com
 
 I built this website myself, including most of the components needed to generate it (layouts, styling, HTML templating, ssg[1]). This was scary for me since I had never done web development work before. But it was fun! All the code and config are on [github](https://github.com/beggers/beneggers.com).
 
-I thought it would be funny to make this an "upside-down" website. The entire website has no paths (things that come after the `/`, for example the `about` in `beneggers.com/about`). Instead, it relies on subdomains to represent different pages: a page that would normally be called `beneggers.com/posts/some-post` is instead called `some-post.posts.beneggers.com`. This introduced a lot of headaches for no benefit whatsoever; I plan to write about it sometime.
+I thought it would be fun to make this an "upside-down" website. The entire website has no paths (things that come after the `/`, for example the `about` in `beneggers.com/about`). Instead, it relies on subdomains to represent different pages: a page that would normally be called `beneggers.com/posts/some-post` is instead called `some-post.posts.beneggers.com`. This introduced a lot of headaches for no benefit whatsoever; I plan to write about it sometime.
+
+# Accessibility
+
+I am committed to making this site accessible to anyone who wants to view it. If you have any suggestions for how I could do better, please email me at ben (at) beneggers (dot) com. I take this very seriously.
 
 # Plagiarism
 

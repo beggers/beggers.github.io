@@ -2,7 +2,7 @@
 title: Pets vs Cattle
 subtitle: 
 date: 2023-11-20
-tags: ['frameworks', 'infrastructure']
+tags: ['frameworks', 'software']
 layout: post.html
 ---
 
