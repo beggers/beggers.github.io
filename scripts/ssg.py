@@ -271,7 +271,7 @@ class SiteGenerator:
             logging.debug("Rendering for loop %s", for_match.group(0))
             if not loop_end:
                 raise ValueError(
-                    "No end found for for loop starting at", for_match.start()
+                    "No end found for for loop starting at", for_match.group(0)
                 )
             var = for_match.group("var")
             iterable = for_match.group("iter")
@@ -299,8 +299,6 @@ class SiteGenerator:
                 + rendered[loop_end.end() :]
             )
 
-            rendered = rendered.replace(for_match.group(0), "")
-            rendered = rendered.replace(loop_end.group(0), "")
             for_match = FOR_REGEX.search(rendered, loop_end.end())
             if for_match:
                 loop_end = END_REGEX.search(rendered, for_match.end())
