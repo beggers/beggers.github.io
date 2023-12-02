@@ -25,6 +25,18 @@ module "advent_of_rfcs" {
   zone_id        = aws_route53_zone.main.zone_id
 }
 
+module "rfc7873_advent_of_rfcs" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "rfc7873.html"
+  file_directory = "../public/advent-of-rfcs/"
+  fqdn           = "rfc7873.advent-of-rfcs.${var.domainName}"
+  source_hash    = filemd5("../public/advent-of-rfcs/rfc7873.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
 module "favicon" {
   source = "./zone_deployment"
 
