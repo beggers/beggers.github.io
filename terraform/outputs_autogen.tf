@@ -76,6 +76,56 @@ output "rfc7873_advent_of_rfcs_cert_validation_record" {
 }
 
 
+output "rfc8484_advent_of_rfcs_cloudfront_distribution_id" {
+  value = module.rfc8484_advent_of_rfcs.cloudfront_distribution_id
+}
+
+output "rfc8484_advent_of_rfcs_hosted_zone_id" {
+  value = module.rfc8484_advent_of_rfcs.hosted_zone_id
+}
+
+output "rfc8484_advent_of_rfcs_bucket_id" {
+  value = module.rfc8484_advent_of_rfcs.bucket_id
+}
+
+output "rfc8484_advent_of_rfcs_bucket_regional_domain_name" {
+  value = module.rfc8484_advent_of_rfcs.bucket_regional_domain_name
+}
+
+output "rfc8484_advent_of_rfcs_cert_arn" {
+  value = module.rfc8484_advent_of_rfcs.cert_arn
+}
+
+output "rfc8484_advent_of_rfcs_cert_validation_record" {
+  value = module.rfc8484_advent_of_rfcs.cert_validation_record
+}
+
+
+output "rfc9113_advent_of_rfcs_cloudfront_distribution_id" {
+  value = module.rfc9113_advent_of_rfcs.cloudfront_distribution_id
+}
+
+output "rfc9113_advent_of_rfcs_hosted_zone_id" {
+  value = module.rfc9113_advent_of_rfcs.hosted_zone_id
+}
+
+output "rfc9113_advent_of_rfcs_bucket_id" {
+  value = module.rfc9113_advent_of_rfcs.bucket_id
+}
+
+output "rfc9113_advent_of_rfcs_bucket_regional_domain_name" {
+  value = module.rfc9113_advent_of_rfcs.bucket_regional_domain_name
+}
+
+output "rfc9113_advent_of_rfcs_cert_arn" {
+  value = module.rfc9113_advent_of_rfcs.cert_arn
+}
+
+output "rfc9113_advent_of_rfcs_cert_validation_record" {
+  value = module.rfc9113_advent_of_rfcs.cert_validation_record
+}
+
+
 output "favicon_cloudfront_distribution_id" {
   value = module.favicon.cloudfront_distribution_id
 }

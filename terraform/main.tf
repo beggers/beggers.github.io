@@ -37,6 +37,30 @@ module "rfc7873_advent_of_rfcs" {
   zone_id        = aws_route53_zone.main.zone_id
 }
 
+module "rfc8484_advent_of_rfcs" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "rfc8484.html"
+  file_directory = "../public/advent-of-rfcs/"
+  fqdn           = "rfc8484.advent-of-rfcs.${var.domainName}"
+  source_hash    = filemd5("../public/advent-of-rfcs/rfc8484.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "rfc9113_advent_of_rfcs" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "rfc9113.html"
+  file_directory = "../public/advent-of-rfcs/"
+  fqdn           = "rfc9113.advent-of-rfcs.${var.domainName}"
+  source_hash    = filemd5("../public/advent-of-rfcs/rfc9113.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
 module "favicon" {
   source = "./zone_deployment"
 

@@ -1,0 +1,10 @@
+{% define rfclist %}
+<h1>Done</h1>
+<ul class="post-list">
+  {% for post in reversed(sorted([page for page in pages if page['url'].find(".advent-of-rfcs.") != -1], key=lambda p: p['date'])) %}
+  <li class="post-list-item">
+    <a href="{% post['url'] %}">{% post['title'].lower() %}</a>
+  </li>
+  {% end %}
+</ul>
+{% end rfclist %}
