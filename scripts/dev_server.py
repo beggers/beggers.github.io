@@ -24,24 +24,29 @@ def find_file(host):
         path = os.path.join(path, fragment)
     logging.debug(f"Search path for host {host}: {path}")
 
-    # If it's a directory, look for index.html.
-    if os.path.isdir(os.path.join(path, fragments[-1] if fragments else "")):
+    # Check for a matching file.
+    files = [
+        f
+        for f in os.listdir(path)
+        if f.startswith(fragments[-1]) and f.endswith(".html")
+    ]
+    print(files)
+    if len(files) == 1:
+        file = files[0]
+        path = os.path.join(path, file)
+        logging.info(f"Found file {file} matching {host} at {path}")
+    elif os.path.isdir(os.path.join(path, fragments[-1] if fragments else "")):
         path = os.path.join(path, fragments[-1] if fragments else "")
         logging.info(f"Found directory matching host {host}: {path}")
         path = os.path.join(path, "index.html")
-        with open(path, "rb") as f:
-            return f.read(), "html"
-
-    # Not a directory -- grab the file.
-    files = [f for f in os.listdir(path) if f.startswith(fragments[-1])]
-    if len(files) != 1:
-        raise ValueError(f"Multiple or no files found for {host}: {files}")
-    file = files[0]
-    path = os.path.join(path, file)
-    logging.info(f"Found file {file} matching {host} at {path}")
+    else:
+        logging.error(f"No file or directory matching host {host}")
+        return b"404 Not Found", "html"
 
     with open(path, "rb") as f:
-        return f.read(), file.split(".")[-1]
+        return f.read(), "html"
+
+    # Not a directory -- grab the file.
 
 
 class DevBenEggersComServer(BaseHTTPRequestHandler):
