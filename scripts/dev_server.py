@@ -24,13 +24,11 @@ def find_file(host):
         path = os.path.join(path, fragment)
     logging.debug(f"Search path for host {host}: {path}")
 
+    filename = fragments[-1] if fragments else "index"
     # Check for a matching file.
     files = [
-        f
-        for f in os.listdir(path)
-        if f.startswith(fragments[-1]) and f.endswith(".html")
+        f for f in os.listdir(path) if f.startswith(filename) and f.endswith(".html")
     ]
-    print(files)
     if len(files) == 1:
         file = files[0]
         path = os.path.join(path, file)
