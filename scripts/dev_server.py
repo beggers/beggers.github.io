@@ -44,8 +44,6 @@ def find_file(host):
     with open(path, "rb") as f:
         return f.read(), "html"
 
-    # Not a directory -- grab the file.
-
 
 class DevBenEggersComServer(BaseHTTPRequestHandler):
     def do_GET(self):
