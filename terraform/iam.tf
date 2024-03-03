@@ -12,8 +12,8 @@ data "aws_iam_policy_document" "website_policy" {
     ]
     effect = "Allow"
     resources = [
-      "arn:aws:s3:::${var.fqdn}",
-      "arn:aws:s3:::${var.fqdn}/*"
+      "arn:aws:s3:::beneggers.com",
+      "arn:aws:s3:::beneggers.com/*"
     ]
   }
 }
