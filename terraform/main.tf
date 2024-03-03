@@ -13,78 +13,6 @@ module "about" {
   zone_id        = aws_route53_zone.main.zone_id
 }
 
-module "advent_of_rfcs" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "advent-of-rfcs.html"
-  file_directory = "../public/"
-  fqdn           = "advent-of-rfcs.${var.domainName}"
-  source_hash    = filemd5("../public/advent-of-rfcs.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "rfc7873_advent_of_rfcs" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "rfc7873.html"
-  file_directory = "../public/advent-of-rfcs/"
-  fqdn           = "rfc7873.advent-of-rfcs.${var.domainName}"
-  source_hash    = filemd5("../public/advent-of-rfcs/rfc7873.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "rfc8446_advent_of_rfcs" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "rfc8446.html"
-  file_directory = "../public/advent-of-rfcs/"
-  fqdn           = "rfc8446.advent-of-rfcs.${var.domainName}"
-  source_hash    = filemd5("../public/advent-of-rfcs/rfc8446.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "rfc8484_advent_of_rfcs" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "rfc8484.html"
-  file_directory = "../public/advent-of-rfcs/"
-  fqdn           = "rfc8484.advent-of-rfcs.${var.domainName}"
-  source_hash    = filemd5("../public/advent-of-rfcs/rfc8484.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "rfc8890_advent_of_rfcs" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "rfc8890.html"
-  file_directory = "../public/advent-of-rfcs/"
-  fqdn           = "rfc8890.advent-of-rfcs.${var.domainName}"
-  source_hash    = filemd5("../public/advent-of-rfcs/rfc8890.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "rfc9113_advent_of_rfcs" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "rfc9113.html"
-  file_directory = "../public/advent-of-rfcs/"
-  fqdn           = "rfc9113.advent-of-rfcs.${var.domainName}"
-  source_hash    = filemd5("../public/advent-of-rfcs/rfc9113.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
 module "favicon" {
   source = "./zone_deployment"
 
@@ -106,6 +34,78 @@ module "index" {
   file_directory = "../public/"
   fqdn           = "${var.domainName}"
   source_hash    = filemd5("../public/index.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "interesting_rfcs" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "interesting-rfcs.html"
+  file_directory = "../public/"
+  fqdn           = "interesting-rfcs.${var.domainName}"
+  source_hash    = filemd5("../public/interesting-rfcs.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "rfc7873_interesting_rfcs" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "rfc7873.html"
+  file_directory = "../public/interesting-rfcs/"
+  fqdn           = "rfc7873.interesting-rfcs.${var.domainName}"
+  source_hash    = filemd5("../public/interesting-rfcs/rfc7873.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "rfc8446_interesting_rfcs" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "rfc8446.html"
+  file_directory = "../public/interesting-rfcs/"
+  fqdn           = "rfc8446.interesting-rfcs.${var.domainName}"
+  source_hash    = filemd5("../public/interesting-rfcs/rfc8446.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "rfc8484_interesting_rfcs" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "rfc8484.html"
+  file_directory = "../public/interesting-rfcs/"
+  fqdn           = "rfc8484.interesting-rfcs.${var.domainName}"
+  source_hash    = filemd5("../public/interesting-rfcs/rfc8484.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "rfc8890_interesting_rfcs" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "rfc8890.html"
+  file_directory = "../public/interesting-rfcs/"
+  fqdn           = "rfc8890.interesting-rfcs.${var.domainName}"
+  source_hash    = filemd5("../public/interesting-rfcs/rfc8890.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "rfc9113_interesting_rfcs" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "rfc9113.html"
+  file_directory = "../public/interesting-rfcs/"
+  fqdn           = "rfc9113.interesting-rfcs.${var.domainName}"
+  source_hash    = filemd5("../public/interesting-rfcs/rfc9113.html")
   zone_id        = aws_route53_zone.main.zone_id
 }
 

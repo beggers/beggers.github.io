@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "main" {
   bucket = var.fqdn
   lifecycle {
-    prevent_destroy = true
+    prevent_destroy = false
   }
 }
 
