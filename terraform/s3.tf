@@ -73,6 +73,44 @@ resource "aws_s3_bucket_acl" "www" {
   depends_on = [aws_s3_bucket_ownership_controls.www]
 }
 
+data "aws_iam_policy_document" "website_policy" {
+  statement {
+    principals {
+      type = "AWS"
+      identifiers = [
+        aws_cloudfront_origin_access_identity.main.iam_arn
+      ]
+    }
+    actions = [
+      "s3:GetObject",
+      "s3:ListBucket"
+    ]
+    effect = "Allow"
+    resources = [
+      "arn:aws:s3:::beneggers.com",
+      "arn:aws:s3:::beneggers.com/*"
+    ]
+  }
+  # TODO it's awkward to have all the policies in one place -- ought to
+  # keep this policy next to the Github Actions role definiton.
+  statement {
+    actions = [
+      "s3:*",
+    ]
+    effect = "Allow"
+    principals {
+      type = "AWS"
+      identifiers = [
+        aws_iam_role.github_actions.arn
+      ]
+    }
+    resources = [
+      "${aws_s3_bucket.main.arn}/*",
+      "${aws_s3_bucket.main.arn}"
+    ]
+  }
+}
+
 resource "aws_s3_bucket_policy" "main" {
   bucket     = aws_s3_bucket.main.id
   policy     = data.aws_iam_policy_document.website_policy.json
