@@ -59,6 +59,13 @@ data "aws_iam_policy_document" "invalidate_cloudfront_cache" {
       "cloudfront:CreateInvalidation",
     ]
     effect = "Allow"
+    condition {
+      test     = "ArnLike"
+      variable = "aws:SourceArn"
+      values = [
+        aws_iam_role.github_actions.arn
+      ]
+    }
     resources = [
       aws_cloudfront_distribution.main.arn
     ]
