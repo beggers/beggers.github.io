@@ -32,3 +32,5 @@ resource "aws_iam_role" "github_actions" {
   name               = "github-actions"
   assume_role_policy = data.aws_iam_policy_document.github_actions_assume_role.json
 }
+
+# Note: bucket list and object permissions are granted to this role in iam.tf
