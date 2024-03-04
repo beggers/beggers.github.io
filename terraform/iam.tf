@@ -20,21 +20,7 @@ data "aws_iam_policy_document" "website_policy" {
     actions = [
       "s3:DeleteObject",
       "s3:PutObject",
-      "s3:GetObject"
-    ]
-    effect = "Allow"
-    principals {
-      type = "AWS"
-      identifiers = [
-        aws_iam_role.github_actions.arn
-      ]
-    }
-    resources = [
-      "${aws_s3_bucket.main.arn}/*"
-    ]
-  }
-  statement {
-    actions = [
+      "s3:GetObject",
       "s3:ListBucket"
     ]
     effect = "Allow"
@@ -45,6 +31,7 @@ data "aws_iam_policy_document" "website_policy" {
       ]
     }
     resources = [
+      "${aws_s3_bucket.main.arn}/*",
       "${aws_s3_bucket.main.arn}"
     ]
   }
