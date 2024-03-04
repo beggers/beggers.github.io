@@ -79,34 +79,22 @@ resource "aws_s3_bucket_policy" "main" {
   depends_on = [aws_s3_bucket_public_access_block.main]
 }
 
-resource "aws_s3_object" "index" {
-  bucket       = aws_s3_bucket.main.id
-  key          = "index.html"
-  source       = "../src/index.html"
-  etag         = filemd5("../src/index.html")
-  content_type = "text/html"
+module "site_files" {
+  source   = "hashicorp/dir/template"
+  version  = "1.0.2"
+  base_dir = "../dist"
 }
 
-resource "aws_s3_object" "favicon" {
-  bucket       = aws_s3_bucket.main.id
-  key          = "favicon.ico"
-  source       = "../static/favicon.ico"
-  etag         = filemd5("../static/favicon.ico")
-  content_type = "image/x-icon"
-}
+resource "aws_s3_object" "site_files" {
+  # TODO exclude .js.map
+  for_each = module.site_files.files
+  bucket   = aws_s3_bucket.main.id
 
-resource "aws_s3_object" "style" {
-  bucket       = aws_s3_bucket.main.id
-  key          = "style.css"
-  source       = "../src/style.css"
-  etag         = filemd5("../src/style.css")
-  content_type = "text/css"
-}
+  key          = each.key
+  content_type = each.value.content_type
 
-resource "aws_s3_object" "script" {
-  bucket       = aws_s3_bucket.main.id
-  key          = "script.js"
-  source       = "../src/script.js"
-  etag         = filemd5("../src/script.js")
-  content_type = "text/javascript"
+  source  = each.value.source_path
+  content = each.value.content
+
+  etag = each.value.digests.md5
 }
