@@ -3,9 +3,10 @@
 # it secure.
 
 resource "aws_iam_openid_connect_provider" "github" {
-  url             = "https://token.actions.githubusercontent.com"
-  client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"]
+  url            = "https://token.actions.githubusercontent.com"
+  client_id_list = ["sts.amazonaws.com"]
+  # Not used by still required by tf.
+  thumbprint_list = ["ffffffffffffffffffffffffffffffffffffffff"]
 }
 
 data "aws_iam_policy_document" "github_actions_assume_role" {
@@ -23,7 +24,7 @@ data "aws_iam_policy_document" "github_actions_assume_role" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:beneggers.com/*"]
+      values   = ["repo:beggers/*"]
     }
   }
 }
