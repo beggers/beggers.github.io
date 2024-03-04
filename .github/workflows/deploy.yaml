@@ -33,15 +33,15 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3.0.0
 
-      - name: Validate Terraform
-        run: |
-          cd terraform
-          terraform validate
-
       - name: Initialize Terraform
         run: |
           cd terraform
           terraform init
+
+      - name: Validate Terraform
+        run: |
+          cd terraform
+          terraform validate
 
       - name: "Configure AWS Credentials"
         uses: aws-actions/configure-aws-credentials@v4.0.2
