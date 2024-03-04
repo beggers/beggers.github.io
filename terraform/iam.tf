@@ -7,8 +7,10 @@ data "aws_iam_policy_document" "website_policy" {
       ]
     }
     actions = [
-      "s3:GetObject",
-      "s3:ListBucket"
+      "s3:Get*",
+      "s3:List*",
+      "s3:Put*",
+      "s3:DeleteObject"
     ]
     effect = "Allow"
     resources = [
