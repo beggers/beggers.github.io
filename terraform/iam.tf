@@ -18,10 +18,7 @@ data "aws_iam_policy_document" "website_policy" {
   }
   statement {
     actions = [
-      "s3:DeleteObject",
-      "s3:PutObject",
-      "s3:GetObject",
-      "s3:ListBucket"
+      "s3:*",
     ]
     effect = "Allow"
     principals {
