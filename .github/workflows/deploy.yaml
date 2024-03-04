@@ -14,7 +14,7 @@ env:
   TF_INPUT: false
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -53,3 +53,12 @@ jobs:
         run: |
           cd terraform
           terraform apply -target aws_s3_object.site_files -auto-approve
+
+      - name: install-aws-cli-action
+        uses: unfor19/install-aws-cli-action@v1
+
+      - name: Invalidate Cloudfront cache
+        env: 
+          DISTRIBUTION_ID: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"

@@ -23,7 +23,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "public_access" {
+resource "aws_s3_bucket_public_access_block" "terraform_state" {
   bucket                  = aws_s3_bucket.terraform_state.id
   block_public_acls       = true
   block_public_policy     = true
@@ -40,4 +40,45 @@ resource "aws_dynamodb_table" "terraform_locks" {
     name = "LockID"
     type = "S"
   }
+}
+
+data "aws_iam_policy_document" "github_actions_policy" {
+  statement {
+    actions = [
+      "s3:DeleteObject",
+      "s3:PutObject",
+      "s3:GetObject"
+    ]
+    effect = "Allow"
+    principals {
+      type = "AWS"
+      identifiers = [
+        aws_iam_role.github_actions.arn
+      ]
+    }
+    resources = [
+      "${aws_s3_bucket.terraform_state.arn}/*"
+    ]
+  }
+  statement {
+    actions = [
+      "s3:ListBucket"
+    ]
+    effect = "Allow"
+    principals {
+      type = "AWS"
+      identifiers = [
+        aws_iam_role.github_actions.arn
+      ]
+    }
+    resources = [
+      "${aws_s3_bucket.terraform_state.arn}"
+    ]
+  }
+}
+
+resource "aws_s3_bucket_policy" "terraform_state" {
+  bucket     = aws_s3_bucket.terraform_state.id
+  policy     = data.aws_iam_policy_document.github_actions_policy.json
+  depends_on = [aws_s3_bucket_public_access_block.terraform_state]
 }
