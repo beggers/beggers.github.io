@@ -91,24 +91,6 @@ data "aws_iam_policy_document" "website_policy" {
       "arn:aws:s3:::beneggers.com/*"
     ]
   }
-  # TODO it's awkward to have all the policies in one place -- ought to
-  # keep this policy next to the Github Actions role definiton.
-  statement {
-    actions = [
-      "s3:*",
-    ]
-    effect = "Allow"
-    principals {
-      type = "AWS"
-      identifiers = [
-        aws_iam_role.github_actions.arn
-      ]
-    }
-    resources = [
-      "${aws_s3_bucket.main.arn}/*",
-      "${aws_s3_bucket.main.arn}"
-    ]
-  }
 }
 
 resource "aws_s3_bucket_policy" "main" {

@@ -52,28 +52,3 @@ resource "aws_cloudfront_distribution" "main" {
     minimum_protocol_version = "TLSv1.2_2021"
   }
 }
-
-data "aws_iam_policy_document" "invalidate_cloudfront_cache" {
-  statement {
-    actions = [
-      "cloudfront:CreateInvalidation",
-    ]
-    effect = "Allow"
-    condition {
-      test     = "ArnLike"
-      variable = "aws:SourceArn"
-      values = [
-        aws_iam_role.github_actions.arn
-      ]
-    }
-    resources = [
-      aws_cloudfront_distribution.main.arn
-    ]
-  }
-}
-
-resource "aws_iam_policy" "invalidate_cloudfront_cache" {
-  name        = "invalidate_cloudfront_cache"
-  description = "Invalidate CloudFront Cache"
-  policy      = data.aws_iam_policy_document.invalidate_cloudfront_cache.json
-}

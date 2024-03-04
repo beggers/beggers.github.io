@@ -1,7 +1,3 @@
-# Allow github actions to write to S3 without needing long-lived
-# access keys. This lets github actions deploy the site while keeping
-# it secure.
-
 resource "aws_iam_openid_connect_provider" "github" {
   url            = "https://token.actions.githubusercontent.com"
   client_id_list = ["sts.amazonaws.com"]
@@ -34,6 +30,42 @@ resource "aws_iam_role" "github_actions" {
   assume_role_policy = data.aws_iam_policy_document.github_actions_assume_role.json
 }
 
-# Notes:
-#  - bucket list and object permissions are granted to this role in iam.tf
-#  - invalidate cloudfront cache is granted to this role in cloudfront.tf
+data "aws_iam_policy_document" "github_actions_policy" {
+  statement {
+    actions = [
+      "s3:*",
+    ]
+    effect = "Allow"
+    resources = [
+      "${aws_s3_bucket.main.arn}/*",
+      "${aws_s3_bucket.main.arn}"
+    ]
+  }
+  statement {
+    actions = [
+      "s3:PutObject",
+      "s3:GetObject",
+      "s3:ListBucket"
+    ]
+    effect = "Allow"
+    resources = [
+      "${aws_s3_bucket.terraform_state.arn}",
+      "${aws_s3_bucket.terraform_state.arn}/*"
+    ]
+  }
+  statement {
+    actions = [
+      "cloudfront:CreateInvalidation",
+    ]
+    effect = "Allow"
+    resources = [
+      aws_cloudfront_distribution.main.arn
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "github_actions" {
+  name   = "github-actions-policy"
+  role   = aws_iam_role.github_actions.id
+  policy = data.aws_iam_policy_document.github_actions_policy.json
+}
