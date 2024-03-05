@@ -5,7 +5,7 @@
 
 import './style.css'
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
@@ -107,7 +107,7 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 
 camera.position.z = bounds * 1.5
 scene.add(camera)
 
-const controls = new OrbitControls(camera, canvas)
+const controls = new TrackballControls(camera, canvas)
 controls.enableDamping = true
 
 const renderer = new THREE.WebGLRenderer({
@@ -116,10 +116,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-const clock = new THREE.Clock()
-
 const tick = () => {
-    const elapsedTime = clock.getElapsedTime()
     for (let i = 0; i < meshes.length; i++) {
         meshes[i].rotation.x += rotations[i].x
         meshes[i].rotation.y += rotations[i].y
