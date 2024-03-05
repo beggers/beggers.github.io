@@ -1,6 +1,13 @@
+// I'm using this to work through threejs-journey.com.
+//
+// TODO once I know more things -- do good software engineering (break
+// this up into modules, etc.)
+
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
 const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
@@ -53,6 +60,31 @@ for (let i = 0; i < geometries.length; i++) {
         z: r(-max_rot, max_rot)
     })
 }
+
+const fontLoader = new FontLoader()
+
+fontLoader.load(
+    '/helvetiker_regular.typeface.json',
+    (font) => {
+        const textGeometry = new TextGeometry(
+            'Ben Eggers dot com',
+            {
+                font: font,
+                size: 1.0,
+                height: 0.2,
+                curveSegments: 12,
+                bevelEnabled: true,
+                bevelThickness: 0.03,
+                bevelSize: 0.02,
+                bevelOffset: 0,
+                bevelSegments: 5
+            }
+        )
+        const textMaterial = new THREE.MeshBasicMaterial()
+        const text = new THREE.Mesh(textGeometry, textMaterial)
+        scene.add(text)
+    }
+)
 
 const sizes = {
     width: window.innerWidth,
