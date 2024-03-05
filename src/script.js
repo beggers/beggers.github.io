@@ -80,7 +80,8 @@ fontLoader.load(
                 bevelSegments: 5
             }
         )
-        const textMaterial = new THREE.MeshBasicMaterial()
+        textGeometry.center()
+        const textMaterial = new THREE.MeshNormalMaterial()
         const text = new THREE.Mesh(textGeometry, textMaterial)
         scene.add(text)
     }
@@ -107,7 +108,6 @@ camera.position.z = bounds * 1.5
 scene.add(camera)
 
 const controls = new OrbitControls(camera, canvas)
-controls.enableZoom = false
 controls.enableDamping = true
 
 const renderer = new THREE.WebGLRenderer({
