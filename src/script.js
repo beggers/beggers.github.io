@@ -9,6 +9,10 @@ import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
+//import AmbientAudio from './audio'
+//let a = new AmbientAudio()
+// a.play()
+
 const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
@@ -104,7 +108,7 @@ window.addEventListener('resize', () => {
 })
 
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.z = bounds * 1.5
+camera.position.z = bounds * 3
 scene.add(camera)
 
 const controls = new TrackballControls(camera, canvas)
