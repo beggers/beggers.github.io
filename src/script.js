@@ -9,6 +9,8 @@ import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
+import ChordExplorer from './chordexplorer'
+
 //import AmbientAudio from './audio'
 //let a = new AmbientAudio()
 // a.play()
