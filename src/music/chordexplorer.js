@@ -1,19 +1,20 @@
 import { Chord } from "tonal";
 
 const defaultInversions = [
+  // TODO some chord shapes which cross octaves?
   [1, 2, 3, 4],
   [2, 3, 4, 5],
   [3, 4, 5, 6],
   [4, 5, 6, 7],
 ]
 const defaultNotes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-const defaultChords = ["m", "M"]
-const defaultOctaves = [2, 3, 4]
+const defaultChords = ["^", "m", "Maj7", "m7"]
+const defaultOctaves = [3, 4, 5]
 let defaultDistance = 2
 
 // Simple metric space on chords.Counts notes which belong to
 // one chord but not the other.Octave - sensitive.
-// TODO this should be levenstein distance.
+// TODO this should be levenshtein distance.
 const chordDistance = (a, b) => {
   let aSet = new Set(a)
   let bSet = new Set(b)
@@ -54,6 +55,10 @@ class ChordExplorer {
         }
       }
     }
+  }
+
+  startingChord() {
+    return this.allChords[0]
   }
 
   possibleNextChords(chord) {

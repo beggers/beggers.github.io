@@ -1,35 +1,24 @@
 import * as Tone from 'tone'
 
 import { Chord, Interval, Note, Scale } from "tonal";
+import { DefaultChordExplorer } from "./music/chordexplorer";
 
 // TODO find a better way to do this. Probably need a button to be clicked
 // on load?
-// addEventListener('mousemove', () => {
-//   Tone.start()
-// })
+addEventListener('mousemove', () => {
+  Tone.start()
+})
 
 export default class AmbientAudio {
   constructor() {
     // TODO spend some time designing the pad for this on the OP-1 and
     // replace this awful synth.
     this.synth = new Tone.PolySynth().toDestination()
-    this.currentChord = Chord.notes("m6", "C4")
-    this.nextChord = this.findNextChord()
+    this.chordExplorer = new DefaultChordExplorer()
+    this.currentChord = this.chordExplorer.startingChord()
+    this.nextChord = this.chordExplorer.nextChord(this.currentChord)
     // TODO tweak
-    this.duration = 1.5
-  }
-
-  findNextChord() {
-    // TODO in addition to fixing the random note logic, we could probably
-    // vaccilate between complexity and simplicity, maybe even tension
-    // and resolution.
-
-    let newChord = this.currentChord.slice()
-    newChord.splice(Math.floor(Math.random() * newChord.length), 1)
-    // TODO this needs to be aware of chord shapes and choose notes that
-    // make sense. Sounds terrible rn.
-    newChord.push(Note.fromMidi(Math.floor(Math.random() * 12) + 60))
-    return newChord
+    this.duration = 7.5
   }
 
   play() {
@@ -40,12 +29,12 @@ export default class AmbientAudio {
     updateAndPlayOnce()
     var intervalId = window.setInterval(function () {
       updateAndPlayOnce()
-    }, 2000);
+    }, 8000);
   }
 
   updateAndPlayOnce() {
     this.currentChord = this.nextChord
-    this.nextChord = this.findNextChord()
+    this.nextChord = this.chordExplorer.nextChord(this.currentChord)
     let now = Tone.now()
     this.synth.triggerAttack(this.currentChord, now);
     this.synth.triggerRelease(this.currentChord, now + this.duration);

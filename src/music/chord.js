@@ -1,0 +1,1 @@
+// TODO chord class with distance, bass, inversion, etc.
