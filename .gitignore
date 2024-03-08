@@ -2,6 +2,8 @@
 example-sam-app/
 .vscode/
 
+coverage/
+
 drafts/
 
 # Buildable by hugo
