@@ -1,16 +1,29 @@
 import * as Chord from "tonal";
 
-// Simple metric space on chords. Counts notes which belong to
-// one chord but not the other. Octave-sensitive.
+const defaultInversions = [
+  [1, 2, 3, 4],
+  [2, 3, 4, 5],
+  [3, 4, 5, 6],
+  [4, 5, 6, 7],
+]
+const defaultNotes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+const defaultChords = ["m", "M"]
+const defaultOctaves = [2, 3, 4]
+
+// Simple metric space on chords.Counts notes which belong to
+// one chord but not the other.Octave - sensitive.
 const chordDistance = (a, b) => {
+  let aSet = new Set(a)
+  let bSet = new Set(b)
+
   let distance = 0
-  for (let i = 0; i < a.length; i++) {
-    if (!b.includes(a[i])) {
+  for (let note of aSet) {
+    if (!bSet.has(note)) {
       distance++
     }
   }
-  for (let i = 0; i < b.length; i++) {
-    if (!a.includes(b[i])) {
+  for (let note of bSet) {
+    if (!aSet.has(note)) {
       distance++
     }
   }
@@ -54,16 +67,7 @@ class ChordExplorer {
 
 class DefaultChordExplorer extends ChordExplorer {
   constructor() {
-    const inversions = [
-      [1, 2, 3, 4],
-      [2, 3, 4, 5],
-      [3, 4, 5, 6],
-      [4, 5, 6, 7],
-    ]
-    const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
-    const allowedChords = ["m", "M"]
-    const octaves = [2, 3, 4]
-    super(inversions, notes, allowedChords, octaves, 1)
+    super(defaultInversions, defaultNotes, defaultChords, defaultOctaves, chordDistance)
   }
 }
 
