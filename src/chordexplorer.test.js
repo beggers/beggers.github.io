@@ -110,7 +110,10 @@ test('DefaultChordExplorer always generates chords defaultDistance away', () => 
     let next = e.nextChord(chord)
     expect(next).toBeDefined()
     expect(next).not.toEqual(chord)
-    expect(chordDistance(chord, next)).toBe(defaultDistance)
+
+    const distance = chordDistance(chord, next)
+    expect(distance).not.toBe(0)
+    expect(distance).toBeLessThanOrEqual(defaultDistance)
     chord = next
   }
 })

@@ -59,7 +59,8 @@ class ChordExplorer {
   possibleNextChords(chord) {
     let possibles = []
     for (let i = 0; i < this.allChords.length; i++) {
-      if (chordDistance(chord, this.allChords[i]) === this.distance) {
+      const distance = chordDistance(chord, this.allChords[i])
+      if (distance !== 0 && distance <= this.distance) {
         possibles.push(this.allChords[i])
       }
     }
