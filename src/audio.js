@@ -4,9 +4,9 @@ import { Chord, Interval, Note, Scale } from "tonal";
 
 // TODO find a better way to do this. Probably need a button to be clicked
 // on load?
-addEventListener('mousemove', () => {
-  Tone.start()
-})
+// addEventListener('mousemove', () => {
+//   Tone.start()
+// })
 
 export default class AmbientAudio {
   constructor() {
