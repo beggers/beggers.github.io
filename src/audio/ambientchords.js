@@ -1,7 +1,7 @@
 import * as Tone from 'tone'
 
 import { Chord, Interval, Note, Scale } from "tonal";
-import { DefaultChordExplorer } from "./music/chordexplorer";
+import { DefaultChordExplorer } from "./chordexplorer";
 
 // TODO find a better way to do this. Probably need a button to be clicked
 // on load?
@@ -9,7 +9,7 @@ addEventListener('mousemove', () => {
   Tone.start()
 })
 
-export default class AmbientAudio {
+class AmbientChords {
   constructor() {
     // TODO spend some time designing the pad for this on the OP-1 and
     // replace this awful synth.
@@ -41,3 +41,6 @@ export default class AmbientAudio {
     this.synth.triggerRelease(withBass, now + this.duration);
   }
 }
+
+export { AmbientChords }
+export default AmbientChords

@@ -9,8 +9,8 @@ import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
-// import AmbientAudio from './audio'
-// let a = new AmbientAudio()
+// import * as ac from './audio/ambientchords'
+// let a = new ac.AmbientChords()
 // a.play()
 
 const canvas = document.querySelector('canvas.webgl')
