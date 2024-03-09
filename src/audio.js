@@ -36,7 +36,8 @@ export default class AmbientAudio {
     this.currentChord = this.nextChord
     this.nextChord = this.chordExplorer.nextChord(this.currentChord)
     let now = Tone.now()
-    this.synth.triggerAttack(this.currentChord, now);
-    this.synth.triggerRelease(this.currentChord, now + this.duration);
+    let withBass = this.currentChord.withRandomBass(2)
+    this.synth.triggerAttack(withBass, now);
+    this.synth.triggerRelease(withBass, now + this.duration);
   }
 }

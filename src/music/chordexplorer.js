@@ -1,4 +1,5 @@
 import { Chord } from "tonal";
+import * as c from './chord'
 
 const defaultInversions = [
   // TODO some chord shapes which cross octaves?
@@ -11,27 +12,6 @@ const defaultNotes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#"
 const defaultChords = ["^", "m", "Maj7", "m7"]
 const defaultOctaves = [3, 4, 5]
 let defaultDistance = 2
-
-// Simple metric space on chords.Counts notes which belong to
-// one chord but not the other.Octave - sensitive.
-// TODO this should be levenshtein distance.
-const chordDistance = (a, b) => {
-  let aSet = new Set(a)
-  let bSet = new Set(b)
-
-  let distance = 0
-  for (let note of aSet) {
-    if (!bSet.has(note)) {
-      distance++
-    }
-  }
-  for (let note of bSet) {
-    if (!aSet.has(note)) {
-      distance++
-    }
-  }
-  return distance
-}
 
 class ChordExplorer {
   constructor(inversions, roots, chords, octaves, distance) {
@@ -50,7 +30,7 @@ class ChordExplorer {
           let degrees = Chord.steps(chords[j], roots[i] + octaves[k])
           for (let l = 0; l < inversions.length; l++) {
             let inversion = inversions[l]
-            this.allChords.push(inversion.map(degrees))
+            this.allChords.push(new c.Chord(inversion.map(degrees)))
           }
         }
       }
@@ -64,7 +44,7 @@ class ChordExplorer {
   possibleNextChords(chord) {
     let possibles = []
     for (let i = 0; i < this.allChords.length; i++) {
-      const distance = chordDistance(chord, this.allChords[i])
+      const distance = chord.distance(this.allChords[i])
       if (distance !== 0 && distance <= this.distance) {
         possibles.push(this.allChords[i])
       }
@@ -84,5 +64,5 @@ class DefaultChordExplorer extends ChordExplorer {
   }
 }
 
-export { chordDistance, ChordExplorer, DefaultChordExplorer, defaultDistance }
+export { ChordExplorer, DefaultChordExplorer, defaultDistance }
 export default ChordExplorer
