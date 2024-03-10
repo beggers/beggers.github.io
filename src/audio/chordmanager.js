@@ -13,7 +13,7 @@ const defaultChords = ["^", "m", "Maj7", "m7"]
 const defaultOctaves = [3, 4, 5]
 let defaultDistance = 2
 
-class ChordExplorer {
+class ChordManager {
   constructor(inversions, roots, chords, octaves, distance) {
     this.inversions = inversions
     this.roots = roots
@@ -58,11 +58,11 @@ class ChordExplorer {
   }
 }
 
-class DefaultChordExplorer extends ChordExplorer {
+class DefaultChordManager extends ChordManager {
   constructor() {
     super(defaultInversions, defaultNotes, defaultChords, defaultOctaves, defaultDistance)
   }
 }
 
-export { ChordExplorer, DefaultChordExplorer, defaultDistance }
-export default ChordExplorer
+export { ChordManager, DefaultChordManager, defaultDistance }
+export default ChordManager

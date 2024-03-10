@@ -1,12 +1,12 @@
 'use strict'
-import { ChordExplorer, DefaultChordExplorer, defaultDistance } from './chordexplorer.js'
-import * as c from './chord'
+import { ChordManager, DefaultChordManager, defaultDistance } from './chordmanager.js'
+import * as c from './chord.js'
 
 // TODO figure out why proptests were so slow and maybe bring them back.
 
-test('ChordExplorer generates chords correctly', () => {
+test('ChordManager generates chords correctly', () => {
   let chord = new c.Chord(["C4", "E4", "G4"])
-  let e = new ChordExplorer(
+  let e = new ChordManager(
     [[0, 1, 2]],
     ["C"],
     ["M"],
@@ -17,7 +17,7 @@ test('ChordExplorer generates chords correctly', () => {
   expect(e.allChords.length).toEqual(1)
 })
 
-test('ChordExplorer generates possible chords correctly', () => {
+test('ChordManager generates possible chords correctly', () => {
   let chord = new c.Chord(["C4", "E4", "G4"])
   let invertedChords = [
     new c.Chord(["C4", "E4", "G4"]),
@@ -29,7 +29,7 @@ test('ChordExplorer generates possible chords correctly', () => {
     [1, 2, 3],
     [2, 3, 4]
   ]
-  let e = new ChordExplorer(
+  let e = new ChordManager(
     inversions,
     ["C"],
     ["^"],
@@ -41,9 +41,9 @@ test('ChordExplorer generates possible chords correctly', () => {
   expect(possibles[0].distance(invertedChords[1])).toBe(0)
 })
 
-test('ChordExplorer never generates the same chord', () => {
+test('ChordManager never generates the same chord', () => {
   let chord = new c.Chord(["C4", "E4", "G4"])
-  let e = new ChordExplorer(
+  let e = new ChordManager(
     [[0, 1, 2]],
     ["C"],
     ["M"],
@@ -54,7 +54,7 @@ test('ChordExplorer never generates the same chord', () => {
   expect(next).toBeUndefined()
 })
 
-test('ChordExplorer generates inversions of C major', () => {
+test('ChordManager generates inversions of C major', () => {
   let chord = new c.Chord(["C4", "E4", "G4"])
   let invertedChords = [
     new c.Chord(["C4", "E4", "G4"]),
@@ -66,7 +66,7 @@ test('ChordExplorer generates inversions of C major', () => {
     [1, 2, 3],
     [2, 3, 4]
   ]
-  let e = new ChordExplorer(
+  let e = new ChordManager(
     inversions,
     ["C"],
     ["M"],
@@ -92,8 +92,8 @@ test('ChordExplorer generates inversions of C major', () => {
   }
 })
 
-test('DefaultChordExplorer always generates chords defaultDistance away', () => {
-  let e = new DefaultChordExplorer()
+test('DefaultChordManager always generates chords defaultDistance away', () => {
+  let e = new DefaultChordManager()
   let chord = e.allChords[0]
   for (let i = 0; i < 1000; i++) {
     let next = e.nextChord(chord)

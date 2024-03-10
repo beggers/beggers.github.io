@@ -1,13 +1,6 @@
 import * as Tone from 'tone'
 
-import { Chord, Interval, Note, Scale } from "tonal";
-import { DefaultChordExplorer } from "./chordexplorer";
-
-// TODO find a better way to do this. Probably need a button to be clicked
-// on load?
-addEventListener('mousemove', () => {
-  Tone.start()
-})
+import { DefaultChordManager } from "./chordmanager";
 
 class AmbientChords {
   constructor() {
@@ -18,9 +11,13 @@ class AmbientChords {
       detune: 10,
       envelope: {
         attack: 30,
-      },
+        release: 1,
+        attackCurve: "linear",
+        decayCurve: "exponential",
+        releaseCurve: "exponential"
+      }
     });
-    this.chordExplorer = new DefaultChordExplorer()
+    this.chordExplorer = new DefaultChordManager()
     this.currentChord = this.chordExplorer.startingChord()
     this.nextChord = this.chordExplorer.nextChord(this.currentChord)
     // TODO tweak
@@ -41,6 +38,7 @@ class AmbientChords {
   playCurrentChord() {
     let now = Tone.now()
     let withBass = this.currentChord.withRandomBass(2)
+    console.log(withBass)
     this.synth.triggerAttack(withBass, now);
     this.synth.triggerRelease(withBass, now + this.duration);
   }
