@@ -9,7 +9,7 @@ root.render(
         fov: 75,
         near: 0.1,
         far: 100,
-        position: [0, 0, 30],
+        position: [0, 0, 45],
     }} >
         <App />
     </Canvas>
