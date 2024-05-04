@@ -8,7 +8,7 @@ import font from '../../static/helvetiker_regular.typeface.json'
 
 extend({ TextGeometry })
 
-function CurrentSite() {
+function Site() {
   const { camera, gl } = useThree()
 
   const bounds = 15
@@ -30,7 +30,7 @@ function CurrentSite() {
 
   let tori = []
   for (let i = 0; i < 30; i++) {
-    tori.push(RotatingTorusKnot(pos(), rot(), rc(), false))
+    tori.push(RotatingTorusKnot({ pos: pos(), rot: rot(), color: rc(), }))
   }
 
   const fontLoader = new FontLoader().parse(font)
@@ -65,5 +65,5 @@ function CurrentSite() {
   );
 }
 
-export { CurrentSite }
-export default CurrentSite
+export { Site }
+export default Site
