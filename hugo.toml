@@ -1,0 +1,7 @@
+baseURL = 'https://beneggers.com/'
+languageCode = 'en-us'
+title = 'ben eggers dot com'
+theme = 'ananke'
+
+[markup.goldmark.renderer]
+unsafe = true
