@@ -88,7 +88,7 @@ def generate_domain_file(filenames):
         subdomain, extension = filename_to_subdomain_and_extension(filename)
         content_type = mime_types.extensions_to_types[extension]
         # Cool and normal best practices.
-        domain_aliases = list_as_string(
+        domain_aliases = str(
             ["www.${var.domainName}"] if subdomain == "index" else []
         )
         block = generate_subdomain_module_block(
@@ -133,10 +133,6 @@ def generate_subdomain_output_block(subdomain):
     return SUBDOMAIN_OUTPUT_BLOCK.format(
         tf_suitable_subdomain=tf_suitable(subdomain),
     )
-
-
-def list_as_string(l):
-    return "[" + ", ".join([f'"{item}"' for item in l]) + "]"
 
 
 def fqdn(subdomain):
