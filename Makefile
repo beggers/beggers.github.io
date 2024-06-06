@@ -23,16 +23,20 @@ content: clean
 
 .PHONY: test
 test:
-	pytest
+	pytest -vv
 
 .PHONY: dev-content
-dev-server: clean
-	python3 -m beneggerscom.ssg.main --dev && python3 -m beneggerscom.dev_server.main
+dev-content: clean
+	python3 -m beneggerscom.ssg.main --dev
 
-# If it looks stupid but it works...
+.PHONY: server
+server: dev-content
+	python3 -m beneggerscom.dev_server.main
+
+# Reloads everything on any file changes, including content.
 .PHONY: dev
 dev:
-	find . | grep -v public | entr -rz make dev-server
+	find . | grep -v public | entr -rz make server
 
 .PHONY: post
 post:

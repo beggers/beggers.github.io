@@ -13,11 +13,12 @@ Notes:
 import argparse
 import json
 import logging
+import markdown
 import os
 import re
 import shutil
 
-import markdown
+from beneggerscom.ssg.postprocess import move_footnotes_to_own_section
 
 
 CONFIG_FILE = "config.json"
@@ -26,7 +27,7 @@ PAGES_DIR = "pages"
 STATIC_DIR = "static"
 STYLE_DIR = "styles"
 
-# I should really use a CSS templater/renderer, but this does everything I need.
+# I should really use a CSS templater/renderer, but this does everything I need
 # Same with HTML. Plus it was fun to write!
 CSS_IMPORT_REGEX = re.compile(r"@import '(?P<file>.+?)';")
 END_REGEX = re.compile(r"{% end %}")
@@ -247,6 +248,7 @@ class SiteGenerator:
         layout = self.layouts[layout_name]
 
         rendered = self._render_layout(layout, md)
+        rendered = self.postprocess(rendered)
 
         output_path = md_path.replace(self.markdown_dir, path).replace(
             ".md", ".html"
@@ -337,6 +339,9 @@ class SiteGenerator:
             raise ValueError("Unresolved variable in layout.")
 
         return rendered
+
+    def postprocess(self, html: str) -> str:
+        return move_footnotes_to_own_section(html)
 
     def _all_files_in_dir(self, path):
         files = []
