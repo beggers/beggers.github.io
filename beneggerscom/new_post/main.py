@@ -4,14 +4,10 @@ import os
 
 def main():
     title = input("Post title: ")
-    subtitle = input("Post subtitle: ")
     default_filename = title.lower().replace(" ", "-")
     filename = input(f"File name (default: {default_filename}): ")
     if not filename:
         filename = default_filename
-    tags = input("Tags: ").split(",")
-    for i in range(len(tags)):
-        tags[i] = tags[i].strip()
     date = input("Date (default: today): ")
     if not date:
         date = datetime.date.today().strftime("%Y-%m-%d")
@@ -26,9 +22,7 @@ def main():
         f.write(
             f"""---
 title: {title}
-subtitle: {subtitle}
 date: {date}
-tags: {tags}
 layout: post.html
 ---
 

@@ -1,8 +1,6 @@
 ---
 title: The Joy of Shipping
-slug: joy-of-shipping
 date: 2023-07-13
-tags: [software, website, productivity]
 ---
 
 Last February, I had a personal tragedy and decided to take a long break from tech (maybe I'll write more about it someday). I hiked the PCT then spent a few months traveling and visiting friends. As I get fully back into the groove of software engineering, I keep remembering something I somehow forgot: the joy of shipping fast and often[^1].
