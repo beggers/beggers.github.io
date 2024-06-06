@@ -146,7 +146,7 @@ class SiteGenerator:
     def _md_to_html(self, lines):
         return markdown.markdown(
             "".join(lines), extensions=["footnotes"]
-        ).replace("<hr />", "")
+        ).replace("<hr>", "")
 
     def ingest_layouts_directory(self, path):
         logging.info("Ingesting layouts directory %s", path)

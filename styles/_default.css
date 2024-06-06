@@ -1,17 +1,20 @@
 @import 'themes/solarized-dark.css';
 
 @import 'colors.css';
+@import 'content.css';
 @import 'footer.css';
 @import 'header.css';
 @import 'site-title.css';
 @import 'typography.css';
 
 html {
-    max-width: 52rem;
     margin: 1rem auto;
 }
 
 body {
+    display: grid;
+    grid-template-columns: 20% auto 15%;
+    grid-template-rows: 5% auto 5%;
     background-color: var(--bg);
     color: var(--fg);
     overflow-wrap: break-word;

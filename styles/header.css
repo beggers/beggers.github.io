@@ -1,6 +1,11 @@
+.page-header {
+    grid-column: 1;
+    grid-row: 2;
+}
+
 nav {
-    display: flex;
     align-items: baseline;
+    margin-left: 1rem;
 }
 
 .navigation {
@@ -8,8 +13,6 @@ nav {
 }
 
 .navigation ul {
-    display: flex;
-    flex-flow: row wrap;
     justify-content: flex-start;
     margin: 0;
     padding: 0;
@@ -19,7 +22,6 @@ nav {
 
 .navigation li {
     padding-top: 0.25rem;
-    margin-left: 1rem;
     text-transform: lowercase;
 }
 

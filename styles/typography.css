@@ -4,8 +4,8 @@
 }
 
 body {
-    font-family: var(--font-monospace);
-    font-size: 16px;
+    font-family: var(--font);
+    font-size: 20px;
     line-height: 1.5rem;
 }
 
@@ -90,6 +90,7 @@ h1:first-child {
 
 p {
     margin: 0 0 1.25rem 0;
+    max-width: 60ch;
 }
 
 a:link,
@@ -188,23 +189,6 @@ strong {
 mark {
     background-color: var(--highlight);
     color: var(--bg);
-}
-
-hr {
-    border: 0;
-    margin-top: 1.25rem;
-    margin-bottom: 1.25rem;
-}
-
-hr:before {
-    content: '---';
-    color: var(--muted);
-}
-
-hr:after {
-    content: '---';
-    color: var(--muted);
-    float: right;
 }
 
 table {
