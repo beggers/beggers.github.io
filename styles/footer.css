@@ -1,0 +1,8 @@
+footer {
+    color: var(--muted);
+}
+
+footer p {
+    margin: 0;
+    text-align: center;
+}

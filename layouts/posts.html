@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include head %}
+  </head>
+
+  <body class="page-body">
+    <div class="content">
+      <header class="page-header">
+        {% include header %}
+      </header>
+      <hr \>
+      <section class="content">
+        <h1 class="post-title">{% page['title'] %}</h1>
+        {% slot %}
+        {% include postlist %}
+      </section>
+      <footer class="page-footer">
+        {% include footer %}
+      </footer>
+    </div>
+  </body>
+</html>
