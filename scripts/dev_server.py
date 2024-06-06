@@ -52,20 +52,16 @@ class Handler(SimpleHTTPRequestHandler):
     content_dir = CONFIG["content_dir"] if CONFIG else "."
 
     def do_GET(self):
-        logging.info("=========================================")
         host = self.headers["Host"]
-        logging.info(f"GET {host}")
 
         resp, ext = find_file(host, self.content_dir)
         self.send_response(200)
 
         content_type = mime_types.extensions_to_types[ext]
-        logging.info(f"Content-Type: {content_type}")
         self.send_header("Content-type", content_type)
 
         self.end_headers()
         self.wfile.write(resp)
-        logging.info("")
 
 
 class ThreadingServer(ThreadingMixIn, HTTPServer):
