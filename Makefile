@@ -3,7 +3,7 @@ full: clean test content gen-tf deploy clear-caches
 
 .PHONY: gen-tf
 gen-tf:
-	python3 scripts/gen_tf.py
+	python3 -m beneggerscom.gen_tf.main
 
 .PHONY: clear-caches
 clear-caches:
@@ -19,7 +19,7 @@ clean:
 
 .PHONY: content
 content: clean
-	python3 scripts/ssg.py
+	python3 -m beneggerscom.ssg.main
 
 .PHONY: test
 test:
@@ -27,7 +27,7 @@ test:
 
 .PHONY: dev-content
 dev-server: clean
-	python3 scripts/ssg.py --dev && python3 scripts/dev_server.py
+	python3 -m beneggerscom.ssg.main --dev && python3 -m beneggerscom.dev_server.main
 
 # If it looks stupid but it works...
 .PHONY: dev
@@ -36,7 +36,7 @@ dev:
 
 .PHONY: post
 post:
-	python3 scripts/new_post.py
+	python3 -m beneggerscom.new_post.main
 
 .PHONY: output
 output:

@@ -2,7 +2,7 @@
 This script generates the requisite terrafrom to deploy the site.
 """
 
-import mime_types
+import beneggerscom.utils.mime_types as mime_types
 
 import json
 import os
@@ -156,7 +156,9 @@ def filename_to_subdomain_and_extension(filename):
     extension = filename.split(".")[-1]
     subdomain = filename.split(".")[:-1]
     if len(subdomain) != 1:
-        raise ValueError(f"Invalid filename (does it have a period in it?): {filename}")
+        raise ValueError(
+            f"Invalid filename (does it have a period in it?): {filename}"
+        )
     subdomain = subdomain[0]
     url = subdomain.replace(config["content_dir"], "").split("/")
     url = url[1:] if url[0] == "" else url

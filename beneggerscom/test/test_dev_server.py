@@ -1,4 +1,4 @@
-from dev_server import find_file
+from beneggerscom.dev_server import find_file
 
 import os
 import tempfile
