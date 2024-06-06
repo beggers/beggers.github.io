@@ -81,7 +81,7 @@ h3:before,
 h4:before,
 h5:before,
 h6:before {
-    color: var(--muted);
+    color: var(--muted-text);
 }
 
 h1:first-child {
@@ -95,7 +95,7 @@ p {
 
 a:link,
 a:visited {
-    color: var(--link);
+    color: var(--highlight);
 }
 
 a:hover,
@@ -123,7 +123,7 @@ ol ol {
 
 ul li::marker {
     content: '\2192\00A0';
-    color: var(--muted);
+    color: var(--muted-text);
 }
 
 dt {
@@ -153,7 +153,7 @@ blockquote::before {
     position: absolute;
     left: -1.5rem;
     content: ">";
-    color: var(--muted);
+    color: var(--muted-text);
 }
 
 pre,
@@ -166,12 +166,12 @@ samp {
 
 code:before {
     content: "`";
-    color: var(--muted);
+    color: var(--muted-text);
 }
 
 code:after {
     content: "`";
-    color: var(--muted);
+    color: var(--muted-text);
 }
 
 pre {

@@ -1,16 +1,9 @@
 :root {
-	--bg: var(--base00);
-	--off-bg: var(--base01);
+	--bg: #243a3c;
 
-	--fg: var(--base05);
-	--off-fg: var(--base04);
-	--muted: var(--base03);
-	--link: var(--base0D);
-	--hover: var(--base0C);
-	--highlight: var(--base0A);
-	--highlight2: var(--base0F);
-
-	--standout: var(--base06);
-
-	--header: var(--base0B);
+	--main-text: #d5d5d5;
+	--muted-text: #b8b8b8;
+	--highlight: #48ad7e;
+	--hover: #48ad7e;
+	--header: #48ad7e;
 }
