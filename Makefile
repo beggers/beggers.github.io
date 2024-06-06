@@ -26,12 +26,13 @@ test:
 	pytest
 
 .PHONY: dev-content
-dev-content: clean
-	python3 scripts/ssg.py --dev
+dev-server: clean
+	python3 scripts/ssg.py --dev && python3 scripts/dev_server.py
 
+# If it looks stupid but it works...
 .PHONY: dev
-dev: dev-content
-	python3 scripts/dev_server.py
+dev:
+	find . | grep -v public | entr -rz make dev-server
 
 .PHONY: post
 post:

@@ -10,7 +10,6 @@ Notes:
   - `site`: A dictionary of site metadata.
 """
 
-
 import argparse
 import json
 import logging
@@ -42,7 +41,13 @@ DEFAULT_DESCRIPTION = "No description specified for this page, sorry!"
 
 class SiteGenerator:
     def __init__(
-        self, hostname, title, description, protocol, default_layout, default_style
+        self,
+        hostname,
+        title,
+        description,
+        protocol,
+        default_layout,
+        default_style,
     ):
         self.site_config = {
             "url": hostname,
@@ -80,7 +85,9 @@ class SiteGenerator:
         if path in self.markdowns:
             raise ValueError("Markdown file already ingested.")
         if not path.endswith(".md"):
-            raise ValueError("Markdown file {} does not end with .md.".format(path))
+            raise ValueError(
+                "Markdown file {} does not end with .md.".format(path)
+            )
 
         with open(path, "r") as f:
             lines = f.readlines()
@@ -111,7 +118,10 @@ class SiteGenerator:
         else:
             if "title" not in page_data or not page_data["title"]:
                 page_data["title"] = (
-                    os.path.basename(path).replace(".md", "").replace("-", " ").title()
+                    os.path.basename(path)
+                    .replace(".md", "")
+                    .replace("-", " ")
+                    .title()
                 )
                 logging.warning("No title specified for %s", path)
             page_data["meta_title"] = (
@@ -134,7 +144,9 @@ class SiteGenerator:
         self.markdowns[path] = page_data
 
     def _md_to_html(self, lines):
-        return markdown.markdown("".join(lines)).replace("<hr />", "")
+        return markdown.markdown(
+            "".join(lines), extensions=["footnotes"]
+        ).replace("<hr />", "")
 
     def ingest_layouts_directory(self, path):
         logging.info("Ingesting layouts directory %s", path)
@@ -155,7 +167,9 @@ class SiteGenerator:
         # A layout is always either a page or a single named template.
         start_match = LAYOUT_DEF_REGEX.match(lines[0])
         if start_match:
-            logging.debug("Layout is a named template: %s", start_match.group("layout"))
+            logging.debug(
+                "Layout is a named template: %s", start_match.group("layout")
+            )
             partial_name = start_match.group("layout")
             end_match = LAYOUT_END_REGEX.match(lines[-1])
             if not end_match:
@@ -185,7 +199,9 @@ class SiteGenerator:
 
     def _ingest_style_file(self, path):
         if not path.endswith(".css"):
-            raise ValueError("Style file {} does not end with .css.".format(path))
+            raise ValueError(
+                "Style file {} does not end with .css.".format(path)
+            )
         with open(path, "r") as f:
             lines = f.readlines()
         logging.debug("Read lines %s", lines)
@@ -233,7 +249,9 @@ class SiteGenerator:
 
         rendered = self._render_layout(layout, md)
 
-        output_path = md_path.replace(self.markdown_dir, path).replace(".md", ".html")
+        output_path = md_path.replace(self.markdown_dir, path).replace(
+            ".md", ".html"
+        )
         logging.info("Writing to %s", output_path)
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         with open(output_path, "w") as f:
@@ -259,7 +277,9 @@ class SiteGenerator:
             partial_name = include.group("layout")
             if partial_name not in self.partials:
                 raise ValueError(f"Partial '{partial_name}' not found.")
-            rendered = rendered.replace(include.group(0), self.partials[partial_name])
+            rendered = rendered.replace(
+                include.group(0), self.partials[partial_name]
+            )
             include = LAYOUT_INCLUDE_REGEX.search(rendered)
 
         print(page["_content"])
@@ -284,12 +304,16 @@ class SiteGenerator:
                 current_loop_render = loop_content
                 m = VARIABLE_REGEX.search(current_loop_render)
                 while m:
-                    logging.debug("Rendering possibly loop variable %s", m.group(0))
+                    logging.debug(
+                        "Rendering possibly loop variable %s", m.group(0)
+                    )
 
                     e = eval(m.group("var"), eval_variables, {var: item})
                     logging.debug("Replacing %s with %s", m.group(0), e)
 
-                    current_loop_render = current_loop_render.replace(m.group(0), e)
+                    current_loop_render = current_loop_render.replace(
+                        m.group(0), e
+                    )
                     m = VARIABLE_REGEX.search(current_loop_render)
                 rendered_loop += current_loop_render
             logging.debug("Rendered loop: %s", rendered_loop)

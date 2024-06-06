@@ -19,10 +19,10 @@ def main():
         date = datetime.datetime.strptime(date, "%Y-%m-%d").strftime(
             "%Y-%m-%d"
         )
-    if os.path.exists(f"drafts/posts/{filename}.md"):
+    if os.path.exists(f"drafts/{filename}.md"):
         print("File already exists!")
         return
-    with open(f"drafts/posts/{filename}.md", "w") as f:
+    with open(f"drafts/{filename}.md", "w") as f:
         f.write(
             f"""---
 title: {title}
