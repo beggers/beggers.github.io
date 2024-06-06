@@ -209,7 +209,6 @@ class SiteGenerator:
 
     def render(self, path):
         logging.info("Rendering site to %s", path)
-        print(self.layouts.keys())
         if not self.static_dir:
             raise ValueError("No static directory set.")
         if not self.markdown_dir:
@@ -282,7 +281,6 @@ class SiteGenerator:
             )
             include = LAYOUT_INCLUDE_REGEX.search(rendered)
 
-        print(page["_content"])
         rendered = rendered.replace("{% slot %}", page["_content"])
 
         for_match = FOR_REGEX.search(rendered)
