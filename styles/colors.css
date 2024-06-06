@@ -1,9 +1,10 @@
 :root {
-	--bg: #243a3c;
+	--bg: #192829;
 
 	--main-text: #d5d5d5;
 	--muted-text: #b8b8b8;
-	--highlight: #48ad7e;
-	--hover: #48ad7e;
-	--header: #48ad7e;
+	--header: #7ccea8;
+	/* TODO */
+	--highlight: var(--header);
+	--hover: var(--header);
 }
