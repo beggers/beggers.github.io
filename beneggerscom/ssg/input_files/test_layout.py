@@ -9,10 +9,20 @@ def test_full_layout():
 """.strip().split(
         "\n"
     )
-    layout_file = LayoutFile.from_layout(layout)
-    print(layout_file.__dict__)
+    layout_file = LayoutFile.from_lines("", layout)
     assert not layout_file.partial
     assert not layout_file.name
+    assert layout_file.content == "<!DOCTYPE html>"
+
+
+def test_full_layout_with_name():
+    layout = """
+<!DOCTYPE html>
+""".strip().split(
+        "\n"
+    )
+    layout_file = LayoutFile.from_lines("name", layout)
+    assert layout_file.name == "name"
     assert layout_file.content == "<!DOCTYPE html>"
 
 
@@ -24,7 +34,7 @@ def test_partial_layout_raises_if_no_end():
         "\n"
     )
     with pytest.raises(ValueError):
-        LayoutFile.from_layout(layout)
+        LayoutFile.from_lines("", layout)
 
 
 def test_partial_layout_raises_if_no_match():
@@ -36,7 +46,7 @@ def test_partial_layout_raises_if_no_match():
         "\n"
     )
     with pytest.raises(ValueError):
-        LayoutFile.from_layout(layout)
+        LayoutFile.from_lines("", layout)
 
 
 def test_partial_layout():
@@ -47,8 +57,7 @@ def test_partial_layout():
 """.strip().split(
         "\n"
     )
-    layout_file = LayoutFile.from_layout(layout)
-    print(layout_file.__dict__)
+    layout_file = LayoutFile.from_lines("", layout)
     assert layout_file.partial
     assert layout_file.name == "test"
     assert layout_file.content == "<!DOCTYPE html>"

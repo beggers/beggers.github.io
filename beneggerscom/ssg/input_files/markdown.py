@@ -15,7 +15,7 @@ class MarkdownFile(InputFile):
     content: str = ""
 
     @classmethod
-    def from_markdown(
+    def from_lines(
         _cls, lines: list[str], base_site_title: str = "Ben Eggers dot com"
     ):
         markdown_file = MarkdownFile()

@@ -11,13 +11,14 @@ LAYOUT_END_REGEX = re.compile(r"{% end (?P<layout>.+?) %}")
 
 class LayoutFile(InputFile):
     content: str
-    name: Optional[str] = None
+    name: str
     # TODO: Separate partial class? Separate partial directory?
     partial: bool = False
 
     @classmethod
-    def from_layout(_cls, lines: list[str]):
+    def from_lines(_cls, default_name: str, lines: list[str]):
         layout_file = LayoutFile()
+        layout_file.name = default_name
         start_match = LAYOUT_DEF_REGEX.match(lines[0])
         if start_match:
             logging.debug(
@@ -35,7 +36,6 @@ class LayoutFile(InputFile):
             layout_file.partial = True
             logging.debug("Partial content: %s", layout_file.content)
         else:
-            print(lines)
             layout_file.content = "\n".join(lines)
             layout_file.partial = False
             logging.debug("Layout content: %s", layout_file.content)

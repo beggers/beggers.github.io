@@ -19,6 +19,8 @@ import shutil
 
 from beneggerscom.ssg.input_files.markdown import MarkdownFile
 from beneggerscom.ssg.input_files.layout import LayoutFile
+from beneggerscom.ssg.input_files.static import StaticFile
+from beneggerscom.ssg.input_files.style import StyleFile
 
 
 CONFIG_FILE = "config.json"
@@ -87,8 +89,7 @@ class SiteGenerator:
             logging.debug("Ingesting markdown file %s", filename)
 
             with open(filename, "r") as f:
-                md = MarkdownFile()
-                md.from_markdown(f.readlines())
+                md = MarkdownFile.from_lines(f.readlines())
                 self.markdowns[filename] = md
 
     def ingest_layouts_directory(self, path):
@@ -101,18 +102,19 @@ class SiteGenerator:
             logging.debug("Ingesting layout file %s", filename)
 
             with open(path, "r") as f:
-                layout = LayoutFile()
-                layout.from_layout(f.readlines())
+                default_layout_name = os.path.basename(filename)
+                layout = LayoutFile.from_lines(
+                    default_layout_name, f.readlines()
+                )
                 if layout.partial:
                     self.partials[layout.name] = layout
                 else:
-                    layout.name = os.path.basename(filename)
                     self.layouts[layout.name] = layout
 
     def ingest_static_directory(self, path):
         logging.info("Ingesting static directory %s", path)
         self.static_dir = path
-        self.statics = self._all_files_in_dir(path)
+        self.statics = [StaticFile(f) for f in self._all_files_in_dir(path)]
         logging.debug("Static files: %s", self.statics)
 
     def ingest_styles_directory(self, path):
@@ -120,16 +122,17 @@ class SiteGenerator:
         files = self._all_files_in_dir(path)
         for f in files:
             self._ingest_style_file(f)
-
-    def _ingest_style_file(self, path):
-        if not path.endswith(".css"):
-            raise ValueError(
-                "Style file {} does not end with .css.".format(path)
+            if not path.endswith(".css"):
+                raise ValueError(
+                    "Style file {} does not end with .css.".format(path)
+                )
+            with open(path, "r") as f:
+                lines = f.readlines()
+            logging.debug("Read lines %s", lines)
+            name = path.replace(self.styles_dir + "/", "")
+            self.styles[path.replace(self.styles_dir + "/", "")] = (
+                StyleFile.from_lines(name, lines)
             )
-        with open(path, "r") as f:
-            lines = f.readlines()
-        logging.debug("Read lines %s", lines)
-        self.styles[path.replace(self.styles_dir + "/", "")] = "".join(lines)
 
     def render(self, path):
         logging.info("Rendering site to %s", path)

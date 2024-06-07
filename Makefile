@@ -33,6 +33,10 @@ dev-content: clean
 server: dev-content
 	python3 -m beneggerscom.dev_server.main
 
+.PHONY: only-server
+only-server:
+	find . | grep -v public | grep -v -e "^\./\." | entr -rz python3 -m beneggerscom.dev_server.main
+
 # Reloads everything on any file changes, including content.
 .PHONY: dev
 dev:
