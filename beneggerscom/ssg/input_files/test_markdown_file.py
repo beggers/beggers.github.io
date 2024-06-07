@@ -1,6 +1,6 @@
 import pytest
 
-from beneggerscom.ssg.inputs.markdown_file import MarkdownFile
+from beneggerscom.ssg.input_files.markdown import MarkdownFile
 
 
 def test_title_and_meta_title():

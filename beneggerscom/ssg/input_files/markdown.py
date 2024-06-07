@@ -1,6 +1,6 @@
 import markdown
 
-from beneggerscom.ssg.inputs import InputFile
+from beneggerscom.ssg.input_files import InputFile
 
 import logging
 
@@ -60,19 +60,3 @@ class MarkdownFile(InputFile):
             self.meta_title = value
         else:
             raise ValueError(f"Unknown metadata key: {key}")
-
-
-class LayoutFile(InputFile):
-    name: str
-    content: str
-
-
-class StaticFile(InputFile):
-    # We don't need to store content -- we'll just copy all statics
-    # into the output directory on render.
-    pass
-
-
-class StyleFile(InputFile):
-    name: str
-    content: str

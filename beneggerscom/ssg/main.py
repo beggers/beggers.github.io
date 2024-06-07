@@ -13,12 +13,12 @@ Notes:
 import argparse
 import json
 import logging
-import markdown
 import os
 import re
 import shutil
 
-from beneggerscom.ssg.inputs.markdown_file import MarkdownFile
+from beneggerscom.ssg.input_files.markdown import MarkdownFile
+from beneggerscom.ssg.input_files.layout import LayoutFile
 
 
 CONFIG_FILE = "config.json"
@@ -78,14 +78,13 @@ class SiteGenerator:
         self.markdown_dir = path
         files = self._all_files_in_dir(path)
         for filename in files:
-            logging.debug("Ingesting markdown file %s", filename)
-
             if filename in self.markdowns:
                 raise ValueError("Markdown file already ingested.")
             if not filename.endswith(".md"):
                 raise ValueError(
                     "Markdown file {} does not end with .md.".format(filename)
                 )
+            logging.debug("Ingesting markdown file %s", filename)
 
             with open(filename, "r") as f:
                 md = MarkdownFile()
@@ -96,38 +95,19 @@ class SiteGenerator:
         logging.info("Ingesting layouts directory %s", path)
         self.layouts_dir = path
         files = self._all_files_in_dir(path)
-        for f in files:
-            logging.debug("Ingesting layout file %s", f)
-            self._ingest_layout_file(f)
+        for filename in files:
+            if filename in self.layouts:
+                raise ValueError("Layout file already ingested.")
+            logging.debug("Ingesting layout file %s", filename)
 
-    def _ingest_layout_file(self, path):
-        if path in self.layouts:
-            raise ValueError("Layout file already ingested.")
-
-        with open(path, "r") as f:
-            lines = f.readlines()
-        logging.debug("Read lines %s", lines)
-
-        # A layout is always either a page or a single named template.
-        start_match = LAYOUT_DEF_REGEX.match(lines[0])
-        if start_match:
-            logging.debug(
-                "Layout is a named template: %s", start_match.group("layout")
-            )
-            partial_name = start_match.group("layout")
-            end_match = LAYOUT_END_REGEX.match(lines[-1])
-            if not end_match:
-                raise ValueError("Layout definition does not end correctly.")
-            if end_match.group("layout") != partial_name:
-                raise ValueError("Layout name does not match end.")
-
-            content = "".join(lines[1:-1])
-            self.partials[partial_name] = content
-            logging.debug("Partial content: %s", content)
-        else:
-            content = "".join(lines)
-            self.layouts[os.path.basename(path)] = content
-            logging.debug("Layout content: %s", content)
+            with open(path, "r") as f:
+                layout = LayoutFile()
+                layout.from_layout(f.readlines())
+                if layout.partial:
+                    self.partials[layout.name] = layout
+                else:
+                    layout.name = os.path.basename(filename)
+                    self.layouts[layout.name] = layout
 
     def ingest_static_directory(self, path):
         logging.info("Ingesting static directory %s", path)
