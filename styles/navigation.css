@@ -8,18 +8,6 @@
     margin-right: 3vw;
 }
 
-.nav-sidebar ul {
-    margin: 0;
-    padding: 0;
-    padding-left: 1.5rem;
-    gap: 0rem 1.5rem;
-}
-
-.nav-sidebar li {
-    padding-top: 0.25rem;
-    text-transform: lowercase;
-}
-
 .nav-sidebar li::marker {
     content: "./";
 }
