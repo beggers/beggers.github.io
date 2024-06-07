@@ -14,7 +14,7 @@ body {
     display: grid;
     justify-content: center;
     grid-template-columns: 15% 60ch 15%;
-    grid-template-rows: 5% auto 10%;
+    grid-template-rows: 2rem auto 10%;
     background-color: var(--bg);
     color: var(--main-text);
     overflow-wrap: break-word;
