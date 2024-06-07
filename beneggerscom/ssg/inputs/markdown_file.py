@@ -1,3 +1,5 @@
+import markdown
+
 from beneggerscom.ssg.inputs import InputFile
 
 import logging
@@ -39,6 +41,9 @@ class MarkdownFile(InputFile):
             self.meta_title = self.title
             if base_site_title:
                 self.meta_title = self.meta_title + " | " + base_site_title
+
+    def content_as_html(self) -> str:
+        return markdown.markdown(self.content, extensions=["footnotes"])
 
     def _set_metadata_item(self, key: str, value: str):
         if key == "title":

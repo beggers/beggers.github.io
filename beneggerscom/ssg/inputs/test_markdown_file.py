@@ -162,3 +162,42 @@ nav: 4
     md = MarkdownFile()
     md.from_markdown(in_md)
     assert md.nav == 4
+
+
+def test_content_as_html_basic_paragraph():
+    in_md = """
+---
+title: Test title
+layout: about.html
+---
+Here's some content
+""".strip().split(
+        "\n"
+    )
+    md = MarkdownFile()
+    md.from_markdown(in_md)
+    assert md.content_as_html() == "<p>Here's some content</p>"
+
+
+def test_content_as_html_multiple_paragraphs():
+    in_md = """
+---
+title: Test title
+layout: about.html
+---
+Here's some content
+
+Here's some more
+""".strip().split(
+        "\n"
+    )
+    md = MarkdownFile()
+    md.from_markdown(in_md)
+    assert (
+        md.content_as_html()
+        == """<p>Here's some content</p>
+<p>Here's some more</p>"""
+    )
+
+
+# We're not going to test all the functionality of the markdown library.

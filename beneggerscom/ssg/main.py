@@ -18,6 +18,8 @@ import os
 import re
 import shutil
 
+from beneggerscom.ssg.inputs.markdown_file import MarkdownFile
+
 
 CONFIG_FILE = "config.json"
 LAYOUTS_DIR = "layouts"
@@ -75,76 +77,20 @@ class SiteGenerator:
         logging.info("Ingesting markdown directory %s", path)
         self.markdown_dir = path
         files = self._all_files_in_dir(path)
-        for f in files:
-            logging.debug("Ingesting markdown file %s", f)
-            self._ingest_md_file(f)
+        for filename in files:
+            logging.debug("Ingesting markdown file %s", filename)
 
-    def _ingest_md_file(self, path):
-        if path in self.markdowns:
-            raise ValueError("Markdown file already ingested.")
-        if not path.endswith(".md"):
-            raise ValueError(
-                "Markdown file {} does not end with .md.".format(path)
-            )
-
-        with open(path, "r") as f:
-            lines = f.readlines()
-        logging.debug("Read lines %s", lines)
-        if lines[0].strip() != "---":
-            raise ValueError(
-                "Markdown file {} does not begin with metadata.".format(path)
-            )
-
-        page_data = {}
-        metadata_end = 0
-        for i, line in enumerate(lines[1:]):
-            if line.strip() == "---":
-                metadata_end = i
-                break
-            key, value = line.split(":")
-            page_data[key.strip().lower()] = value.strip()
-        logging.debug("Metadata ends at line %d", metadata_end + 1)
-        logging.debug("Metadata: %s", page_data)
-
-        content = self._md_to_html(lines[metadata_end + 1 :])
-        page_data["_content"] = content
-
-        if path == os.path.join(self.markdown_dir, "index.md"):
-            page_data["description"] = self.site_config["description"]
-            page_data["title"] = self.site_config["title"]
-            page_data["meta_title"] = self.site_config["title"]
-        else:
-            if "title" not in page_data or not page_data["title"]:
-                page_data["title"] = (
-                    os.path.basename(path)
-                    .replace(".md", "")
-                    .replace("-", " ")
-                    .title()
+            if filename in self.markdowns:
+                raise ValueError("Markdown file already ingested.")
+            if not filename.endswith(".md"):
+                raise ValueError(
+                    "Markdown file {} does not end with .md.".format(filename)
                 )
-                logging.warning("No title specified for %s", path)
-            page_data["meta_title"] = (
-                page_data["title"] + " | " + self.site_config["title"]
-            )
-            if "description" not in page_data or not page_data["description"]:
-                page_data["description"] = DEFAULT_DESCRIPTION
-            logging.debug("Page description: %s", page_data["description"])
 
-        url = path.replace(self.markdown_dir, "")[:-3].split("/")
-        if url[-1] == "index":
-            url = url[:-1]
-        url.reverse()
-        url = ".".join(url) + self.site_config["url"]
-        if len(url) > 255:
-            raise ValueError(f"URL too long. {url}")
-        page_data["url"] = self.site_config["protocol"] + "://" + url
-        logging.debug("Page URL: %s", page_data["url"])
-
-        self.markdowns[path] = page_data
-
-    def _md_to_html(self, lines):
-        return markdown.markdown(
-            "".join(lines), extensions=["footnotes"]
-        ).replace("<hr>", "")
+            with open(filename, "r") as f:
+                md = MarkdownFile()
+                md.from_markdown(f.readlines())
+                self.markdowns[filename] = md
 
     def ingest_layouts_directory(self, path):
         logging.info("Ingesting layouts directory %s", path)
