@@ -3,7 +3,7 @@ import pytest
 from beneggerscom.ssg.inputs.markdown_file import MarkdownFile
 
 
-def test_markdown_file_title_and_meta_title():
+def test_title_and_meta_title():
     in_md = """
 ---
 title: Test title
@@ -17,7 +17,7 @@ title: Test title
     assert md.meta_title == "Test Title | Ben Eggers dot com"
 
 
-def test_markdown_file_raises_with_no_title():
+def test_raises_with_no_title():
     with pytest.raises(ValueError):
         in_md = """
 ---
@@ -29,7 +29,7 @@ def test_markdown_file_raises_with_no_title():
         md.from_markdown(in_md)
 
 
-def test_markdown_file_description():
+def test_description():
     in_md = """
 ---
 title: Test title
@@ -43,7 +43,7 @@ description: test description
     assert md.description == "test description"
 
 
-def test_markdown_file_manual_meta_title():
+def test_manual_meta_title():
     in_md = """
 ---
 title: Test title
@@ -58,7 +58,7 @@ meta_title: Test meta title
     assert md.meta_title == "Test meta title"
 
 
-def test_markdown_file_date():
+def test_date():
     in_md = """
 ---
 title: Test title
@@ -72,7 +72,7 @@ date: 2024-06-07
     assert md.date == "2024-06-07"
 
 
-def test_markdown_file_raises_with_unknown_metadata():
+def test_raises_with_unknown_metadata():
     with pytest.raises(ValueError):
         in_md = """
 ---
@@ -87,7 +87,7 @@ something_else: yeah
         md.from_markdown(in_md)
 
 
-def test_markdown_file_content():
+def test_content():
     in_md_meta = """
 ---
 title: Test title
@@ -107,3 +107,58 @@ Here's some more.
     md.from_markdown(in_md_meta + in_md_content)
     assert md.date == "2024-06-07"
     assert md.content == "\n".join(in_md_content)
+
+
+def test_layout():
+    in_md = """
+---
+title: Test title
+layout: about.html
+---
+""".strip().split(
+        "\n"
+    )
+    md = MarkdownFile()
+    md.from_markdown(in_md)
+    assert md.layout == "about.html"
+
+
+def test_nav_raises_if_not_int():
+    with pytest.raises(ValueError):
+        in_md = """
+---
+title: Test title
+nav: not an int
+---
+""".strip().split(
+            "\n"
+        )
+        md = MarkdownFile()
+        md.from_markdown(in_md)
+
+
+def test_nav_defaults_to_negative_one():
+    in_md = """
+---
+title: Test title
+---
+""".strip().split(
+        "\n"
+    )
+    md = MarkdownFile()
+    md.from_markdown(in_md)
+    assert md.nav == -1
+
+
+def test_nav_parses():
+    in_md = """
+---
+title: Test title
+nav: 4
+---
+""".strip().split(
+        "\n"
+    )
+    md = MarkdownFile()
+    md.from_markdown(in_md)
+    assert md.nav == 4

@@ -7,6 +7,8 @@ class MarkdownFile(InputFile):
     title: str = ""
     date: str = ""
     meta_title: str = ""
+    layout: str = ""
+    nav: int = -1
     description: str = ""
     content: str = ""
 
@@ -43,6 +45,10 @@ class MarkdownFile(InputFile):
             self.title = value.title()
         elif key == "date":
             self.date = value
+        elif key == "layout":
+            self.layout = value
+        elif key == "nav":
+            self.nav = int(value)
         elif key == "description":
             self.description = value
         elif key == "meta_title":
