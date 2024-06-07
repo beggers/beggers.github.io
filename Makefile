@@ -23,7 +23,7 @@ content: clean
 
 .PHONY: test
 test:
-	pytest -vv
+	find . | grep -v public | entr pytest
 
 .PHONY: dev-content
 dev-content: clean

@@ -23,7 +23,6 @@ def main():
             f"""---
 title: {title}
 date: {date}
-layout: post.html
 ---
 
 """

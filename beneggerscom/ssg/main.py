@@ -18,16 +18,13 @@ import os
 import re
 import shutil
 
-from beneggerscom.ssg.postprocess import (
-    add_footnote_class_to_footnote_paragraphs,
-)
-
 
 CONFIG_FILE = "config.json"
 LAYOUTS_DIR = "layouts"
 PAGES_DIR = "pages"
 STATIC_DIR = "static"
 STYLE_DIR = "styles"
+DRAFTS_DIR = "drafts"
 
 CSS_IMPORT_REGEX = re.compile(r"@import '(?P<file>.+?)';")
 END_REGEX = re.compile(r"{% end %}")
