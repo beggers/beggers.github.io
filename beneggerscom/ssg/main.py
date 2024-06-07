@@ -27,8 +27,6 @@ PAGES_DIR = "pages"
 STATIC_DIR = "static"
 STYLE_DIR = "styles"
 
-# I should really use a CSS templater/renderer, but this does everything I need
-# Same with HTML. Plus it was fun to write!
 CSS_IMPORT_REGEX = re.compile(r"@import '(?P<file>.+?)';")
 END_REGEX = re.compile(r"{% end %}")
 FOR_REGEX = re.compile(r"{% for (?P<var>.+?) in (?P<iter>.+?) %}")
@@ -288,11 +286,11 @@ class SiteGenerator:
         for_match = FOR_REGEX.search(rendered)
         loop_end = END_REGEX.search(rendered, for_match.end())
         while for_match:
-            logging.debug("Rendering for loop %s", for_match.group(0))
             if not loop_end:
                 raise ValueError(
                     "No end found for for loop starting at", for_match.group(0)
                 )
+            logging.debug("Rendering for loop %s", for_match.group(0))
             var = for_match.group("var")
             iterable = for_match.group("iter")
             loop_content = rendered[for_match.end() : loop_end.start()]

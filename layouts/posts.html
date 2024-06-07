@@ -3,20 +3,17 @@
   <head>
     {% include head %}
   </head>
-
   <body class="page-body">
-    <div class="content">
-      <header class="page-header">
-        {% include header %}
-      </header>
-      <section class="content">
-        <h1 class="post-title">{% page['title'] %}</h1>
-        {% slot %}
-        {% include postlist %}
-      </section>
-      <footer class="page-footer">
-        {% include footer %}
-      </footer>
-    </div>
+    <header class="page-header">
+      {% include header %}
+    </header>
+    <section class="content">
+      <h1 class="post-title">{% page['title'] %}</h1>
+      {% slot %}
+      {% include postlist %}
+    </section>
+    <footer class="page-footer">
+      {% include footer %}
+    </footer>
   </body>
 </html>
