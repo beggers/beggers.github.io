@@ -1,7 +1,6 @@
 from beneggerscom.ssg.input_files import InputFile
 
 import re
-from typing import Optional
 
 import logging
 
