@@ -23,7 +23,7 @@ content: clean
 
 .PHONY: test
 test:
-	find . | grep -v public | entr pytest
+	find . | grep -v public | grep -v -e "^\./\." | entr pytest
 
 .PHONY: dev-content
 dev-content: clean
@@ -36,7 +36,7 @@ server: dev-content
 # Reloads everything on any file changes, including content.
 .PHONY: dev
 dev:
-	find . | grep -v public | entr -rz make server
+	find . | grep -v public | grep -v -e "^\./\." | entr -rz make server
 
 .PHONY: post
 post:
