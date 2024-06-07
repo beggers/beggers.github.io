@@ -3,9 +3,7 @@ title: The Joy of Shipping
 date: 2023-07-13
 ---
 
-Last February, I had a personal tragedy and decided to take a long break from tech (maybe I'll write more about it someday). I hiked the PCT then spent a few months traveling and visiting friends. As I get fully back into the groove of software engineering, I keep remembering something I somehow forgot: the joy of shipping fast and often[^1].
-
-[^1]: Test footnote.
+Last February, I had a personal tragedy and decided to take a long break from tech (maybe I'll write more about it someday). I hiked the PCT then spent a few months traveling and visiting friends. As I get fully back into the groove of software engineering, I keep remembering something I somehow forgot: the joy of shipping fast and often.
 
 I think everybody who has ever struggled with a piece of code is familiar with what I call the "Student High", that jolt of dopamine and adrenaline one gets when the code finally, _finally_, works (I call it the Student High since it has gotten markedly less pronounced for me as I've gotten further and further out of school). But I'm not talking about the Student High, which is fleeting and fickle as a midsummer rain. I'm talking about the deeper, more sustained and sustainable feeling of contentment that comes from putting things you've created out into the world.
 

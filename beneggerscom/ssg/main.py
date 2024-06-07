@@ -18,7 +18,9 @@ import os
 import re
 import shutil
 
-from beneggerscom.ssg.postprocess import move_footnotes_to_own_section
+from beneggerscom.ssg.postprocess import (
+    add_footnote_class_to_footnote_paragraphs,
+)
 
 
 CONFIG_FILE = "config.json"
@@ -339,7 +341,7 @@ class SiteGenerator:
         return rendered
 
     def postprocess(self, html: str) -> str:
-        return move_footnotes_to_own_section(html)
+        return html
 
     def _all_files_in_dir(self, path):
         files = []

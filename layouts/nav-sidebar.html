@@ -1,7 +1,10 @@
-{% define header %}
-<nav class="navigation">
-  <h1 class="site-title"><a class="site-title-inner" href="{% site['protocol'] %}://{% site['url'] %}">{% site['title'].lower() %}</a></h1>
+{% define nav-sidebar %}
+<nav class="nav-sidebar">
   <ul>
+    <li class="nav-item">
+      <!-- TODO -->
+      <a href="http://localhost:8099" class="nav-link">home</a>
+    </li>
     {% for item in sorted([page for page in pages if page.get('nav', False)], key=lambda p: p['nav']) %}
     <li class="nav-item">
       <a href="{% item['url'] %}" class="nav-link">{% item['title'].lower() %}</a>
@@ -9,4 +12,4 @@
     {% end %}
   </ul>
 </nav>
-{% end header %}
+{% end nav-sidebar %}
