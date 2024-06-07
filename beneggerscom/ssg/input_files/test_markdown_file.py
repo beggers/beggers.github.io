@@ -11,8 +11,7 @@ title: Test title
 """.strip().split(
         "\n"
     )
-    md = MarkdownFile()
-    md.from_markdown(in_md)
+    md = MarkdownFile.from_markdown(in_md)
     assert md.title == "Test Title"
     assert md.meta_title == "Test Title | Ben Eggers dot com"
 
@@ -25,8 +24,7 @@ def test_raises_with_no_title():
 """.strip().split(
             "\n"
         )
-        md = MarkdownFile()
-        md.from_markdown(in_md)
+        MarkdownFile.from_markdown(in_md)
 
 
 def test_description():
@@ -38,8 +36,7 @@ description: test description
 """.strip().split(
         "\n"
     )
-    md = MarkdownFile()
-    md.from_markdown(in_md)
+    md = MarkdownFile.from_markdown(in_md)
     assert md.description == "test description"
 
 
@@ -52,8 +49,7 @@ meta_title: Test meta title
 """.strip().split(
         "\n"
     )
-    md = MarkdownFile()
-    md.from_markdown(in_md)
+    md = MarkdownFile.from_markdown(in_md)
     assert md.title == "Test Title"
     assert md.meta_title == "Test meta title"
 
@@ -67,8 +63,7 @@ date: 2024-06-07
 """.strip().split(
         "\n"
     )
-    md = MarkdownFile()
-    md.from_markdown(in_md)
+    md = MarkdownFile.from_markdown(in_md)
     assert md.date == "2024-06-07"
 
 
@@ -83,8 +78,7 @@ something_else: yeah
 """.strip().split(
             "\n"
         )
-        md = MarkdownFile()
-        md.from_markdown(in_md)
+        MarkdownFile.from_markdown(in_md)
 
 
 def test_content():
@@ -103,8 +97,7 @@ Here's some more.
 """.strip().split(
         "\n"
     )
-    md = MarkdownFile()
-    md.from_markdown(in_md_meta + in_md_content)
+    md = MarkdownFile.from_markdown(in_md_meta + in_md_content)
     assert md.date == "2024-06-07"
     assert md.content == "\n".join(in_md_content)
 
@@ -118,8 +111,7 @@ layout: about.html
 """.strip().split(
         "\n"
     )
-    md = MarkdownFile()
-    md.from_markdown(in_md)
+    md = MarkdownFile.from_markdown(in_md)
     assert md.layout == "about.html"
 
 
@@ -133,8 +125,7 @@ nav: not an int
 """.strip().split(
             "\n"
         )
-        md = MarkdownFile()
-        md.from_markdown(in_md)
+        MarkdownFile.from_markdown(in_md)
 
 
 def test_nav_defaults_to_negative_one():
@@ -145,8 +136,7 @@ title: Test title
 """.strip().split(
         "\n"
     )
-    md = MarkdownFile()
-    md.from_markdown(in_md)
+    md = MarkdownFile.from_markdown(in_md)
     assert md.nav == -1
 
 
@@ -159,8 +149,7 @@ nav: 4
 """.strip().split(
         "\n"
     )
-    md = MarkdownFile()
-    md.from_markdown(in_md)
+    md = MarkdownFile.from_markdown(in_md)
     assert md.nav == 4
 
 
@@ -174,8 +163,7 @@ Here's some content
 """.strip().split(
         "\n"
     )
-    md = MarkdownFile()
-    md.from_markdown(in_md)
+    md = MarkdownFile.from_markdown(in_md)
     assert md.content_as_html() == "<p>Here's some content</p>"
 
 
@@ -191,8 +179,7 @@ Here's some more
 """.strip().split(
         "\n"
     )
-    md = MarkdownFile()
-    md.from_markdown(in_md)
+    md = MarkdownFile.from_markdown(in_md)
     assert (
         md.content_as_html()
         == """<p>Here's some content</p>

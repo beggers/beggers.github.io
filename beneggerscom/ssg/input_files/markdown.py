@@ -14,9 +14,11 @@ class MarkdownFile(InputFile):
     description: str = ""
     content: str = ""
 
+    @classmethod
     def from_markdown(
-        self, lines: list[str], base_site_title: str = "Ben Eggers dot com"
+        _cls, lines: list[str], base_site_title: str = "Ben Eggers dot com"
     ):
+        markdown_file = MarkdownFile()
         logging.debug("Read lines %s", lines)
         if lines[0].strip() != "---":
             raise ValueError("Lines do not begin with metadata marker (---).")
@@ -28,19 +30,24 @@ class MarkdownFile(InputFile):
                 metadata_end = i + 1
                 break
             key, value = line.split(":")
-            self._set_metadata_item(key.strip().lower(), value.strip())
+            markdown_file._set_metadata_item(
+                key.strip().lower(), value.strip()
+            )
         logging.debug("Metadata ends at line %d", metadata_end + 1)
-        logging.debug("Self after metadata ingest: %s", self)
+        logging.debug("markdown_file after metadata ingest: %s", markdown_file)
 
         # Add one because the start index is inclusive
-        self.content = "\n".join(lines[metadata_end + 1 :])
+        markdown_file.content = "\n".join(lines[metadata_end + 1 :])
 
-        if not self.title:
-            raise ValueError(f"No title for file. Parsed {self}")
-        if not self.meta_title:
-            self.meta_title = self.title
+        if not markdown_file.title:
+            raise ValueError(f"No title for file. Parsed {markdown_file}")
+        if not markdown_file.meta_title:
+            markdown_file.meta_title = markdown_file.title
             if base_site_title:
-                self.meta_title = self.meta_title + " | " + base_site_title
+                markdown_file.meta_title = (
+                    markdown_file.meta_title + " | " + base_site_title
+                )
+        return markdown_file
 
     def content_as_html(self) -> str:
         return markdown.markdown(self.content, extensions=["footnotes"])
