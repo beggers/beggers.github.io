@@ -52,8 +52,8 @@ class SiteGenerator:
         self.styles_dir: Optional[str] = None
         # Style name -> StyleFile
         self.styles: dict[str, StyleFile] = {}
-        # Style name -> rendered CSS suitable for direct inclusion into HTML
-        self.rendered_styles: dict[str, str] = {}
+        # Style name -> materialized CSS suitable for direct inclusion in HTML
+        self.materialized_styles: dict[str, str] = {}
 
     def ingest_markdown_directory(self, path: str) -> None:
         logging.info("Ingesting markdown directory %s", path)
@@ -129,15 +129,17 @@ class SiteGenerator:
         if not self.styles_dir:
             raise ValueError("No styles directory set.")
 
-        self._render_styles()
+        self._materialize_styles()
         for md_path, md in self.markdowns.items():
             logging.debug("Rendering markdown file %s", md_path)
             self._render_page(md_path, md, path)
         self._copy_statics(path)
 
-    def _render_styles(self) -> None:
+    def _materialize_styles(self) -> None:
         for style_name, style in self.styles.items():
-            self.rendered_styles[style_name] = style.render(self.styles)
+            self.materialized_styles[
+                style_name
+            ] = style.materialize(self.styles)
 
     def _copy_statics(self, path: str) -> None:
         if not self.static_dir:

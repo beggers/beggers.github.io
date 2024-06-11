@@ -50,10 +50,10 @@ class LayoutFile(InputFile):
             partial_name = include.group("layout")
             if partial_name not in partials:
                 raise ValueError(f"Partial '{partial_name}' not found.")
+            # TODO Recursion limit
+            # TODO This unnecessarily renders partials multiple times.
             rendered = rendered.replace(
                 include.group(0),
-                # TODO Recursion limit
-                # TODO This unnecessarily renders partials multiple times.
                 partials[partial_name]._render_partials(partials)
             )
             include = LAYOUT_INCLUDE_REGEX.search(rendered)

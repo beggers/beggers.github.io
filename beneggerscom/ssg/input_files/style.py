@@ -19,22 +19,19 @@ class StyleFile(InputFile):
         style_file.content = "\n".join(lines)
         return style_file
 
-    def render(self, styles: dict[str, StyleFile]) -> str:
-        logging.debug("Rendering style %s", self.name)
-        rendered = self.content
-        match = CSS_IMPORT_REGEX.search(rendered)
+    def materialize(self, styles: dict[str, StyleFile]) -> str:
+        logging.debug("Materializing style %s", self.name)
+        materialized = self.content
+        match = CSS_IMPORT_REGEX.search(materialized)
         while match:
-            logging.debug("Rendering import %s", match.group("file"))
+            logging.debug("materializing import %s", match.group("file"))
             file = match.group("file")
             if file not in styles:
                 raise ValueError(f"Style '{file}' not found.")
-            rendered = rendered.replace(
-                # TODO this may wastefully re-render a style multiple times.
-                # We _should_ build the style DAG and render each style once.
-                # But this doesn't matter at all at our scale.
-                #
-                # TODO handle circular imports
-                match.group(0), styles[file].render(styles)
+            materialized = materialized.replace(
+                # TODO recursion limit.
+                # TODO this unnecessarily materializs imports multiple times.
+                match.group(0), styles[file].materialize(styles)
             )
-            match = CSS_IMPORT_REGEX.search(rendered)
-        return rendered
+            match = CSS_IMPORT_REGEX.search(materialized)
+        return materialized

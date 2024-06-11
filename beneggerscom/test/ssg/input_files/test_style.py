@@ -16,7 +16,7 @@ body {
     )
 
 
-def test_style_file_render_with_no_imports():
+def test_style_file_materialize_with_no_imports():
     style = """
 body {
     font-family: Arial, sans-serif;
@@ -25,10 +25,10 @@ body {
         "\n"
     )
     style_file = StyleFile.from_lines("style.css", style)
-    assert style_file.render({}) == style_file.content
+    assert style_file.materialize({}) == style_file.content
 
 
-def test_style_file_render_with_one_level_of_imports():
+def test_style_file_materialize_with_one_level_of_imports():
     style = """
 @import 'other.css';
 body {
@@ -46,8 +46,8 @@ h1 {
     )
     style_file = StyleFile.from_lines("style.css", style)
     other_style_file = StyleFile.from_lines("other.css", other_style)
-    rendered = style_file.render({"other.css": other_style_file})
-    assert "".join(rendered.split()) == "".join("""
+    materialized = style_file.materialize({"other.css": other_style_file})
+    assert "".join(materialized.split()) == "".join("""
 h1 {
     color: red;
 }
@@ -58,7 +58,7 @@ body {
     )
 
 
-def test_style_file_render_with_two_levels_of_imports():
+def test_style_file_materialize_with_two_levels_of_imports():
     style = """
 @import 'other.css';
 body {
@@ -85,10 +85,10 @@ h2 {
     style_file = StyleFile.from_lines("style.css", style)
     other_style_file = StyleFile.from_lines("other.css", other_style)
     another_style_file = StyleFile.from_lines("another.css", another_style)
-    rendered = style_file.render(
+    materialized = style_file.materialize(
         {"other.css": other_style_file, "another.css": another_style_file}
     )
-    assert "".join(rendered.split()) == "".join("""
+    assert "".join(materialized.split()) == "".join("""
 h2 {
     font-weight: bold;
 }
