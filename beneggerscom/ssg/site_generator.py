@@ -10,12 +10,8 @@ from beneggerscom.ssg.input_files.style import StyleFile
 import logging
 
 
-CSS_IMPORT_REGEX = re.compile(r"@import '(?P<file>.+?)';")
 END_REGEX = re.compile(r"{% end %}")
 FOR_REGEX = re.compile(r"{% for (?P<var>.+?) in (?P<iter>.+?) %}")
-LAYOUT_DEF_REGEX = re.compile(r"{% define (?P<layout>.+?) %}")
-LAYOUT_END_REGEX = re.compile(r"{% end (?P<layout>.+?) %}")
-LAYOUT_INCLUDE_REGEX = re.compile(r"{% include (?P<layout>.+?) %}")
 VARIABLE_REGEX = re.compile(r"{% (?P<var>.+?) %}")
 
 DEFAULT_DESCRIPTION = "No description specified for this page, sorry!"
@@ -111,7 +107,7 @@ class SiteGenerator:
                 )
             with open(filename, "r") as f:
                 name = path.replace(self.styles_dir + "/", "")
-                self.styles[path.replace(self.styles_dir + "/", "")] = (
+                self.styles[name] = (
                     StyleFile.from_lines(name, f.readlines())
                 )
 
@@ -180,17 +176,6 @@ class SiteGenerator:
             self.rendered_styles[self.site_config["default_style"]],
         )
         logging.debug("Eval variables: %s", eval_variables)
-
-        include = LAYOUT_INCLUDE_REGEX.search(rendered)
-        while include:
-            logging.debug("Rendering include %s", include.group("layout"))
-            partial_name = include.group("layout")
-            if partial_name not in self.partials:
-                raise ValueError(f"Partial '{partial_name}' not found.")
-            rendered = rendered.replace(
-                include.group(0), self.partials[partial_name]
-            )
-            include = LAYOUT_INCLUDE_REGEX.search(rendered)
 
         rendered = rendered.replace("{% slot %}", page["_content"])
 

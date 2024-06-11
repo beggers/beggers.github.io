@@ -1,9 +1,11 @@
-from beneggerscom.ssg.input_files import InputFile
-
+from __future__ import annotations
 import re
+
+from beneggerscom.ssg.input_files import InputFile
 
 import logging
 
+LAYOUT_INCLUDE_REGEX = re.compile(r"{% include (?P<layout>.+?) %}")
 LAYOUT_DEF_REGEX = re.compile(r"{% define (?P<layout>.+?) %}")
 LAYOUT_END_REGEX = re.compile(r"{% end (?P<layout>.+?) %}")
 
@@ -39,3 +41,25 @@ class LayoutFile(InputFile):
             layout_file.partial = False
             logging.debug("Layout content: %s", layout_file.content)
         return layout_file
+
+    def _render_partials(self, partials: dict[str, LayoutFile]) -> str:
+        rendered = self.content
+        include = LAYOUT_INCLUDE_REGEX.search(rendered)
+        while include:
+            logging.debug("Rendering include %s", include.group("layout"))
+            partial_name = include.group("layout")
+            if partial_name not in partials:
+                raise ValueError(f"Partial '{partial_name}' not found.")
+            rendered = rendered.replace(
+                include.group(0),
+                # TODO Recursion limit
+                # TODO This unnecessarily renders partials multiple times.
+                partials[partial_name]._render_partials(partials)
+            )
+            include = LAYOUT_INCLUDE_REGEX.search(rendered)
+        rendered_content = self.content
+        for partial_name, partial in partials.items():
+            rendered_content = rendered_content.replace(
+                f"{{% include {partial_name} %}}", partial.content
+            )
+        return rendered_content
