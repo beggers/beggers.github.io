@@ -1,6 +1,5 @@
 from __future__ import annotations
 import re
-from typing import Optional
 
 from beneggerscom.ssg.input_files import InputFile
 
@@ -12,7 +11,6 @@ CSS_IMPORT_REGEX = re.compile(r"@import '(?P<file>.+?)';")
 class StyleFile(InputFile):
     name: str
     content: str
-    rendered_content: Optional[str] = None
 
     @classmethod
     def from_lines(cls, name: str, lines: list[str]):
@@ -31,8 +29,12 @@ class StyleFile(InputFile):
             if file not in styles:
                 raise ValueError(f"Style '{file}' not found.")
             rendered = rendered.replace(
+                # TODO this may wastefully re-render a style multiple times.
+                # We _should_ build the style DAG and render each style once.
+                # But this doesn't matter at all at our scale.
+                #
+                # TODO handle circular imports
                 match.group(0), styles[file].render(styles)
             )
             match = CSS_IMPORT_REGEX.search(rendered)
-        self.rendered_content = rendered
         return rendered

@@ -45,14 +45,19 @@ class SiteGenerator:
         self.statics: list[str] = []
 
         self.markdown_dir: Optional[str] = None
+        # Full path -> MarkdownFile
         self.markdowns: dict[str, MarkdownFile] = {}
 
         self.layouts_dir: Optional[str] = None
+        # Layout name -> LayoutFile
         self.layouts: dict[str, LayoutFile] = {}
         self.partials: dict[str, LayoutFile] = {}
 
         self.styles_dir: Optional[str] = None
+        # Style name -> StyleFile
         self.styles: dict[str, StyleFile] = {}
+        # Style name -> rendered CSS suitable for direct inclusion into HTML
+        self.rendered_styles: dict[str, str] = {}
 
     def ingest_markdown_directory(self, path: str) -> None:
         logging.info("Ingesting markdown directory %s", path)
@@ -135,8 +140,8 @@ class SiteGenerator:
         self._copy_statics(path)
 
     def _render_styles(self) -> None:
-        for style in self.styles.values():
-            style.render(self.styles)
+        for style_name, style in self.styles.items():
+            self.rendered_styles[style_name] = style.render(self.styles)
 
     def _copy_statics(self, path: str) -> None:
         if not self.static_dir:
