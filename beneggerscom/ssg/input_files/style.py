@@ -1,3 +1,4 @@
+from __future__ import annotations
 import re
 from typing import Optional
 
@@ -20,7 +21,7 @@ class StyleFile(InputFile):
         style_file.content = "\n".join(lines)
         return style_file
 
-    def render(self, styles: dict[str, InputFile]) -> str:
+    def render(self, styles: dict[str, StyleFile]) -> str:
         logging.debug("Rendering style %s", self.name)
         rendered = self.content
         match = CSS_IMPORT_REGEX.search(rendered)

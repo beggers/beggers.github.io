@@ -37,7 +37,6 @@ if __name__ == "__main__":
     with ThreadingServer(
         (CONFIG["dev_hostname"], CONFIG["dev_port"]), Handler
     ) as server:
-        server.content_dir = CONFIG["content_dir"]
         logging.info(
             "Server started http://%s:%s"
             % (CONFIG["dev_hostname"], CONFIG["dev_port"])
