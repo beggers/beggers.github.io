@@ -53,7 +53,6 @@ class SiteGenerator:
 
         self.styles_dir = None
         self.styles = {}
-        self.rendered_styles = {}
 
     def ingest_markdown_directory(self, path):
         logging.info("Ingesting markdown directory %s", path)
@@ -114,6 +113,13 @@ class SiteGenerator:
                 StyleFile.from_lines(name, lines)
             )
 
+    def _all_files_in_dir(self, path):
+        files = []
+        for root, _, fs in os.walk(path):
+            for f in fs:
+                files.append(os.path.join(root, f))
+        return files
+
     def render(self, path):
         logging.info("Rendering site to %s", path)
         if not self.static_dir:
@@ -125,26 +131,21 @@ class SiteGenerator:
         if not self.styles_dir:
             raise ValueError("No styles directory set.")
 
-        for static in self.statics:
-            logging.debug("Copying static file %s", static)
-            shutil.copy(static, static.replace(self.static_dir, path))
-
-        for style_path, style in self.styles.items():
-            logging.debug("Rendering style %s", style)
-            rendered = style
-            match = CSS_IMPORT_REGEX.search(rendered)
-            while match:
-                logging.debug("Rendering import %s", match.group("file"))
-                file = match.group("file")
-                if file not in self.styles:
-                    raise ValueError(f"Style '{file}' not found.")
-                rendered = rendered.replace(match.group(0), self.styles[file])
-                match = CSS_IMPORT_REGEX.search(rendered)
-            self.rendered_styles[style_path] = rendered
-
+        self._render_styles()
         for md_path, md in self.markdowns.items():
             logging.debug("Rendering markdown file %s", md_path)
             self._render_page(md_path, md, path)
+        self._copy_statics(path)
+
+    def _render_styles(self):
+        for style in self.styles.values():
+            style.render(self.styles)
+
+    def _copy_statics(self, path):
+        for static in self.statics:
+            static_path = static.filepath
+            logging.debug("Copying static file %s", static_path)
+            shutil.copy(static_path, static.replace(self.static_dir, path))
 
     def _render_page(self, md_path, md, path):
         layout_name = md.get("layout", self.site_config["default_layout"])
@@ -200,7 +201,7 @@ class SiteGenerator:
             logging.debug("Rendering for loop %s", for_match.group(0))
             var = for_match.group("var")
             iterable = for_match.group("iter")
-            loop_content = rendered[for_match.end() : loop_end.start()]
+            loop_content = rendered[for_match.end(): loop_end.start()]
             logging.debug("Loop content: %s", loop_content)
 
             rendered_loop = ""
@@ -225,7 +226,7 @@ class SiteGenerator:
             rendered = (
                 rendered[: for_match.start()]
                 + rendered_loop
-                + rendered[loop_end.end() :]
+                + rendered[loop_end.end():]
             )
 
             for_match = FOR_REGEX.search(rendered, loop_end.end())
@@ -244,10 +245,3 @@ class SiteGenerator:
             raise ValueError("Unresolved variable in layout.")
 
         return rendered
-
-    def _all_files_in_dir(self, path):
-        files = []
-        for root, _, fs in os.walk(path):
-            for f in fs:
-                files.append(os.path.join(root, f))
-        return files

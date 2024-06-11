@@ -4,7 +4,7 @@ import os
 import tempfile
 
 
-def _set_up_test_files(files: list) -> str:
+def _set_up_test_files(files: list[str]) -> tempfile.TemporaryDirectory:
     tmpdir = tempfile.TemporaryDirectory()
     for filename in files:
         fullpath = os.path.join(tmpdir.name, filename)
@@ -14,8 +14,8 @@ def _set_up_test_files(files: list) -> str:
     return tmpdir
 
 
-def _set_up_and_test_files(files_and_routes: dict) -> str:
-    tmpdir = _set_up_test_files(files_and_routes.keys())
+def _set_up_and_test_files(files_and_routes: dict):
+    tmpdir = _set_up_test_files(list(files_and_routes.keys()))
     for filename in files_and_routes:
         b, t = find_file(files_and_routes[filename], tmpdir.name)
         assert b == filename.encode()

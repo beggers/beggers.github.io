@@ -37,7 +37,7 @@ class MarkdownFile(InputFile):
         logging.debug("markdown_file after metadata ingest: %s", markdown_file)
 
         # Add one because the start index is inclusive
-        markdown_file.content = "\n".join(lines[metadata_end + 1 :])
+        markdown_file.content = "\n".join(lines[metadata_end + 1:])
 
         if not markdown_file.title:
             raise ValueError(f"No title for file. Parsed {markdown_file}")
