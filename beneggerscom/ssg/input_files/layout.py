@@ -41,25 +41,3 @@ class LayoutFile(InputFile):
             layout_file.partial = False
             logging.debug("Layout content: %s", layout_file.content)
         return layout_file
-
-    def _render_partials(self, partials: dict[str, LayoutFile]) -> str:
-        rendered = self.content
-        include = LAYOUT_INCLUDE_REGEX.search(rendered)
-        while include:
-            logging.debug("Rendering include %s", include.group("layout"))
-            partial_name = include.group("layout")
-            if partial_name not in partials:
-                raise ValueError(f"Partial '{partial_name}' not found.")
-            # TODO Recursion limit
-            # TODO This unnecessarily renders partials multiple times.
-            rendered = rendered.replace(
-                include.group(0),
-                partials[partial_name]._render_partials(partials)
-            )
-            include = LAYOUT_INCLUDE_REGEX.search(rendered)
-        rendered_content = self.content
-        for partial_name, partial in partials.items():
-            rendered_content = rendered_content.replace(
-                f"{{% include {partial_name} %}}", partial.content
-            )
-        return rendered_content
