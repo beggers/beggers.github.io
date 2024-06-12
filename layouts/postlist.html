@@ -1,6 +1,6 @@
 {% define postlist %}
 <ul class="post-list">
-  {% for post in reversed(sorted([page for page in pages if page.url.find(".posts") != -1], key=lambda p: p.date)) %}
+  {% for post in posts %}
   <li class="post-list-item">
     <a class="page-title" href="{% post.url %}">{% post.title.lower() %}</a>
   </li>

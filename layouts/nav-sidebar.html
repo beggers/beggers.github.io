@@ -1,9 +1,6 @@
 {% define nav-sidebar %}
 <nav class="nav-sidebar">
   <ul>
-    <li class="nav-item">
-      <a href="{% protocol %}://{% base_url %}" class="nav-link">home</a>
-    </li>
     {% for item in sorted([page for page in pages if page.nav != -1], key=lambda p: p.nav) %}
     <li class="nav-item">
       <a href="{% item.url %}" class="nav-link">{% item.title.lower() %}</a>

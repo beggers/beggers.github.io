@@ -126,6 +126,20 @@ class SiteGenerator:
                 files.append(os.path.join(root, f))
         return files
 
+    def _posts_from_pages(self) -> list[Page]:
+        return [
+            p for p in
+            reversed(
+                sorted(
+                    [
+                        page for page in self.pages
+                        if page.url.find(".posts.") != -1
+                    ],
+                    key=lambda p: p.date
+                )
+            )
+        ]
+
     def render(self, path: str) -> None:
         logging.info("Rendering site to %s", path)
         if not self.static_dir:
@@ -191,6 +205,7 @@ class SiteGenerator:
                 self.site_config["protocol"],
                 self.partials,
                 self.pages,
+                self._posts_from_pages(),
             )
 
     def _flush_pages(self) -> None:

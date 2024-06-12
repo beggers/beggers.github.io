@@ -54,6 +54,7 @@ def base_eval_context():
     e.base_url = "example.com"
     e.protocol = "https"
     e.pages = []
+    e.posts = []
     e.page = None
     e.slot = ""
     return e

@@ -24,6 +24,7 @@ class EvalContext:
     base_url: str
     protocol: str
     pages: list[Page]
+    posts: list[Page]
     page: Page
     # HTML to hydrate
     slot: str
@@ -33,6 +34,7 @@ class EvalContext:
             "base_url": self.base_url,
             "protocol": self.protocol,
             "pages": self.pages,
+            "posts": self.posts,
             "page": self.page,
             "slot": self.slot,
         }
@@ -76,12 +78,14 @@ class Page:
                base_url: str,
                protocol: str,
                partials: dict[str, LayoutFile],
-               pages: list[Page]
+               pages: list[Page],
+               posts: list[Page]
                ) -> None:
         eval_context = EvalContext()
         eval_context.base_url = base_url
         eval_context.protocol = protocol
         eval_context.pages = pages
+        eval_context.posts = posts
         eval_context.page = self
         eval_context.slot = self._md.content_as_html()
 

@@ -319,7 +319,7 @@ def test_render_for_loop_in_if(valid_md_file):
     )
     layout_file = LayoutFile.from_lines("", layout)
     page = Page(valid_md_file, layout_file, "", "", "")
-    page.render("localhost", "http", {}, [page, page, page])
+    page.render("localhost", "http", {}, [page, page, page], "")
     assert (
         "".join(page._rendered_content.split('\n'))
         == "".join("<!DOCTYPE html>TestTestTest")
@@ -342,7 +342,7 @@ SHOULD NOT APPEAR
     )
     layout_file = LayoutFile.from_lines("", layout)
     page = Page(valid_md_file, layout_file, "", "", "")
-    page.render("localhost", "http", {}, [page, page, page])
+    page.render("localhost", "http", {}, [page, page, page], "")
     assert (
         "".join(page._rendered_content.split('\n'))
         == "".join("<!DOCTYPE html>TestTestTest")
@@ -363,7 +363,7 @@ def test_render_with_all(valid_md_file):
     layout_file = LayoutFile.from_lines("", layout)
     valid_md_file.date = "2021-01-01"
     page = Page(valid_md_file, layout_file, "", "", "")
-    page.render("localhost", "http", {}, [page, page, page])
+    page.render("localhost", "http", {}, [page, page, page], "")
     assert (
         "".join(page._rendered_content.split('\n'))
         == "".join("<!DOCTYPE html>TestTestTestTestlocalhost")
@@ -378,7 +378,7 @@ def test_render_includes_markdown_as_html(valid_md_file):
     )
     layout_file = LayoutFile.from_lines("", layout)
     page = Page(valid_md_file, layout_file, "", "", "")
-    page.render("localhost", "http", {}, [page])
+    page.render("localhost", "http", {}, [page], "")
     assert (
         "".join(page._rendered_content.split('\n'))
         == "".join("<p>Here's a paragraph</p>")

@@ -43,6 +43,8 @@ class MarkdownFile(InputFile):
 
         if not markdown_file.title:
             raise ValueError(f"No title for file. Parsed {markdown_file}")
+        if markdown_file.meta_title == "_base":
+            markdown_file.meta_title = base_site_title
         if not markdown_file.meta_title:
             markdown_file.meta_title = markdown_file.title
             if base_site_title:
