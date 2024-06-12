@@ -245,7 +245,7 @@ def test_render_variables_multiple_variables(valid_md_file, base_eval_context):
     )
 
 
-def test_render_with_all(valid_md_file, base_eval_context):
+def test_render_with_all(valid_md_file):
     layout = """
 <!DOCTYPE html>
 {% page.title %}
@@ -260,14 +260,26 @@ def test_render_with_all(valid_md_file, base_eval_context):
     valid_md_file.date = "2021-01-01"
 
     page = Page(valid_md_file, layout_file, "", "", "")
-    base_eval_context.base_url = "localhost"
-    base_eval_context.pages = [page, page, page]
-    base_eval_context.page = page
 
     page.render("localhost", "http", {}, [page, page, page])
     assert (
         "".join(page._rendered_content.split('\n'))
         == "".join("<!DOCTYPE html>TestTestTestTestlocalhost")
+    )
+
+
+def test_render_includes_markdown_as_html(valid_md_file, base_eval_context):
+    layout = """
+{% slot %}
+""".strip().split(
+        "\n"
+    )
+    layout_file = LayoutFile.from_lines("", layout)
+    page = Page(valid_md_file, layout_file, "", "", "")
+    page.render("localhost", "http", {}, [page])
+    assert (
+        "".join(page._rendered_content.split('\n'))
+        == "".join("<p>Here's a paragraph</p>")
     )
 
 

@@ -73,8 +73,8 @@ def test_ingest_single_layout_file(site_generator, layouts_dir_single_file):
     site_generator.ingest_layouts_directory(layouts_dir_single_file)
     assert len(site_generator.layouts) == 1
     for k, v in site_generator.layouts.items():
-        assert k == "test"
-        assert v.name == "test"
+        assert k == "test.html"
+        assert v.name == "test.html"
 
 
 def test_ingest_single_partial_file(site_generator, partials_dir_single_file):
@@ -96,8 +96,8 @@ def test_ingest_layout_and_partial(
     assert len(site_generator.layouts) == 1
     assert len(site_generator.partials) == 1
     for k, v in site_generator.layouts.items():
-        assert k == "test"
-        assert v.name == "test"
+        assert k == "test.html"
+        assert v.name == "test.html"
     for k, v in site_generator.partials.items():
         assert k == "partial1"
         assert v.name == "partial1"

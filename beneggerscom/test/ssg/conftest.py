@@ -23,8 +23,6 @@ def valid_md_file_text():
 title: Test
 ---
 Here's a paragraph
-
-And another
 """
 
 
@@ -57,6 +55,7 @@ def base_eval_context():
     e.protocol = "https"
     e.pages = []
     e.page = None
+    e.slot = ""
     return e
 
 

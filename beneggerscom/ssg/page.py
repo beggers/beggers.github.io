@@ -22,6 +22,8 @@ class EvalContext:
     protocol: str
     pages: list[Page]
     page: Page
+    # HTML to hydrate
+    slot: str
 
     def as_dict(self) -> dict[str, str | list[Page] | Page]:
         return {
@@ -29,6 +31,7 @@ class EvalContext:
             "protocol": self.protocol,
             "pages": self.pages,
             "page": self.page,
+            "slot": self.slot,
         }
 
 
@@ -36,6 +39,7 @@ class Page:
     nav: int = -1
     title: str
     date: str
+    meta_title: str
     description: str
     url: str
     style: str
@@ -60,6 +64,7 @@ class Page:
         self.nav = md.nav
         self.title = md.title
         self.date = md.date
+        self.meta_title = md.meta_title
         self.description = md.description
         self.url = url
         self.style = style
@@ -75,6 +80,7 @@ class Page:
         eval_context.protocol = protocol
         eval_context.pages = pages
         eval_context.page = self
+        eval_context.slot = self._md.content_as_html()
 
         # TODO nested loops
         # TODO if statements

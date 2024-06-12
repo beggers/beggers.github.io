@@ -88,7 +88,7 @@ class SiteGenerator:
             logging.debug("Ingesting layout file %s", filename)
 
             with open(filename, "r") as f:
-                default_layout_name = os.path.basename(filename).split(".")[0]
+                default_layout_name = os.path.basename(filename)
                 layout = LayoutFile.from_lines(
                     default_layout_name, f.readlines()
                 )
