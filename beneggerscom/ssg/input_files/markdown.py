@@ -1,5 +1,6 @@
 import markdown
 
+from beneggerscom.utils.config import CONFIG
 from beneggerscom.ssg.input_files import InputFile
 
 import logging
@@ -10,7 +11,7 @@ class MarkdownFile(InputFile):
     title: str = ""
     date: str = ""
     meta_title: str = ""
-    layout: str = ""
+    layout: str = CONFIG["default_layout"]
     nav: int = -1
     description: str = ""
     content: str = ""

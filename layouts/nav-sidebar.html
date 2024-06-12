@@ -5,9 +5,9 @@
       <!-- TODO -->
       <a href="http://localhost:8099" class="nav-link">home</a>
     </li>
-    {% for item in sorted([page for page in pages if page.get('nav', False)], key=lambda p: p['nav']) %}
+    {% for item in sorted([page for page in pages if page.nav != -1], key=lambda p: p.nav) %}
     <li class="nav-item">
-      <a href="{% item['url'] %}" class="nav-link">{% item['title'].lower() %}</a>
+      <a href="{% item.url %}" class="nav-link">{% item.title.lower() %}</a>
     </li>
     {% end %}
   </ul>

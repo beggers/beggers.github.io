@@ -197,6 +197,8 @@ class SiteGenerator:
             rendered_loop = ""
             logging.debug("Looping over %s", eval(iterable, eval_variables))
             for item in eval(iterable, eval_variables):
+                # TODO is there a nice way to only render the loop variable?
+                # ...does it even matter?
                 current_loop_render = loop_content
                 m = VARIABLE_REGEX.search(current_loop_render)
                 while m:

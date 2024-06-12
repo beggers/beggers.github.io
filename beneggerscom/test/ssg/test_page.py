@@ -2,19 +2,19 @@ from beneggerscom.ssg.input_files.layout import LayoutFile
 from beneggerscom.ssg.page import Page
 
 
-def test_render_partials_no_partials():
+def test_render_partials_no_partials(valid_md_file):
     layout = """
 <!DOCTYPE html>
 """.strip().split(
         "\n"
     )
     layout_file = LayoutFile.from_lines("", layout)
-    page = Page(None, layout_file, "", None, {})
-    page._render_partials()
-    assert page.rendered_content == "<!DOCTYPE html>"
+    page = Page(valid_md_file, layout_file, "")
+    page._render_partials({})
+    assert page._rendered_content == "<!DOCTYPE html>"
 
 
-def test_render_partials_one_partial():
+def test_render_partials_one_partial(valid_md_file):
     layout = """
 <!DOCTYPE html>
 {% include partial %}
@@ -30,12 +30,12 @@ def test_render_partials_one_partial():
     )
     layout_file = LayoutFile.from_lines("", layout)
     partial_file = LayoutFile.from_lines("", partial)
-    page = Page(None, layout_file, "", None, {"partial": partial_file})
-    page._render_partials()
-    assert page.rendered_content == "<!DOCTYPE html>\n<html>"
+    page = Page(valid_md_file, layout_file, "")
+    page._render_partials({"partial": partial_file})
+    assert page._rendered_content == "<!DOCTYPE html>\n<html>"
 
 
-def test_render_partials_multiple_sibling_partials():
+def test_render_partials_multiple_sibling_partials(valid_md_file):
     layout = """
 <!DOCTYPE html>
 {% include partial %}
@@ -60,18 +60,12 @@ def test_render_partials_multiple_sibling_partials():
     layout_file = LayoutFile.from_lines("", layout)
     partial_file = LayoutFile.from_lines("", partial)
     partial2_file = LayoutFile.from_lines("", partial2)
-    page = Page(
-        None,
-        layout_file,
-        "",
-        None,
-        {"partial": partial_file, "partial2": partial2_file}
-    )
-    page._render_partials()
-    assert page.rendered_content == "<!DOCTYPE html>\n<html>\n<body>"
+    page = Page(valid_md_file, layout_file, "")
+    page._render_partials({"partial": partial_file, "partial2": partial2_file})
+    assert page._rendered_content == "<!DOCTYPE html>\n<html>\n<body>"
 
 
-def test_render_partials_nested_partials():
+def test_render_partials_nested_partials(valid_md_file):
     layout = """
 <!DOCTYPE html>
 {% include partial %}
@@ -96,12 +90,6 @@ def test_render_partials_nested_partials():
     layout_file = LayoutFile.from_lines("", layout)
     partial_file = LayoutFile.from_lines("", partial)
     partial2_file = LayoutFile.from_lines("", partial2)
-    page = Page(
-        None,
-        layout_file,
-        "",
-        None,
-        {"partial": partial_file, "partial2": partial2_file}
-    )
-    page._render_partials()
-    assert page.rendered_content == "<!DOCTYPE html>\n<html>\n<body>"
+    page = Page(valid_md_file, layout_file, "")
+    page._render_partials({"partial": partial_file, "partial2": partial2_file})
+    assert page._rendered_content == "<!DOCTYPE html>\n<html>\n<body>"
