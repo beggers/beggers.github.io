@@ -92,7 +92,6 @@ class SiteGenerator:
                 layout = LayoutFile.from_lines(
                     default_layout_name, f.readlines()
                 )
-                print(layout.__dict__)
                 if layout.partial:
                     if layout.name in self.partials:
                         raise ValueError("Partial layout already ingested.")
@@ -164,8 +163,15 @@ class SiteGenerator:
     def _render_pages(self, path: str) -> None:
         if not self.markdown_dir:
             raise ValueError("No markdown directory set.")
+        # TODO this path and URL stuff is jacked
         for md_path, md in self.markdowns.items():
             logging.debug("Rendering markdown file %s", md_path)
+            target_path = md_path.replace(
+                self.markdown_dir,
+                path
+            ).replace(
+                ".md", ".html"
+            )
             page = Page(
                 md=md,
                 layout=self.layouts.get(
@@ -173,7 +179,7 @@ class SiteGenerator:
                     self.layouts[self.site_config['default_layout']]
                 ),
                 url=filename_to_url(
-                    md_path,
+                    target_path.replace(path + "/", ""),
                     self.site_config["protocol"],
                     self.site_config["url"]
                 ),
@@ -181,7 +187,7 @@ class SiteGenerator:
                 style=self.materialized_styles[
                     self.site_config["default_style"]
                 ],
-                path=md_path.replace(self.markdown_dir, path),
+                path=target_path,
             )
             self.pages.append(page)
         for page in self.pages:

@@ -117,3 +117,6 @@ def test_ingest_layouts_raises_if_non_html_extension_found(
 ):
     with pytest.raises(ValueError):
         site_generator.ingest_layouts_directory(layouts_dir_illegal_ext)
+
+
+# TODO test render logic
