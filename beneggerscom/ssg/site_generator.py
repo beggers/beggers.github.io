@@ -81,18 +81,25 @@ class SiteGenerator:
         self.layouts_dir = path
         files = self._all_files_in_dir(path)
         for filename in files:
-            if filename in self.layouts:
-                raise ValueError("Layout file already ingested.")
+            if not filename.endswith(".html"):
+                raise ValueError(
+                    "Layout file {} does not end with .html.".format(filename)
+                )
             logging.debug("Ingesting layout file %s", filename)
 
             with open(filename, "r") as f:
-                default_layout_name = os.path.basename(filename)
+                default_layout_name = os.path.basename(filename).split(".")[0]
                 layout = LayoutFile.from_lines(
                     default_layout_name, f.readlines()
                 )
+                print(layout.__dict__)
                 if layout.partial:
+                    if layout.name in self.partials:
+                        raise ValueError("Partial layout already ingested.")
                     self.partials[layout.name] = layout
                 else:
+                    if layout.name in self.layouts:
+                        raise ValueError("Layout already ingested.")
                     self.layouts[layout.name] = layout
 
     def ingest_static_directory(self, path: str) -> None:

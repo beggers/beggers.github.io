@@ -37,6 +37,20 @@ def valid_style_file_text():
 
 
 @pytest.fixture
+def valid_layout_file_text():
+    return """<!DOCTYPE html>"""
+
+
+@pytest.fixture
+def valid_partial_file_text():
+    return """
+{% define partial1 %}
+<footer>
+{% end partial1 %}
+"""
+
+
+@pytest.fixture
 def base_eval_context():
     e = EvalContext()
     e.base_url = "example.com"
@@ -113,5 +127,49 @@ def styles_dir_with_subdir(tmp_path, valid_style_file_text):
     test_dir2.mkdir()
     test_style2 = test_dir2 / "test_again.css"
     test_style2.write_text(valid_style_file_text)
+
+    return test_dir.as_posix()
+
+
+@pytest.fixture
+def layouts_dir_illegal_ext(tmp_path, valid_layout_file_text):
+    test_dir = tmp_path / "test"
+    test_dir.mkdir()
+    test_layout = test_dir / "test.txt"
+    test_layout.write_text(valid_layout_file_text)
+    return test_dir.as_posix()
+
+
+@pytest.fixture
+def layouts_dir_single_file(tmp_path, valid_layout_file_text):
+    test_dir = tmp_path / "test"
+    test_dir.mkdir()
+    test_layout = test_dir / "test.html"
+    test_layout.write_text(valid_layout_file_text)
+    return test_dir.as_posix()
+
+
+@pytest.fixture
+def partials_dir_single_file(tmp_path, valid_partial_file_text):
+    test_dir = tmp_path / "test"
+    test_dir.mkdir()
+    test_partial = test_dir / "different_from_partial_name.html"
+    test_partial.write_text(valid_partial_file_text)
+    return test_dir.as_posix()
+
+
+@pytest.fixture
+def layouts_dir_with_layout_and_partial(
+    tmp_path,
+    valid_layout_file_text,
+    valid_partial_file_text
+):
+    test_dir = tmp_path / "test"
+    test_dir.mkdir()
+    test_layout = test_dir / "test.html"
+    test_layout.write_text(valid_layout_file_text)
+
+    test_partial = test_dir / "different_from_partial_name.html"
+    test_partial.write_text(valid_partial_file_text)
 
     return test_dir.as_posix()

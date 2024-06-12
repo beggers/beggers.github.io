@@ -23,6 +23,7 @@ def test_full_layout_with_name():
     )
     layout_file = LayoutFile.from_lines("name", layout)
     assert layout_file.name == "name"
+    assert not layout_file.partial
     assert layout_file.content == "<!DOCTYPE html>"
 
 
@@ -57,6 +58,20 @@ def test_partial_layout():
 """.strip().split(
         "\n"
     )
+    layout_file = LayoutFile.from_lines("", layout)
+    assert layout_file.partial
+    assert layout_file.name == "test"
+    assert layout_file.content == "<!DOCTYPE html>"
+
+
+def test_partial_with_newlines_before():
+    layout = """
+
+
+{% define test %}
+<!DOCTYPE html>
+{% end test %}
+""".split("\n")
     layout_file = LayoutFile.from_lines("", layout)
     assert layout_file.partial
     assert layout_file.name == "test"

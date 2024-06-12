@@ -20,6 +20,10 @@ class LayoutFile(InputFile):
     def from_lines(_cls, default_name: str, lines: list[str]):
         layout_file = LayoutFile()
         layout_file.name = default_name
+        while lines and not lines[0].strip():
+            lines = lines[1:]
+        while lines and not lines[-1].strip():
+            lines = lines[:-1]
         start_match = LAYOUT_DEF_REGEX.match(lines[0])
         if start_match:
             logging.debug(
