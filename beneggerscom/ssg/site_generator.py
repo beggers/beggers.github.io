@@ -102,15 +102,18 @@ class SiteGenerator:
         logging.debug("Static files: %s", self.statics)
 
     def ingest_styles_directory(self, path: str) -> None:
+        logging.info("Ingesting styles directory %s", path)
         self.styles_dir = path
         files = self._all_files_in_dir(path)
         for filename in files:
-            if not path.endswith(".css"):
+            name = filename.replace(self.styles_dir + "/", "")
+            if name in self.styles:
+                raise ValueError("Style file already ingested.")
+            if not filename.endswith(".css"):
                 raise ValueError(
-                    "Style file {} does not end with .css.".format(path)
+                    "Style file {} does not end with .css.".format(filename)
                 )
             with open(filename, "r") as f:
-                name = path.replace(self.styles_dir + "/", "")
                 self.styles[name] = (
                     StyleFile.from_lines(name, f.readlines())
                 )
@@ -185,11 +188,3 @@ class SiteGenerator:
     def _flush_pages(self) -> None:
         for page in self.pages:
             page.flush()
-
-    #     output_path = md_path.replace(self.markdown_dir, path).replace(
-    #         ".md", ".html"
-    #     )
-    #     logging.info("Writing to %s", output_path)
-    #     os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    #     with open(output_path, "w") as f:
-    #         f.write(rendered)
