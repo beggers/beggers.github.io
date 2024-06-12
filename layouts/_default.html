@@ -9,6 +9,9 @@
       <section class="content">
         <h1 class="page-title">{% page.title %}</h1>
         {% slot %}
+        {% if page.title.lower() == "posts" %}
+        {% include postlist %}
+        {% end if %}
       </section>
       <footer class="page-footer">
         {% include footer %}

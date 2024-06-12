@@ -12,6 +12,6 @@ The product maturity lifecycle for SaaS applications tends naturally to start wi
 
 But as time goes on and the system matures individual requests, then even jobs and machines, become cattle. The first customer requests flowing through the system are magical; the 10-millionth is just another blip on the dashboard. When I worked at Google the old-hat SREs were incredibly principled about _not_ investigating issues-apparent unless they fired an alert. "You could spend all your time trying to figure out why something in the dashboard looks weird. If it isn't hurting customers enough to fire an alert, choose not to care."  -- A wise SRE.
 
-This isn't an epistle against deep debugging in distributed systems. It's incredibly important to understand exactly how and why things go wrong, especially when they go wrong all at once. But if one job out of 200 goes sideways...eh.
+This isn't an epistle against deep debugging in distributed systems -- it's obviously important to understand exactly how and why things go wrong, especially when they go wrong all at once. But if one job out of 200 goes sideways...eh.
 
 *(Credit for introducing me to this concept goes to John Truscott Reese.)*

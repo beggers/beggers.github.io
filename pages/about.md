@@ -1,7 +1,7 @@
 ---
 title: About
 description: About me!
-nav: 1
+nav: 2
 ---
 
 Hi. My name is Ben Eggers. I work as a software engineer and am currently taking some time off. I do other things, too.
