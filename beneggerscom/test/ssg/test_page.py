@@ -111,6 +111,67 @@ def test_render_partials_missing_partial(valid_md_file):
     assert str(e.value) == "Partial 'partial' not found."
 
 
+def test_render_ifs_no_if(valid_md_file, base_eval_context):
+    layout = """
+<!DOCTYPE html>
+""".strip().split(
+        "\n"
+    )
+    layout_file = LayoutFile.from_lines("", layout)
+    page = Page(valid_md_file, layout_file, "", "", "")
+    base_eval_context.page = page
+    page._render_ifs(base_eval_context)
+    assert page._rendered_content == "<!DOCTYPE html>"
+
+
+def test_render_ifs_one_true_if(valid_md_file, base_eval_context):
+    layout = """
+{% if page.title %}
+<!DOCTYPE html>
+{% end if %}
+""".strip().split(
+        "\n"
+    )
+    layout_file = LayoutFile.from_lines("", layout)
+    page = Page(valid_md_file, layout_file, "", "", "")
+    base_eval_context.page = page
+    page._render_ifs(base_eval_context)
+    assert "".join(page._rendered_content.split("\n")) == "<!DOCTYPE html>"
+
+
+def test_render_ifs_one_false_if(valid_md_file, base_eval_context):
+    layout = """
+{% if page %}
+<!DOCTYPE html>
+{% end if %}
+""".strip().split(
+        "\n"
+    )
+    layout_file = LayoutFile.from_lines("", layout)
+    page = Page(valid_md_file, layout_file, "", "", "")
+    base_eval_context.page = None
+    page._render_ifs(base_eval_context)
+    assert page._rendered_content == ""
+
+
+def test_render_ifs_one_true_one_false(valid_md_file, base_eval_context):
+    layout = """
+{% if page %}
+<!DOCTYPE html>
+{% end if %}
+{% if page.title is None %}
+<p>Something</p>
+{% end if %}
+""".strip().split(
+        "\n"
+    )
+    layout_file = LayoutFile.from_lines("", layout)
+    page = Page(valid_md_file, layout_file, "", "", "")
+    base_eval_context.page = page
+    page._render_ifs(base_eval_context)
+    assert "".join(page._rendered_content.split("\n")) == "<!DOCTYPE html>"
+
+
 def test_render_loops_no_loops(valid_md_file, base_eval_context):
     layout = """
 <!DOCTYPE html>
@@ -142,7 +203,7 @@ def test_render_loops_empty_loop(valid_md_file, base_eval_context):
 <!DOCTYPE html>
 {% for page in pages %}
 {% page.title %}
-{% end %}
+{% end for %}
 """.strip().split(
         "\n"
     )
@@ -157,7 +218,7 @@ def test_render_loops_single_loop(valid_md_file, base_eval_context):
 <!DOCTYPE html>
 {% for page in pages %}
 {% page.title %}
-{% end %}
+{% end for %}
 """.strip().split(
         "\n"
     )
@@ -176,7 +237,7 @@ def test_render_loop_with_if_statement(valid_md_file, base_eval_context):
 <!DOCTYPE html>
 {% for i in sorted([p for p in pages if p.nav != -1], key=lambda p: p.nav) %}
 {% i.nav %}
-{% end %}
+{% end for %}
 """.strip().split(
         "\n"
     )
@@ -245,22 +306,63 @@ def test_render_variables_multiple_variables(valid_md_file, base_eval_context):
     )
 
 
+def test_render_for_loop_in_if(valid_md_file):
+    layout = """
+<!DOCTYPE html>
+{% if page %}
+{% for page in pages %}
+{% page.title %}
+{% end for %}
+{% end if %}
+""".strip().split(
+        "\n"
+    )
+    layout_file = LayoutFile.from_lines("", layout)
+    page = Page(valid_md_file, layout_file, "", "", "")
+    page.render("localhost", "http", {}, [page, page, page])
+    assert (
+        "".join(page._rendered_content.split('\n'))
+        == "".join("<!DOCTYPE html>TestTestTest")
+    )
+
+
+def test_render_if_in_for_loop(valid_md_file):
+    layout = """
+<!DOCTYPE html>
+{% for page in pages %}
+{% if page %}
+{% page.title %}
+{% end if %}
+{% if page is None %}
+SHOULD NOT APPEAR
+{% end if %}
+{% end for %}
+""".strip().split(
+        "\n"
+    )
+    layout_file = LayoutFile.from_lines("", layout)
+    page = Page(valid_md_file, layout_file, "", "", "")
+    page.render("localhost", "http", {}, [page, page, page])
+    assert (
+        "".join(page._rendered_content.split('\n'))
+        == "".join("<!DOCTYPE html>TestTestTest")
+    )
+
+
 def test_render_with_all(valid_md_file):
     layout = """
 <!DOCTYPE html>
 {% page.title %}
 {% for page in pages %}
 {% page.title %}
-{% end %}
+{% end for %}
 {% base_url %}
 """.strip().split(
         "\n"
     )
     layout_file = LayoutFile.from_lines("", layout)
     valid_md_file.date = "2021-01-01"
-
     page = Page(valid_md_file, layout_file, "", "", "")
-
     page.render("localhost", "http", {}, [page, page, page])
     assert (
         "".join(page._rendered_content.split('\n'))
@@ -268,7 +370,7 @@ def test_render_with_all(valid_md_file):
     )
 
 
-def test_render_includes_markdown_as_html(valid_md_file, base_eval_context):
+def test_render_includes_markdown_as_html(valid_md_file):
     layout = """
 {% slot %}
 """.strip().split(

@@ -8,8 +8,11 @@ from beneggerscom.ssg.input_files.layout import LayoutFile
 
 import logging
 
-END_REGEX = re.compile(r"{% end %}")
-FOR_REGEX = re.compile(r"{% for (?P<var>.+?) in (?P<iter>.+?) %}")
+
+IF_START_REGEX = re.compile(r"{% if (?P<cond>.+?) %}")
+IF_END_REGEX = re.compile(r"{% end if %}")
+FOR_START_REGEX = re.compile(r"{% for (?P<var>.+?) in (?P<iter>.+?) %}")
+FOR_END_REGEX = re.compile(r"{% end for %}")
 LAYOUT_INCLUDE_REGEX = re.compile(r"{% include (?P<layout>.+?) %}")
 VARIABLE_REGEX = re.compile(r"{% (?P<var>.+?) %}")
 
@@ -86,6 +89,7 @@ class Page:
         # TODO if statements
         # TODO parametrized partials
         self._render_partials(partials)
+        self._render_ifs(eval_context)
         self._render_loops(eval_context)
         self._render_variables(eval_context)
 
@@ -109,6 +113,42 @@ class Page:
 
         self._rendered_content = rendered
 
+    def _render_ifs(self, eval_context: EvalContext) -> None:
+        if not self._rendered_content:
+            raise ValueError("No content to render loops on.")
+        eval_variables = eval_context.as_dict()
+        rendered = self._rendered_content
+
+        if_match = IF_START_REGEX.search(rendered)
+        if not if_match:
+            return
+
+        if_end = IF_END_REGEX.search(rendered, if_match.end())
+        while if_match:
+            if not if_end:
+                raise ValueError(
+                    "No end for if statement starting at ", if_match.group(0)
+                )
+            logging.debug("Rendering if-statement %s", if_match.group(0))
+            cond = if_match.group("cond")
+            if_content = rendered[if_match.end(): if_end.start()]
+            logging.debug("If content: %s", if_content)
+
+            rendered_body = ""
+            if eval(cond, eval_variables):
+                rendered_body = if_content
+            rendered = (
+                rendered[:if_match.start()]
+                + rendered_body
+                + rendered[if_end.end():]
+            )
+
+            if_match = IF_START_REGEX.search(rendered)
+            if if_match:
+                if_end = IF_END_REGEX.search(rendered, if_match.end())
+
+        self._rendered_content = rendered
+
     def _render_loops(self, eval_context: EvalContext) -> None:
         if not self._rendered_content:
             raise ValueError("No content to render loops on.")
@@ -116,11 +156,11 @@ class Page:
         eval_variables = eval_context.as_dict()
         rendered = self._rendered_content
 
-        for_match = FOR_REGEX.search(rendered)
+        for_match = FOR_START_REGEX.search(rendered)
         if not for_match:
             return
 
-        loop_end = END_REGEX.search(rendered, for_match.end())
+        loop_end = FOR_END_REGEX.search(rendered, for_match.end())
         while for_match:
             if not loop_end:
                 raise ValueError(
@@ -157,9 +197,9 @@ class Page:
                 + rendered[loop_end.end():]
             )
 
-            for_match = FOR_REGEX.search(rendered, loop_end.end())
+            for_match = FOR_START_REGEX.search(rendered, loop_end.end())
             if for_match:
-                loop_end = END_REGEX.search(rendered, for_match.end())
+                loop_end = FOR_END_REGEX.search(rendered, for_match.end())
 
         self._rendered_content = rendered
 

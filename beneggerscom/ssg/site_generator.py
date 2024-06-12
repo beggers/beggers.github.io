@@ -1,5 +1,4 @@
 import os
-import re
 import shutil
 from typing import Optional
 
@@ -11,10 +10,6 @@ from beneggerscom.ssg.page import Page
 
 import logging
 
-
-END_REGEX = re.compile(r"{% end %}")
-FOR_REGEX = re.compile(r"{% for (?P<var>.+?) in (?P<iter>.+?) %}")
-VARIABLE_REGEX = re.compile(r"{% (?P<var>.+?) %}")
 
 DEFAULT_DESCRIPTION = "No description specified for this page, sorry!"
 
