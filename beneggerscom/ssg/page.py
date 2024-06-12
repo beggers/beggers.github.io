@@ -1,4 +1,5 @@
 from __future__ import annotations
+import os
 import re
 from typing import Optional
 
@@ -42,20 +43,26 @@ class Page:
     _rendered_content: Optional[str]
     _md: MarkdownFile
     _layout: LayoutFile
+    _path: str
 
     def __init__(self,
                  md: MarkdownFile,
                  layout: LayoutFile,
+                 url: str,
                  style: str,
+                 path: str
                  ):
         self._md = md
         self._layout = layout
         self._rendered_content = layout.content
-        self._style = style
+        self._path = path
 
+        self.nav = md.nav
         self.title = md.title
         self.date = md.date
         self.description = md.description
+        self.url = url
+        self.style = style
 
     def render(self,
                base_url: str,
@@ -69,6 +76,9 @@ class Page:
         eval_context.pages = pages
         eval_context.page = self
 
+        # TODO nested loops
+        # TODO if statements
+        # TODO parametrized partials
         self._render_partials(partials)
         self._render_loops(eval_context)
         self._render_variables(eval_context)
@@ -159,10 +169,14 @@ class Page:
             logging.debug("Rendering non-loop variable %s", var.group(0))
             e = eval(var.group("var"), eval_variables)
             logging.debug("Replacing %s with %s", var.group(0), e)
-            rendered = rendered.replace(var.group(0), e)
+            rendered = rendered.replace(var.group(0), str(e))
             var = VARIABLE_REGEX.search(rendered)
 
         self._rendered_content = rendered
 
-    def write_to_file(self, path: str) -> None:
-        pass
+    def flush(self) -> None:
+        if not self._rendered_content:
+            raise ValueError("No content to write to file.")
+        os.makedirs(os.path.dirname(self._path), exist_ok=True)
+        with open(self._path, "w") as f:
+            f.write(self._rendered_content)

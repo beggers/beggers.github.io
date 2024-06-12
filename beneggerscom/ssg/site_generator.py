@@ -3,9 +3,11 @@ import re
 import shutil
 from typing import Optional
 
+from beneggerscom.utils.hostname import filename_to_url
 from beneggerscom.ssg.input_files.markdown import MarkdownFile
 from beneggerscom.ssg.input_files.layout import LayoutFile
 from beneggerscom.ssg.input_files.style import StyleFile
+from beneggerscom.ssg.page import Page
 
 import logging
 
@@ -54,6 +56,8 @@ class SiteGenerator:
         self.styles: dict[str, StyleFile] = {}
         # Style name -> materialized CSS suitable for direct inclusion in HTML
         self.materialized_styles: dict[str, str] = {}
+
+        self.pages: list[Page] = []
 
     def ingest_markdown_directory(self, path: str) -> None:
         logging.info("Ingesting markdown directory %s", path)
@@ -130,9 +134,8 @@ class SiteGenerator:
             raise ValueError("No styles directory set.")
 
         self._materialize_styles()
-        for md_path, md in self.markdowns.items():
-            logging.debug("Rendering markdown file %s", md_path)
-            self._render_page(md_path, md, path)
+        self._render_pages(path)
+        self._flush_pages()
         self._copy_statics(path)
 
     def _materialize_styles(self) -> None:
@@ -148,24 +151,45 @@ class SiteGenerator:
             logging.debug("Copying static file %s", static)
             shutil.copy(static, static.replace(self.static_dir, path))
 
-    def _render_page(self, md_path, md, path):
-        # TODO test page and plumb it in
+    def _render_pages(self, path: str) -> None:
+        if not self.markdown_dir:
+            raise ValueError("No markdown directory set.")
+        for md_path, md in self.markdowns.items():
+            logging.debug("Rendering markdown file %s", md_path)
+            page = Page(
+                md=md,
+                layout=self.layouts.get(
+                    md.layout,
+                    self.layouts[self.site_config['default_layout']]
+                ),
+                url=filename_to_url(
+                    md_path,
+                    self.site_config["protocol"],
+                    self.site_config["url"]
+                ),
+                # TODO allow configurable styles (mostly done already)
+                style=self.materialized_styles[
+                    self.site_config["default_style"]
+                ],
+                path=md_path.replace(self.markdown_dir, path),
+            )
+            self.pages.append(page)
+        for page in self.pages:
+            page.render(
+                self.site_config["url"],
+                self.site_config["protocol"],
+                self.partials,
+                self.pages,
+            )
 
-        layout_name = md.get("layout", self.site_config["default_layout"])
-        logging.debug("Rendering page with layout %s", layout_name)
-        if layout_name not in self.layouts:
-            raise ValueError(f"Layout '{layout_name}' not found.")
-        layout = self.layouts[layout_name]
+    def _flush_pages(self) -> None:
+        for page in self.pages:
+            page.flush()
 
-        rendered = self._render_layout(layout, md)
-
-        output_path = md_path.replace(self.markdown_dir, path).replace(
-            ".md", ".html"
-        )
-        logging.info("Writing to %s", output_path)
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        with open(output_path, "w") as f:
-            f.write(rendered)
-
-    def _render_layout(self, layout, page):
-        return layout.content
+    #     output_path = md_path.replace(self.markdown_dir, path).replace(
+    #         ".md", ".html"
+    #     )
+    #     logging.info("Writing to %s", output_path)
+    #     os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    #     with open(output_path, "w") as f:
+    #         f.write(rendered)
