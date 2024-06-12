@@ -50,18 +50,34 @@ class Page:
                  ):
         self._md = md
         self._layout = layout
-        self._rendered_content = None
+        self._rendered_content = layout.content
         self._style = style
 
         self.title = md.title
         self.date = md.date
         self.description = md.description
 
-    def render(self) -> None:
-        pass
+    def render(self,
+               base_url: str,
+               protocol: str,
+               partials: dict[str, LayoutFile],
+               pages: list[Page]
+               ) -> None:
+        eval_context = EvalContext()
+        eval_context.base_url = base_url
+        eval_context.protocol = protocol
+        eval_context.pages = pages
+        eval_context.page = self
+
+        self._render_partials(partials)
+        self._render_loops(eval_context)
+        self._render_variables(eval_context)
 
     def _render_partials(self, partials) -> None:
-        rendered = self._layout.content
+        if not self._rendered_content:
+            raise ValueError("No content to render partials on.")
+
+        rendered = self._rendered_content
 
         include = LAYOUT_INCLUDE_REGEX.search(rendered)
         while include:
@@ -114,7 +130,7 @@ class Page:
                     logging.debug("Replacing %s with %s", m.group(0), e)
 
                     current_loop_render = current_loop_render.replace(
-                        m.group(0), e
+                        m.group(0), str(e)
                     )
                     m = VARIABLE_REGEX.search(current_loop_render)
                 rendered_loop += current_loop_render

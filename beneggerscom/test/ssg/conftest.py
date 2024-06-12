@@ -1,6 +1,7 @@
 import pytest
 
 from beneggerscom.ssg.input_files.markdown import MarkdownFile
+from beneggerscom.ssg.page import EvalContext
 from beneggerscom.ssg.site_generator import SiteGenerator
 
 
@@ -25,6 +26,16 @@ Here's a paragraph
 
 And another
 """
+
+
+@pytest.fixture
+def base_eval_context():
+    e = EvalContext()
+    e.base_url = "example.com"
+    e.protocol = "https"
+    e.pages = []
+    e.page = None
+    return e
 
 
 @pytest.fixture

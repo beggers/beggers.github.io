@@ -149,6 +149,8 @@ class SiteGenerator:
             shutil.copy(static, static.replace(self.static_dir, path))
 
     def _render_page(self, md_path, md, path):
+        # TODO test page and plumb it in
+
         layout_name = md.get("layout", self.site_config["default_layout"])
         logging.debug("Rendering page with layout %s", layout_name)
         if layout_name not in self.layouts:
@@ -166,74 +168,4 @@ class SiteGenerator:
             f.write(rendered)
 
     def _render_layout(self, layout, page):
-        rendered = layout
-
-        eval_variables = {
-            "site": self.site_config,
-            "page": page,
-            "pages": list(self.markdowns.values()),
-        }
-        page["style"] = self.rendered_styles.get(
-            page.get("style", ""),
-            self.rendered_styles[self.site_config["default_style"]],
-        )
-        logging.debug("Eval variables: %s", eval_variables)
-
-        rendered = rendered.replace("{% slot %}", page["_content"])
-
-        for_match = FOR_REGEX.search(rendered)
-        loop_end = END_REGEX.search(rendered, for_match.end())
-        while for_match:
-            if not loop_end:
-                raise ValueError(
-                    "No end found for for loop starting at", for_match.group(0)
-                )
-            logging.debug("Rendering for loop %s", for_match.group(0))
-            var = for_match.group("var")
-            iterable = for_match.group("iter")
-            loop_content = rendered[for_match.end(): loop_end.start()]
-            logging.debug("Loop content: %s", loop_content)
-
-            rendered_loop = ""
-            logging.debug("Looping over %s", eval(iterable, eval_variables))
-            for item in eval(iterable, eval_variables):
-                # TODO is there a nice way to only render the loop variable?
-                # ...does it even matter?
-                current_loop_render = loop_content
-                m = VARIABLE_REGEX.search(current_loop_render)
-                while m:
-                    logging.debug(
-                        "Rendering possibly loop variable %s", m.group(0)
-                    )
-
-                    e = eval(m.group("var"), eval_variables, {var: item})
-                    logging.debug("Replacing %s with %s", m.group(0), e)
-
-                    current_loop_render = current_loop_render.replace(
-                        m.group(0), e
-                    )
-                    m = VARIABLE_REGEX.search(current_loop_render)
-                rendered_loop += current_loop_render
-            logging.debug("Rendered loop: %s", rendered_loop)
-            rendered = (
-                rendered[: for_match.start()]
-                + rendered_loop
-                + rendered[loop_end.end():]
-            )
-
-            for_match = FOR_REGEX.search(rendered, loop_end.end())
-            if for_match:
-                loop_end = END_REGEX.search(rendered, for_match.end())
-
-        var = VARIABLE_REGEX.search(rendered)
-        while var:
-            logging.debug("Rendering non-loop variable %s", var.group(0))
-            e = eval(var.group("var"), eval_variables)
-            logging.debug("Replacing %s with %s", var.group(0), e)
-            rendered = rendered.replace(var.group(0), e)
-            var = VARIABLE_REGEX.search(rendered)
-
-        if rendered.find(r"{%") != -1:
-            raise ValueError("Unresolved variable in layout.")
-
-        return rendered
+        return layout.content
