@@ -2,8 +2,7 @@
 <nav class="nav-sidebar">
   <ul>
     <li class="nav-item">
-      <!-- TODO -->
-      <a href="http://localhost:8099" class="nav-link">home</a>
+      <a href="{% protocol %}://{% base_url %}" class="nav-link">home</a>
     </li>
     {% for item in sorted([page for page in pages if page.nav != -1], key=lambda p: p.nav) %}
     <li class="nav-item">
