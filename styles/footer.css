@@ -8,3 +8,7 @@ footer p {
     margin: 0;
     text-align: center;
 }
+
+svg {
+    margin-left: 0.1rem;
+}
