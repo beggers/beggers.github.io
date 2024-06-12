@@ -1,6 +1,6 @@
 ---
 title: Pets vs Cattle
-date: 2023-11-20
+date: November 2023
 ---
 
 One of the most useful questions I ask myself about a software project is: "Is this a pet or is it cattle?" I've been surprised how often asking this question helps clarify my thinking.

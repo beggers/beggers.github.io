@@ -21,18 +21,6 @@ h6 {
     color: var(--header);
 }
 
-.page-title {
-    font-size: 1.5rem;
-    margin: 0 0 1.25rem 0;
-    font-weight: 600;
-    color: var(--header);
-    text-align: center;
-}
-
-.page-title:before {
-    content: none;
-}
-
 h1+h2,
 h1+h3,
 h1+h4,
