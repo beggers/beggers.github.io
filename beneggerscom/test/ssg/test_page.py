@@ -243,3 +243,29 @@ def test_render_variables_multiple_variables(valid_md_file, base_eval_context):
         "".join(page._rendered_content.split('\n'))
         == "".join("<!DOCTYPE html>Test2021-01-01localhost")
     )
+
+
+def test_render_with_all(valid_md_file, base_eval_context):
+    layout = """
+<!DOCTYPE html>
+{% page.title %}
+{% for page in pages %}
+{% page.title %}
+{% end %}
+{% base_url %}
+""".strip().split(
+        "\n"
+    )
+    layout_file = LayoutFile.from_lines("", layout)
+    valid_md_file.date = "2021-01-01"
+
+    page = Page(valid_md_file, layout_file, "")
+    base_eval_context.base_url = "localhost"
+    base_eval_context.pages = [page, page, page]
+    base_eval_context.page = page
+
+    page.render("localhost", "http", {}, [page, page, page])
+    assert (
+        "".join(page._rendered_content.split('\n'))
+        == "".join("<!DOCTYPE html>TestTestTestTestlocalhost")
+    )
