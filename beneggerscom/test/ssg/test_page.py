@@ -194,3 +194,52 @@ def test_render_loop_with_if_statement(valid_md_file, base_eval_context):
         "".join(page1._rendered_content.split('\n'))
         == "".join("<!DOCTYPE html>123")
     )
+
+
+def test_render_variables_no_variables(valid_md_file, base_eval_context):
+    layout = """
+<!DOCTYPE html>
+""".strip().split(
+        "\n"
+    )
+    layout_file = LayoutFile.from_lines("", layout)
+    page = Page(valid_md_file, layout_file, "")
+    page._render_variables(base_eval_context)
+    assert page._rendered_content == "<!DOCTYPE html>"
+
+
+def test_render_variables_single_variable(valid_md_file, base_eval_context):
+    layout = """
+<!DOCTYPE html>
+{% page.title %}
+""".strip().split(
+        "\n"
+    )
+    layout_file = LayoutFile.from_lines("", layout)
+    page = Page(valid_md_file, layout_file, "")
+    base_eval_context.page = page
+    page._render_variables(base_eval_context)
+    assert page._rendered_content == "<!DOCTYPE html>\nTest"
+
+
+def test_render_variables_multiple_variables(valid_md_file, base_eval_context):
+    layout = """
+<!DOCTYPE html>
+{% page.title %}
+{% page.date %}
+{% base_url %}
+""".strip().split(
+        "\n"
+    )
+    layout_file = LayoutFile.from_lines("", layout)
+    valid_md_file.date = "2021-01-01"
+
+    page = Page(valid_md_file, layout_file, "")
+    base_eval_context.base_url = "localhost"
+    base_eval_context.page = page
+
+    page._render_variables(base_eval_context)
+    assert (
+        "".join(page._rendered_content.split('\n'))
+        == "".join("<!DOCTYPE html>Test2021-01-01localhost")
+    )
