@@ -1,6 +1,6 @@
 ---
 title: The Joy of Shipping
-date: July 2023
+date: 2023-07-07
 ---
 
 Last February I took a break from tech. I hiked the PCT then spent a few months traveling and visiting friends. As I get fully back into the groove of software engineering, I keep remembering something I somehow forgot: the joy of shipping fast and often.

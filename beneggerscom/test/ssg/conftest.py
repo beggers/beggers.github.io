@@ -21,6 +21,7 @@ def site_generator():
 def valid_md_file_text():
     return """---
 title: Test
+date: 2021-01-01
 ---
 Here's a paragraph
 """

@@ -1,6 +1,7 @@
 from __future__ import annotations
 import os
 import re
+from datetime import date
 from typing import Optional
 
 from beneggerscom.ssg.input_files.markdown import MarkdownFile
@@ -44,6 +45,7 @@ class Page:
     nav: int = -1
     title: str
     date: str
+    display_date: str
     meta_title: str
     description: str
     url: str
@@ -69,6 +71,11 @@ class Page:
         self.nav = md.nav
         self.title = md.title
         self.date = md.date
+        # Just month year
+        if md.date:
+            self.display_date = date.fromisoformat(md.date).strftime("%B %Y")
+        else:
+            self.display_date = ""
         self.meta_title = md.meta_title
         self.description = md.description
         self.url = url

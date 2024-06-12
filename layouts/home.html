@@ -8,7 +8,7 @@
       {% include nav-sidebar %}
       <section class="content">
         <h1 class="page-title">{% posts[0].title %}</h1>
-        <h2 class="page-date">{% posts[0].date %}</h2>
+        <h2 class="page-date">{% posts[0].display_date %}</h2>
         <!-- Ewwww -->
         {% posts[0]._md.content_as_html() %}
       </section>
