@@ -1,6 +1,6 @@
 resource "aws_route53_record" "fastmail_spf" {
   zone_id = aws_route53_zone.main.zone_id
-  name    = "beneggers.com"
+  name    = var.domainName
   type    = "TXT"
   ttl     = "300"
   records = [
@@ -10,7 +10,7 @@ resource "aws_route53_record" "fastmail_spf" {
 
 resource "aws_route53_record" "fastmail_mx" {
   zone_id = aws_route53_zone.main.zone_id
-  name    = "beneggers.com"
+  name    = var.domainName
   type    = "MX"
   ttl     = "300"
   records = [
@@ -21,30 +21,30 @@ resource "aws_route53_record" "fastmail_mx" {
 
 resource "aws_route53_record" "fastmail_dkim" {
   zone_id = aws_route53_zone.main.zone_id
-  name    = "fm1._domainkey.beneggers.com"
+  name    = "fm1._domainkey.${var.domainName}"
   type    = "CNAME"
   ttl     = "300"
   records = [
-    "fm1.beneggers.com.dkim.fmhosted.com"
+    "fm1.${var.domainName}.dkim.fmhosted.com"
   ]
 }
 
 resource "aws_route53_record" "fastmail_dkim2" {
   zone_id = aws_route53_zone.main.zone_id
-  name    = "fm2._domainkey.beneggers.com"
+  name    = "fm2._domainkey.${var.domainName}"
   type    = "CNAME"
   ttl     = "300"
   records = [
-    "fm2.beneggers.com.dkim.fmhosted.com"
+    "fm2.${var.domainName}.dkim.fmhosted.com"
   ]
 }
 
 resource "aws_route53_record" "fastmail_dkim3" {
   zone_id = aws_route53_zone.main.zone_id
-  name    = "fm3._domainkey.beneggers.com"
+  name    = "fm3._domainkey.${var.domainName}"
   type    = "CNAME"
   ttl     = "300"
   records = [
-    "fm3.beneggers.com.dkim.fmhosted.com"
+    "fm3.${var.domainName}.dkim.fmhosted.com"
   ]
 }

@@ -37,8 +37,7 @@ data "aws_iam_policy_document" "github_actions_policy" {
     ]
     effect = "Allow"
     resources = [
-      "${aws_s3_bucket.main.arn}/*",
-      "${aws_s3_bucket.main.arn}"
+      "*",
     ]
   }
   statement {
@@ -59,7 +58,7 @@ data "aws_iam_policy_document" "github_actions_policy" {
     ]
     effect = "Allow"
     resources = [
-      aws_cloudfront_distribution.main.arn
+      "*",
     ]
   }
 }

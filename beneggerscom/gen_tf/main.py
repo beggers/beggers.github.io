@@ -90,7 +90,7 @@ def generate_domain_file(filenames):
         # Cool and normal best practices.
         domain_aliases = str(
             ["www.${var.domainName}"] if subdomain == "index" else []
-        )
+        ).replace("'", '"')  # Thanks I hate it.
         block = generate_subdomain_module_block(
             subdomain,
             content_type,

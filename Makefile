@@ -21,9 +21,13 @@ clean:
 content: clean
 	python3 -m beneggerscom.ssg.main
 
+.PHONY: continuous-test
+continuous-test:
+	find . | grep -v public | grep -v -e "^\./\." | entr pytest
+
 .PHONY: test
 test:
-	find . | grep -v public | grep -v -e "^\./\." | entr pytest
+	pytest
 
 .PHONY: dev-content
 dev-content: clean

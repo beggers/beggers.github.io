@@ -12,14 +12,13 @@ resource "aws_cloudfront_distribution" "main" {
   default_root_object = "index.html"
   enabled             = true
   is_ipv6_enabled     = true
-  aliases             = ["beneggers.com", "www.beneggers.com"]
+  aliases             = concat([var.fqdn], var.domain_aliases)
 
-  # If there is a 404, return index.html with a HTTP 200 Response
   custom_error_response {
     error_caching_min_ttl = 3000
     error_code            = 404
     response_code         = 200
-    response_page_path    = "/index.html"
+    response_page_path    = "/"
   }
 
   default_cache_behavior {
