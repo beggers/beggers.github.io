@@ -69,7 +69,7 @@ def test_find_file_in_subsubdirectory():
 
 def test_find_file_with_same_named_sibling_directory():
     files = {
-        "subdir/test.html": "test.subdir.localhost",
+        "subdir/index.html": "index.subdir.localhost",
         "subdir.html": "subdir.localhost",
     }
     _set_up_and_test_files(files)
