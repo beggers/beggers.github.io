@@ -1,36 +1,44 @@
+# Prod stuff
+
 .PHONY: full
 full: clean test content gen-tf deploy clear-caches
-
-.PHONY: gen-tf
-gen-tf:
-	python3 -m beneggerscom.gen_tf.main
-
-.PHONY: clear-caches
-clear-caches:
-	./scripts/invalidate_caches.sh
-
-.PHONY: deploy
-deploy: gen-tf
-	terraform -chdir=terraform init && terraform -chdir=terraform apply
 
 .PHONY: clean
 clean:
 	rm -rf public/*
 
+.PHONY: test
+test:
+	pytest
+
 .PHONY: content
 content: clean
 	python3 -m beneggerscom.ssg.main
+
+.PHONY: gen-tf
+gen-tf:
+	python3 -m beneggerscom.gen_tf.main
+
+.PHONY: deploy
+deploy: gen-tf
+	terraform -chdir=terraform init && terraform -chdir=terraform apply
+
+.PHONY: clear-caches
+clear-caches:
+	./scripts/invalidate_caches.sh
+
+# Dev stuff
 
 .PHONY: continuous-test
 continuous-test:
 	find . | grep -v public | grep -v -e "^\./\." | entr pytest
 
-.PHONY: test
-test:
-	pytest
+.PHONY: dev-clean
+dev-clean:
+	rm -rf public_dev/*
 
 .PHONY: dev-content
-dev-content: clean
+dev-content: dev-clean
 	python3 -m beneggerscom.ssg.main --dev
 
 .PHONY: server
@@ -45,6 +53,8 @@ only-server:
 .PHONY: dev
 dev:
 	find . | grep -v public | grep -v -e "^\./\." | entr -rz make server
+
+# Scripts and local stuff
 
 .PHONY: post
 post:

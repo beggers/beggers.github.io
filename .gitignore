@@ -7,6 +7,7 @@ coverage/
 drafts/
 
 # Buildable by hugo
+public_dev/
 public/
 resources/
 

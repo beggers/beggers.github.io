@@ -46,6 +46,12 @@ def main():
         else config["prod_hostname"]
     )
     protocol = "http" if args.dev else "https"
+    content_dir = (
+        config["dev_content_dir"]
+        if args.dev
+        else config["content_dir"]
+    )
+
     generator = SiteGenerator(
         host,
         config["site_title"],
@@ -60,7 +66,7 @@ def main():
     generator.ingest_static_directory(STATIC_DIR)
     generator.ingest_styles_directory(STYLE_DIR)
 
-    generator.render(config["content_dir"])
+    generator.render(content_dir)
 
 
 if __name__ == "__main__":

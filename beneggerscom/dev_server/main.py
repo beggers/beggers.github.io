@@ -12,7 +12,7 @@ import logging
 
 class Handler(SimpleHTTPRequestHandler):
     close_connection = True
-    content_dir = CONFIG["content_dir"] if CONFIG else "."
+    content_dir = CONFIG["dev_content_dir"] if CONFIG else "."
 
     def do_GET(self):
         host = self.headers["Host"]
