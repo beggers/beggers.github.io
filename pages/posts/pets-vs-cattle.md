@@ -3,7 +3,7 @@ title: Pets vs Cattle
 date: 2023-11-20
 ---
 
-One of the most useful questions I ask myself about a software project is: "Is this a pet or is it cattle?" I've been surprised how often asking this question helps clarify my thinking.
+One of the most useful questions I ask myself about a software system is: "Is this a pet or is it cattle?" I've been surprised how often asking this question helps clarify my thinking.
 
 - _Pets_ are special and unique. When they are ill you spend the time to nurse them back to health. Examples of pets include my personal laptop, my phone, and the (currently) one binary serving [Chroma](www.trychroma.com)'s customer dashboard data.
 - _Cattle_ are replaceable, identifiable only by numbers or UUIDs. The usual reaction to a cattle struggling is to kill it and replace it with another -- you only care if there's a pattern of problematic behavior (cattle disease, even) which is harming your customers. If you've worked on a large distributed system you're very familiar with cattle: the load-balancers in front of your service, database replicas, and compute nodes are all probably cattle. Customer requests to query a database or kick off a job are definitely cattle; that's why we have retries!
