@@ -4,6 +4,12 @@ footer {
     grid-row: 3;
 }
 
+@media (max-width: 868px) {
+    footer {
+        margin: 0 auto 0 auto;
+    }
+}
+
 footer p {
     margin: 0;
     text-align: center;

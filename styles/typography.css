@@ -85,6 +85,12 @@ p {
     max-width: 60ch;
 }
 
+@media (max-width: 868px) {
+    p {
+        margin: 0 auto 1.25rem auto;
+    }
+}
+
 a:link,
 a:visited {
     color: var(--highlight);
@@ -97,8 +103,10 @@ a.active {
 }
 
 ul {
-    margin: 0 0 1.25rem 0;
-    padding-left: 1.25rem;
+    margin: 0 auto 1.25rem auto;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    max-width: 55ch;
 }
 
 ol {
@@ -110,101 +118,10 @@ ul ul,
 ul ol,
 ol ul,
 ol ol {
-    margin: 0;
+    max-width: 60ch;
 }
 
 ul li::marker {
     content: '\2192\00A0';
     color: var(--muted-text);
-}
-
-dt {
-    margin: 0;
-    font-weight: bold;
-}
-
-dd {
-    margin: 0 0 0 1.5rem;
-    font-style: italic;
-}
-
-dd+dt {
-    margin-top: 1.5rem;
-}
-
-dl {
-    margin: 0 0 1.5rem 0;
-}
-
-blockquote {
-    position: relative;
-    margin: 0 0 1.5rem 1.5rem;
-}
-
-blockquote::before {
-    position: absolute;
-    left: -1.5rem;
-    content: ">";
-    color: var(--muted-text);
-}
-
-pre,
-code,
-kbd,
-samp {
-    background: var(--bg) !important;
-    font-family: var(--font-monospace);
-}
-
-code:before {
-    content: "`";
-    color: var(--muted-text);
-}
-
-code:after {
-    content: "`";
-    color: var(--muted-text);
-}
-
-pre {
-    overflow-x: auto;
-    padding: 1.5rem;
-    margin: 0 0 1.5rem 0;
-}
-
-b,
-strong {
-    font-weight: 600;
-}
-
-::selection,
-mark {
-    background-color: var(--highlight);
-    color: var(--bg);
-}
-
-table {
-    border-spacing: 0;
-    margin: 0 0 1.5rem 0;
-    overflow-wrap: anywhere;
-}
-
-th,
-td {
-    padding: 0 .75rem;
-    vertical-align: top;
-}
-
-th:first-child,
-td:first-child {
-    padding-left: 0;
-}
-
-th {
-    text-align: inherit;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
 }
