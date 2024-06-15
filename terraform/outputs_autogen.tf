@@ -76,6 +76,31 @@ output "index_cert_validation_record" {
 }
 
 
+output "improvements_1_posts_cloudfront_distribution_id" {
+  value = module.improvements_1_posts.cloudfront_distribution_id
+}
+
+output "improvements_1_posts_hosted_zone_id" {
+  value = module.improvements_1_posts.hosted_zone_id
+}
+
+output "improvements_1_posts_bucket_id" {
+  value = module.improvements_1_posts.bucket_id
+}
+
+output "improvements_1_posts_bucket_regional_domain_name" {
+  value = module.improvements_1_posts.bucket_regional_domain_name
+}
+
+output "improvements_1_posts_cert_arn" {
+  value = module.improvements_1_posts.cert_arn
+}
+
+output "improvements_1_posts_cert_validation_record" {
+  value = module.improvements_1_posts.cert_validation_record
+}
+
+
 output "posts_cloudfront_distribution_id" {
   value = module.posts.cloudfront_distribution_id
 }

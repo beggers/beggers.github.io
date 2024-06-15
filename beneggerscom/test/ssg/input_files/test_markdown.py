@@ -14,8 +14,8 @@ title: Test title
         "\n"
     )
     md = MarkdownFile.from_lines(in_md)
-    assert md.title == "Test Title"
-    assert md.meta_title == "Test Title | Ben Eggers dot com"
+    assert md.title == "Test title"
+    assert md.meta_title == "Test title | Ben Eggers dot com"
 
 
 def test_raises_with_no_title():
@@ -52,7 +52,7 @@ meta_title: Test meta title
         "\n"
     )
     md = MarkdownFile.from_lines(in_md)
-    assert md.title == "Test Title"
+    assert md.title == "Test title"
     assert md.meta_title == "Test meta title"
 
 

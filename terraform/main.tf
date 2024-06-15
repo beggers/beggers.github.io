@@ -37,6 +37,18 @@ module "index" {
   zone_id        = aws_route53_zone.main.zone_id
 }
 
+module "improvements_1_posts" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "improvements-1.html"
+  file_directory = "../public/posts/"
+  fqdn           = "improvements-1.posts.${var.domainName}"
+  source_hash    = filemd5("../public/posts/improvements-1.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
 module "posts" {
   source = "./zone_deployment"
 
