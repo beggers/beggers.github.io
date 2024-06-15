@@ -58,7 +58,7 @@ class MarkdownFile(InputFile):
 
     def _set_metadata_item(self, key: str, value: str):
         if key == "title":
-            self.title = value.title()
+            self.title = value
         elif key == "date":
             self.date = value
         elif key == "layout":
