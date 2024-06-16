@@ -1,9 +1,9 @@
 :root {
-	--bg: #142325;
-	--main-text: #d5d5d5;
-	--muted-text: #b8b8b8;
-	--header: #91d7a0;
-	/* TODO */
-	--highlight: var(--header);
-	--hover: var(--header);
+    --bg: #142325;
+    --main-text: #d5d5d5;
+    --muted-text: #b8b8b8;
+    --header: #91d7a0;
+    /* TODO */
+    --highlight: var(--header);
+    --hover: var(--header);
 }

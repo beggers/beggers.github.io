@@ -93,7 +93,7 @@ p {
 
 a:link,
 a:visited {
-    color: var(--highlight);
+    color: var(--header);
 }
 
 a:hover,
