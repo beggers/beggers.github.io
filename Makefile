@@ -31,7 +31,7 @@ clear-caches:
 
 .PHONY: continuous-test
 continuous-test:
-	find . | grep -v public | grep -v -e "^\./\." | entr pytest
+	while true; do find . | grep -v public | grep -v -e "^\./\." | entr pytest; done
 
 .PHONY: dev-clean
 dev-clean:
@@ -47,12 +47,12 @@ server: dev-content
 
 .PHONY: only-server
 only-server:
-	find . | grep -v public | grep -v -e "^\./\." | entr -rz python3 -m beneggerscom.dev_server.main
+	while true; do find . | grep -v public | grep -v -e "^\./\." | entr -rz python3 -m beneggerscom.dev_server.main; done
 
 # Reloads everything on any file changes, including content.
 .PHONY: dev
 dev:
-	find . | grep -v public | grep -v -e "^\./\." | entr -rz make server
+	while true; do find . | grep -v public | grep -v -e "^\./\." | entr -rz make server; done
 
 # Scripts and local stuff
 
