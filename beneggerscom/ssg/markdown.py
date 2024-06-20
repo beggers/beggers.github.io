@@ -1,6 +1,7 @@
 import re
 
 
+BOLD_REGEX = r"\*\*(.*?)\*\*|__([^_]*?)__"
 HEADER_REGEX = r"^(#+)\s(.+)"
 
 
@@ -9,18 +10,22 @@ def to_html(raw_md: str) -> str:
 
 
 def _process_headings(raw_md: str) -> str:
-    processed = raw_md
-    for match in re.finditer(HEADER_REGEX, processed, re.MULTILINE):
+    def replace_with_header(match):
         header_level = len(match.group(1))
-        header_text = match.group(2)
-        header_tag = f"<h{header_level}>{header_text}</h{header_level}>"
-        # Replace the whole match with the corresponding header tag
-        processed = processed.replace(match.group(0), header_tag)
-    return processed
+        header_text = match.group(2).strip()
+        return f"<h{header_level}>{header_text}</h{header_level}>"
+    return re.sub(
+        HEADER_REGEX,
+        replace_with_header,
+        raw_md,
+        flags=re.MULTILINE
+    )
 
 
 def _process_bolds(raw_md: str) -> str:
-    return raw_md
+    def replace_with_strong(match):
+        return f"<strong>{match.group(1) or match.group(2)}</strong>"
+    return re.sub(BOLD_REGEX, replace_with_strong, raw_md)
 
 
 def _process_italics(raw_md: str) -> str:
