@@ -37,19 +37,39 @@ Some text
     assert _process_headings(text) == expected
 
 
-# def test_process_headers_multiple_headings():
-#     text = """
-# # Heading 1
+def test_process_one_heading_after_text():
+    text = """
+Some text
+# Heading 1
+"""
+    expected = """
+Some text
+<h1>Heading 1</h1>
+"""
+    assert _process_headings(text) == expected
 
-# ## Heading 2
 
-# ### Heading 3
-# """
-#     expected = """
-# <h1>Heading 1</h1>
+def test_process_headers_multiple_headings():
+    text = """
+# Heading 1
 
-# <h2>Heading 2</h2>
+Text
 
-# <h3>Heading 3</h3>
-# """
-#     assert _process_headings(text) == expected
+## Heading 2
+
+More text
+
+### Heading 3
+"""
+    expected = """
+<h1>Heading 1</h1>
+
+Text
+
+<h2>Heading 2</h2>
+
+More text
+
+<h3>Heading 3</h3>
+"""
+    assert _process_headings(text) == expected
