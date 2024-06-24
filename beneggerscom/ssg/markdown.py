@@ -3,6 +3,7 @@ import re
 
 BOLD_REGEX = r"\*\*(.*?)\*\*|__([^_]*?)__"
 HEADER_REGEX = r"^(#+)\s(.+)"
+ITALICS_REGEX = r"\*(.*?)\*|_([^_]*?)_"
 
 
 def to_html(raw_md: str) -> str:
@@ -29,7 +30,9 @@ def _process_bolds(raw_md: str) -> str:
 
 
 def _process_italics(raw_md: str) -> str:
-    return raw_md
+    def replace_with_em(match):
+        return f"<em>{match.group(1) or match.group(2)}</em>"
+    return re.sub(ITALICS_REGEX, replace_with_em, raw_md)
 
 
 def _process_links(raw_md: str) -> str:

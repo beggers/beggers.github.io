@@ -1,4 +1,8 @@
-from beneggerscom.ssg.markdown import _process_bolds, _process_headings
+from beneggerscom.ssg.markdown import (
+    _process_bolds,
+    _process_headings,
+    _process_italics
+)
 
 
 def test_process_headings_no_headings():
@@ -161,3 +165,91 @@ Non-bold text
 <strong>Bold 2</strong>
 """
     assert _process_bolds(text) == expected
+
+
+def test_italics_no_italics():
+    assert _process_italics("No italics here") == "No italics here"
+
+
+def test_italics_asterisks_one_italics():
+    assert _process_italics("*Italic text*") == "<em>Italic text</em>"
+
+
+def test_italics_asterisks_one_italics_plus_text():
+    text = """
+*Italic text*
+Non-italic text
+"""
+    expected = """
+<em>Italic text</em>
+Non-italic text
+"""
+    assert _process_italics(text) == expected
+
+
+def test_italics_asterisks_one_italics_after_text():
+    text = """
+Non-italic text
+*Italic text*
+"""
+    expected = """
+Non-italic text
+<em>Italic text</em>
+"""
+    assert _process_italics(text) == expected
+
+
+def test_italics_asterisks_multiple_italics():
+    text = """
+*Italic 1*
+Non-italic text
+*Italic 2*
+"""
+    expected = """
+<em>Italic 1</em>
+Non-italic text
+<em>Italic 2</em>
+"""
+    assert _process_italics(text) == expected
+
+
+def test_italics_underscores_one_italics():
+    assert _process_italics("_Italic text_") == "<em>Italic text</em>"
+
+
+def test_italics_underscores_one_italics_plus_text():
+    text = """
+_Italic text_
+Non-italic text
+"""
+    expected = """
+<em>Italic text</em>
+Non-italic text
+"""
+    assert _process_italics(text) == expected
+
+
+def test_italics_underscores_one_italics_after_text():
+    text = """
+Non-italic text
+_Italic text_
+"""
+    expected = """
+Non-italic text
+<em>Italic text</em>
+"""
+    assert _process_italics(text) == expected
+
+
+def test_italics_underscores_multiple_italics():
+    text = """
+_Italic 1_
+Non-italic text
+_Italic 2_
+"""
+    expected = """
+<em>Italic 1</em>
+Non-italic text
+<em>Italic 2</em>
+"""
+    assert _process_italics(text) == expected
