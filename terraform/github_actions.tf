@@ -33,9 +33,9 @@ resource "aws_iam_role" "github_actions" {
 data "aws_iam_policy_document" "github_actions_policy" {
   statement {
     actions = [
-      "cloudfront:GetCloudFrontOriginAccessIdentity",
-      "cloudfront:CreateInvalidation",
-      "iam:GetOpenIDConnectProvider",
+      "acm:*",
+      "cloudfront:*",
+      "iam:*",
       "route53:*",
       "s3:*",
     ]
