@@ -3,7 +3,7 @@
   {% for post in posts %}
   <li class="post-list-item">
     <a class="page-title" href="{% post.url %}">{% post.title.lower() %}</a>
-    <span class="post-date" style="margin-left: 0.5rem">{% post.display_date %}</span>
+    <span class="page-subtitle" style="margin-left: 0.5rem">{% post.display_date %}</span>
   </li>
   {% end for %}
 </ul>

@@ -10,7 +10,7 @@
     content: none;
 }
 
-.post-date {
+.page-subtitle {
     font-size: 1.0rem;
     margin-top: 0rem;
     margin-bottom: 0.5rem;
@@ -19,6 +19,6 @@
     text-align: center;
 }
 
-.post-date:before {
+.page-subtitle:before {
     content: none;
 }
