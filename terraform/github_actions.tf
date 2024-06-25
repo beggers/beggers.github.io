@@ -33,38 +33,11 @@ resource "aws_iam_role" "github_actions" {
 data "aws_iam_policy_document" "github_actions_policy" {
   statement {
     actions = [
-      "s3:*",
-    ]
-    effect = "Allow"
-    resources = [
-      "*",
-    ]
-  }
-  statement {
-    actions = [
-      "s3:PutObject",
-      "s3:GetObject",
-      "s3:ListBucket"
-    ]
-    effect = "Allow"
-    resources = [
-      "${aws_s3_bucket.terraform_state.arn}",
-      "${aws_s3_bucket.terraform_state.arn}/*"
-    ]
-  }
-  statement {
-    actions = [
       "cloudfront:GetCloudFrontOriginAccessIdentity",
       "cloudfront:CreateInvalidation",
-    ]
-    effect = "Allow"
-    resources = [
-      "*",
-    ]
-  }
-  statement {
-    actions = [
+      "iam:GetOpenIDConnectProvider",
       "route53:*",
+      "s3:*",
     ]
     effect = "Allow"
     resources = [
