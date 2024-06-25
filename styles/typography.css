@@ -125,3 +125,10 @@ ul li::marker {
     content: '\2192\00A0';
     color: var(--muted-text);
 }
+
+figcaption {
+    font-size: 0.9rem;
+    color: var(--muted-text);
+    text-align: center;
+    margin: 0 0 1.25rem 0;
+}

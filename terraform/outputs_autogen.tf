@@ -26,6 +26,131 @@ output "about_cert_validation_record" {
 }
 
 
+output "claire_and_the_bens_cloudfront_distribution_id" {
+  value = module.claire_and_the_bens.cloudfront_distribution_id
+}
+
+output "claire_and_the_bens_hosted_zone_id" {
+  value = module.claire_and_the_bens.hosted_zone_id
+}
+
+output "claire_and_the_bens_bucket_id" {
+  value = module.claire_and_the_bens.bucket_id
+}
+
+output "claire_and_the_bens_bucket_regional_domain_name" {
+  value = module.claire_and_the_bens.bucket_regional_domain_name
+}
+
+output "claire_and_the_bens_cert_arn" {
+  value = module.claire_and_the_bens.cert_arn
+}
+
+output "claire_and_the_bens_cert_validation_record" {
+  value = module.claire_and_the_bens.cert_validation_record
+}
+
+
+output "improvements_1_engineering_cloudfront_distribution_id" {
+  value = module.improvements_1_engineering.cloudfront_distribution_id
+}
+
+output "improvements_1_engineering_hosted_zone_id" {
+  value = module.improvements_1_engineering.hosted_zone_id
+}
+
+output "improvements_1_engineering_bucket_id" {
+  value = module.improvements_1_engineering.bucket_id
+}
+
+output "improvements_1_engineering_bucket_regional_domain_name" {
+  value = module.improvements_1_engineering.bucket_regional_domain_name
+}
+
+output "improvements_1_engineering_cert_arn" {
+  value = module.improvements_1_engineering.cert_arn
+}
+
+output "improvements_1_engineering_cert_validation_record" {
+  value = module.improvements_1_engineering.cert_validation_record
+}
+
+
+output "engineering_cloudfront_distribution_id" {
+  value = module.engineering.cloudfront_distribution_id
+}
+
+output "engineering_hosted_zone_id" {
+  value = module.engineering.hosted_zone_id
+}
+
+output "engineering_bucket_id" {
+  value = module.engineering.bucket_id
+}
+
+output "engineering_bucket_regional_domain_name" {
+  value = module.engineering.bucket_regional_domain_name
+}
+
+output "engineering_cert_arn" {
+  value = module.engineering.cert_arn
+}
+
+output "engineering_cert_validation_record" {
+  value = module.engineering.cert_validation_record
+}
+
+
+output "joy_of_shipping_engineering_cloudfront_distribution_id" {
+  value = module.joy_of_shipping_engineering.cloudfront_distribution_id
+}
+
+output "joy_of_shipping_engineering_hosted_zone_id" {
+  value = module.joy_of_shipping_engineering.hosted_zone_id
+}
+
+output "joy_of_shipping_engineering_bucket_id" {
+  value = module.joy_of_shipping_engineering.bucket_id
+}
+
+output "joy_of_shipping_engineering_bucket_regional_domain_name" {
+  value = module.joy_of_shipping_engineering.bucket_regional_domain_name
+}
+
+output "joy_of_shipping_engineering_cert_arn" {
+  value = module.joy_of_shipping_engineering.cert_arn
+}
+
+output "joy_of_shipping_engineering_cert_validation_record" {
+  value = module.joy_of_shipping_engineering.cert_validation_record
+}
+
+
+output "pets_vs_cattle_engineering_cloudfront_distribution_id" {
+  value = module.pets_vs_cattle_engineering.cloudfront_distribution_id
+}
+
+output "pets_vs_cattle_engineering_hosted_zone_id" {
+  value = module.pets_vs_cattle_engineering.hosted_zone_id
+}
+
+output "pets_vs_cattle_engineering_bucket_id" {
+  value = module.pets_vs_cattle_engineering.bucket_id
+}
+
+output "pets_vs_cattle_engineering_bucket_regional_domain_name" {
+  value = module.pets_vs_cattle_engineering.bucket_regional_domain_name
+}
+
+output "pets_vs_cattle_engineering_cert_arn" {
+  value = module.pets_vs_cattle_engineering.cert_arn
+}
+
+output "pets_vs_cattle_engineering_cert_validation_record" {
+  value = module.pets_vs_cattle_engineering.cert_validation_record
+}
+
+
 output "favicon_cloudfront_distribution_id" {
   value = module.favicon.cloudfront_distribution_id
 }
@@ -73,105 +198,5 @@ output "index_cert_arn" {
 
 output "index_cert_validation_record" {
   value = module.index.cert_validation_record
-}
-
-
-output "improvements_1_posts_cloudfront_distribution_id" {
-  value = module.improvements_1_posts.cloudfront_distribution_id
-}
-
-output "improvements_1_posts_hosted_zone_id" {
-  value = module.improvements_1_posts.hosted_zone_id
-}
-
-output "improvements_1_posts_bucket_id" {
-  value = module.improvements_1_posts.bucket_id
-}
-
-output "improvements_1_posts_bucket_regional_domain_name" {
-  value = module.improvements_1_posts.bucket_regional_domain_name
-}
-
-output "improvements_1_posts_cert_arn" {
-  value = module.improvements_1_posts.cert_arn
-}
-
-output "improvements_1_posts_cert_validation_record" {
-  value = module.improvements_1_posts.cert_validation_record
-}
-
-
-output "posts_cloudfront_distribution_id" {
-  value = module.posts.cloudfront_distribution_id
-}
-
-output "posts_hosted_zone_id" {
-  value = module.posts.hosted_zone_id
-}
-
-output "posts_bucket_id" {
-  value = module.posts.bucket_id
-}
-
-output "posts_bucket_regional_domain_name" {
-  value = module.posts.bucket_regional_domain_name
-}
-
-output "posts_cert_arn" {
-  value = module.posts.cert_arn
-}
-
-output "posts_cert_validation_record" {
-  value = module.posts.cert_validation_record
-}
-
-
-output "joy_of_shipping_posts_cloudfront_distribution_id" {
-  value = module.joy_of_shipping_posts.cloudfront_distribution_id
-}
-
-output "joy_of_shipping_posts_hosted_zone_id" {
-  value = module.joy_of_shipping_posts.hosted_zone_id
-}
-
-output "joy_of_shipping_posts_bucket_id" {
-  value = module.joy_of_shipping_posts.bucket_id
-}
-
-output "joy_of_shipping_posts_bucket_regional_domain_name" {
-  value = module.joy_of_shipping_posts.bucket_regional_domain_name
-}
-
-output "joy_of_shipping_posts_cert_arn" {
-  value = module.joy_of_shipping_posts.cert_arn
-}
-
-output "joy_of_shipping_posts_cert_validation_record" {
-  value = module.joy_of_shipping_posts.cert_validation_record
-}
-
-
-output "pets_vs_cattle_posts_cloudfront_distribution_id" {
-  value = module.pets_vs_cattle_posts.cloudfront_distribution_id
-}
-
-output "pets_vs_cattle_posts_hosted_zone_id" {
-  value = module.pets_vs_cattle_posts.hosted_zone_id
-}
-
-output "pets_vs_cattle_posts_bucket_id" {
-  value = module.pets_vs_cattle_posts.bucket_id
-}
-
-output "pets_vs_cattle_posts_bucket_regional_domain_name" {
-  value = module.pets_vs_cattle_posts.bucket_regional_domain_name
-}
-
-output "pets_vs_cattle_posts_cert_arn" {
-  value = module.pets_vs_cattle_posts.cert_arn
-}
-
-output "pets_vs_cattle_posts_cert_validation_record" {
-  value = module.pets_vs_cattle_posts.cert_validation_record
 }
 

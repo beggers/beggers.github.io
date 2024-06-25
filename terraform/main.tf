@@ -13,6 +13,66 @@ module "about" {
   zone_id        = aws_route53_zone.main.zone_id
 }
 
+module "claire_and_the_bens" {
+  source = "./zone_deployment"
+
+  content_type   = "image/jpeg"
+  domain_aliases = []
+  file           = "claire-and-the-bens.jpg"
+  file_directory = "../public/"
+  fqdn           = "claire-and-the-bens.${var.domainName}"
+  source_hash    = filemd5("../public/claire-and-the-bens.jpg")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "improvements_1_engineering" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "improvements-1.html"
+  file_directory = "../public/engineering/"
+  fqdn           = "improvements-1.engineering.${var.domainName}"
+  source_hash    = filemd5("../public/engineering/improvements-1.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "engineering" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "index.html"
+  file_directory = "../public/engineering/"
+  fqdn           = "engineering.${var.domainName}"
+  source_hash    = filemd5("../public/engineering/index.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "joy_of_shipping_engineering" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "joy-of-shipping.html"
+  file_directory = "../public/engineering/"
+  fqdn           = "joy-of-shipping.engineering.${var.domainName}"
+  source_hash    = filemd5("../public/engineering/joy-of-shipping.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "pets_vs_cattle_engineering" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "pets-vs-cattle.html"
+  file_directory = "../public/engineering/"
+  fqdn           = "pets-vs-cattle.engineering.${var.domainName}"
+  source_hash    = filemd5("../public/engineering/pets-vs-cattle.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
 module "favicon" {
   source = "./zone_deployment"
 
@@ -34,53 +94,5 @@ module "index" {
   file_directory = "../public/"
   fqdn           = "${var.domainName}"
   source_hash    = filemd5("../public/index.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "improvements_1_posts" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "improvements-1.html"
-  file_directory = "../public/posts/"
-  fqdn           = "improvements-1.posts.${var.domainName}"
-  source_hash    = filemd5("../public/posts/improvements-1.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "posts" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "index.html"
-  file_directory = "../public/posts/"
-  fqdn           = "posts.${var.domainName}"
-  source_hash    = filemd5("../public/posts/index.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "joy_of_shipping_posts" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "joy-of-shipping.html"
-  file_directory = "../public/posts/"
-  fqdn           = "joy-of-shipping.posts.${var.domainName}"
-  source_hash    = filemd5("../public/posts/joy-of-shipping.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "pets_vs_cattle_posts" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "pets-vs-cattle.html"
-  file_directory = "../public/posts/"
-  fqdn           = "pets-vs-cattle.posts.${var.domainName}"
-  source_hash    = filemd5("../public/posts/pets-vs-cattle.html")
   zone_id        = aws_route53_zone.main.zone_id
 }
