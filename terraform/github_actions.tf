@@ -54,6 +54,7 @@ data "aws_iam_policy_document" "github_actions_policy" {
   }
   statement {
     actions = [
+      "cloudfront:GetCloudFrontOriginAccessIdentity",
       "cloudfront:CreateInvalidation",
     ]
     effect = "Allow"
