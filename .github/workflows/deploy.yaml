@@ -31,6 +31,9 @@ jobs:
       - name: Test
         run: pytest
 
+      - name: Generate content
+        run: make content
+
       - name: "Configure AWS Credentials"
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
@@ -60,7 +63,7 @@ jobs:
         uses: unfor19/install-aws-cli-action@v1
 
       - name: Deploy
-        env: 
-          DISTRIBUTION_ID: ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }}
-        run: |
-          make full
+        run: make deploy
+
+      - name: Clear caches
+        run: make clear-caches
