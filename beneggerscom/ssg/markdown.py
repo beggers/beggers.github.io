@@ -4,6 +4,7 @@ import re
 BOLD_REGEX = r"\*\*(.*?)\*\*|__([^_]*?)__"
 HEADER_REGEX = r"^(#+)\s(.+)"
 ITALICS_REGEX = r"\*(.*?)\*|_([^_]*?)_"
+LINK_REGEX = r"\[([^\]]+)\]\(([^)]+)\)"
 
 
 def to_html(raw_md: str) -> str:
@@ -36,7 +37,9 @@ def _process_italics(raw_md: str) -> str:
 
 
 def _process_links(raw_md: str) -> str:
-    return raw_md
+    def replace_with_a(match):
+        return f'<a href="{match.group(2)}">{match.group(1)}</a>'
+    return re.sub(LINK_REGEX, replace_with_a, raw_md)
 
 
 def _process_lists(raw_md: str) -> str:

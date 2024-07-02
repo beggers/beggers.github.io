@@ -1,7 +1,8 @@
 from beneggerscom.ssg.markdown import (
     _process_bolds,
     _process_headings,
-    _process_italics
+    _process_italics,
+    _process_links,
 )
 
 
@@ -253,3 +254,50 @@ Non-italic text
 <em>Italic 2</em>
 """
     assert _process_italics(text) == expected
+
+
+def test_links_no_links():
+    assert _process_links("No links here") == "No links here"
+
+
+def test_links_one_link():
+    assert _process_links("[Link](https://example.com)") == \
+        '<a href="https://example.com">Link</a>'
+
+
+def test_links_one_link_plus_text():
+    text = """
+[Link](https://example.com)
+Non-link text
+"""
+    expected = """
+<a href="https://example.com">Link</a>
+Non-link text
+"""
+    assert _process_links(text) == expected
+
+
+def test_links_one_link_after_text():
+    text = """
+Non-link text
+[Link](https://example.com)
+"""
+    expected = """
+Non-link text
+<a href="https://example.com">Link</a>
+"""
+    assert _process_links(text) == expected
+
+
+def test_links_multiple_links():
+    text = """
+[Link 1](https://example.com)
+Non-link text
+[Link 2](https://example.com)
+"""
+    expected = """
+<a href="https://example.com">Link 1</a>
+Non-link text
+<a href="https://example.com">Link 2</a>
+"""
+    assert _process_links(text) == expected
