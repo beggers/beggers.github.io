@@ -6,7 +6,6 @@ module "posts" {
   source = "./removed_zone"
 }
 
-
 module "joy_of_shipping_posts" {
   source = "./removed_zone"
 }

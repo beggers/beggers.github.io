@@ -26,3 +26,23 @@ resource "aws_route53_record" "soa" {
     "ns-578.awsdns-08.net. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 300"
   ]
 }
+
+resource "aws_route53_record" "google_verification" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = var.domainName
+  type    = "TXT"
+  ttl     = "300"
+  records = [
+    "google-site-verification=K4uyf7WHOkwc2uv2sg6gYX1ZXoziSN190QAwNssv3g0"
+  ]
+}
+
+resource "aws_route53_record" "gmail_mx" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = var.domainName
+  type    = "MX"
+  ttl     = "300"
+  records = [
+    "1 SMTP.GOOGLE.COM"
+  ]
+}
