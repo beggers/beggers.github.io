@@ -7,7 +7,7 @@ ITALICS_REGEX = r"\*(.*?)\*|_([^_]*?)_"
 LINK_REGEX = r"\[([^\]]+)\]\(([^)]+)\)"
 
 
-def to_html(raw_md: str) -> str:
+def str_to_html(raw_md: str) -> str:
     return raw_md
 
 
@@ -42,43 +42,27 @@ def _process_links(raw_md: str) -> str:
     return re.sub(LINK_REGEX, replace_with_a, raw_md)
 
 
-def _process_lists(raw_md: str) -> str:
+def _process_paragraphs_and_lists(raw_md: str) -> str:
+    lines = raw_md.split("\n")
+    output_lines = []
+
+    # Whether we're starting a new paragraph, i.e. whether the previous line
+    # was empty.
+    fresh_paragraph = True
+    # Number of spaces at the start of each line of the current list.
+    # For nested lists, we store the total indentation -- NOT the indentation
+    # relative to the parent list.
+    # NB: This also encodes how many layers of list we're in.
+    list_indentations = []
+    # A single HTML paragraph can span multiple lines of markdown.
+    current_paragraph = ""
+
+    for line in lines:
+        if not line or line.startswith("#"):
+            output_lines.append(current_paragraph)
+            current_paragraph = ""
+            fresh_paragraph = True
+            continue
+        
+
     return raw_md
-
-
-def _process_sidenotes(raw_md: str) -> str:
-    return raw_md
-
-
-def _process_paragraphs(raw_md: str) -> str:
-    return raw_md
-
-
-# Headers
-# Paragraphs (implies paragraph detection)
-# Lists
-# Nested lists
-# Links
-# Bold and italic
-# Footnotes
-#
-# We can do this line-by-line or regex-by-regex
-#
-# Line-by-line pros:
-# - Easier paragraph detection (do I really want or need paragraph detection?)
-# - Context on lists and list indentation.
-# Line-by-line cons:
-# - Lots of state to track exactly where we are.
-#   - Really only for lists and nested lists.
-#
-# Regex-by-regex pros:
-# - Headers become eassssssy. If we skip paragraph detection
-# - Bold, italic, and links become easy af.
-#
-# Plan:
-# - Bold: regex in loop
-# - Italic: regex in loop
-# - Headers: regex in loop. Add a newline at the end to make paragraphs check
-#            out lmao
-# - Links: Regex in loop.
-# -
