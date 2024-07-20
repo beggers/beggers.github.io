@@ -17,21 +17,40 @@ def find_file(host: str, content_dir: str) -> tuple[bytes, str]:
         matching_files_at_path = [
             filename
             for filename in os.listdir(new_path)
-            if filename.startswith(fragments[-1])
+            if filename.split(".")[0].lower() == fragments[-1].lower()
         ]
-        assert (
-            len(matching_files_at_path) == 0
-            or len(matching_files_at_path) == 1
-            or len(matching_files_at_path) == 2
-        )
-        for filename in matching_files_at_path:
-            if os.path.isfile(os.path.join(new_path, filename)):
-                new_path = os.path.join(new_path, filename)
-                break
-            elif os.path.isdir(os.path.join(new_path, filename)):
-                new_path = os.path.join(new_path, filename)
-        else:
+        if len(matching_files_at_path) == 0:
             new_path = os.path.join(new_path, "index.html")
+        elif len(matching_files_at_path) == 1:
+            new_path = os.path.join(new_path, matching_files_at_path[0])
+            if os.path.isdir(new_path):
+                new_path = os.path.join(new_path, "index.html")
+        elif len(matching_files_at_path) == 2:
+            first_is_file = os.path.isfile(os.path.join(
+                new_path,
+                matching_files_at_path[0]
+            ))
+            second_is_file = os.path.isfile(os.path.join(
+                new_path,
+                matching_files_at_path[1]
+            ))
+            if first_is_file and second_is_file:
+                raise ValueError(
+                    f"Two files with the same name in the same directory: {matching_files_at_path}"
+                )
+            if not first_is_file and not second_is_file:
+                raise ValueError(
+                    f"Two directories with the same name in the same directory: {matching_files_at_path}"
+                )
+            if first_is_file:
+                new_path = os.path.join(new_path, matching_files_at_path[0])
+            else:
+                new_path = os.path.join(new_path, matching_files_at_path[1])
+        else:
+            raise ValueError(
+                f"More than two files with the same name in the same directory: {matching_files_at_path}"
+            )
+
         path = new_path
 
     with open(path, "rb") as f:
