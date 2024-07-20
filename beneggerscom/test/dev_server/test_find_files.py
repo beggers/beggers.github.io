@@ -5,7 +5,7 @@ import tempfile
 
 
 def _set_up_test_files(files: list[str]) -> tempfile.TemporaryDirectory:
-    tmpdir = tempfile.TemporaryDirectory(delete=False)
+    tmpdir = tempfile.TemporaryDirectory()
     for filename in files:
         fullpath = os.path.join(tmpdir.name, filename)
         os.makedirs(os.path.dirname(fullpath), exist_ok=True)
