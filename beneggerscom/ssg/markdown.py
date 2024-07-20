@@ -1,3 +1,6 @@
+# I couldn't find a markdown processor that handles sidenotes how I want.
+# So here we are.
+
 import re
 
 
