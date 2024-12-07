@@ -38,6 +38,7 @@ data "aws_iam_policy_document" "github_actions_policy" {
       "dynamodb:*",
       "iam:*",
       "route53:*",
+      "route53domains:*",
       "s3:*",
     ]
     effect = "Allow"
