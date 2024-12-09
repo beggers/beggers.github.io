@@ -200,3 +200,53 @@ output "index_cert_validation_record" {
   value = module.index.cert_validation_record
 }
 
+
+output "faux_incredulity_thoughts_cloudfront_distribution_id" {
+  value = module.faux_incredulity_thoughts.cloudfront_distribution_id
+}
+
+output "faux_incredulity_thoughts_hosted_zone_id" {
+  value = module.faux_incredulity_thoughts.hosted_zone_id
+}
+
+output "faux_incredulity_thoughts_bucket_id" {
+  value = module.faux_incredulity_thoughts.bucket_id
+}
+
+output "faux_incredulity_thoughts_bucket_regional_domain_name" {
+  value = module.faux_incredulity_thoughts.bucket_regional_domain_name
+}
+
+output "faux_incredulity_thoughts_cert_arn" {
+  value = module.faux_incredulity_thoughts.cert_arn
+}
+
+output "faux_incredulity_thoughts_cert_validation_record" {
+  value = module.faux_incredulity_thoughts.cert_validation_record
+}
+
+
+output "thoughts_cloudfront_distribution_id" {
+  value = module.thoughts.cloudfront_distribution_id
+}
+
+output "thoughts_hosted_zone_id" {
+  value = module.thoughts.hosted_zone_id
+}
+
+output "thoughts_bucket_id" {
+  value = module.thoughts.bucket_id
+}
+
+output "thoughts_bucket_regional_domain_name" {
+  value = module.thoughts.bucket_regional_domain_name
+}
+
+output "thoughts_cert_arn" {
+  value = module.thoughts.cert_arn
+}
+
+output "thoughts_cert_validation_record" {
+  value = module.thoughts.cert_validation_record
+}
+

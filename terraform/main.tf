@@ -96,3 +96,27 @@ module "index" {
   source_hash    = filemd5("../public/index.html")
   zone_id        = aws_route53_zone.main.zone_id
 }
+
+module "faux_incredulity_thoughts" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "faux-incredulity.html"
+  file_directory = "../public/thoughts/"
+  fqdn           = "faux-incredulity.thoughts.${var.domainName}"
+  source_hash    = filemd5("../public/thoughts/faux-incredulity.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
+
+module "thoughts" {
+  source = "./zone_deployment"
+
+  content_type   = "text/html"
+  domain_aliases = []
+  file           = "index.html"
+  file_directory = "../public/thoughts/"
+  fqdn           = "thoughts.${var.domainName}"
+  source_hash    = filemd5("../public/thoughts/index.html")
+  zone_id        = aws_route53_zone.main.zone_id
+}
