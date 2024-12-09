@@ -3,7 +3,12 @@ from beneggerscom.ssg.markdown import (
     _process_headings,
     _process_italics,
     _process_links,
+    _process_paragraphs_and_lists,
 )
+
+
+def equals_ignore_whitespace(a: str, b: str) -> bool:
+    return "".join(a.split()) == "".join(b.split())
 
 
 def test_process_headings_no_headings():
@@ -301,3 +306,167 @@ Non-link text
 <a href="https://example.com">Link 2</a>
 """
     assert _process_links(text) == expected
+
+
+def test_paragraphs_single_line():
+    text = "Just a single line of text"
+    expected = "<p>Just a single line of text</p>"
+    assert equals_ignore_whitespace(
+        _process_paragraphs_and_lists(text),
+        expected
+    )
+
+
+def test_paragraphs_multiple_paragraphs():
+    text = """Line one
+Line two
+
+Line three
+
+Line four and five
+Line five continued"""
+    expected = """<p>Line one Line two</p>
+<p>Line three</p>
+<p>Line four and five Line five continued</p>"""
+    assert equals_ignore_whitespace(
+        _process_paragraphs_and_lists(text),
+        expected
+    )
+
+
+def test_unordered_list_simple():
+    text = """- Item one
+- Item two
+- Item three"""
+    expected = """<ul>
+<li><p>Item one</p></li>
+<li><p>Item two</p></li>
+<li><p>Item three</p></li>
+</ul>"""
+    assert equals_ignore_whitespace(
+        _process_paragraphs_and_lists(text),
+        expected
+    )
+
+
+def test_ordered_list_simple():
+    text = """1. First item
+2. Second item
+3. Third item"""
+    expected = """<ol>
+<li><p>First item</p></li>
+<li><p>Second item</p></li>
+<li><p>Third item</p></li>
+</ol>"""
+    assert equals_ignore_whitespace(
+        _process_paragraphs_and_lists(text),
+        expected
+    )
+
+
+def test_unordered_list_multiple_paragraphs_in_item():
+    text = """- First item line one
+
+  First item line two
+
+  First item line three
+- Second item"""
+    expected = """<ul>
+<li><p>First item line one</p>
+<p>First item line two</p>
+<p>First item line three</p></li>
+<li><p>Second item</p></li>
+</ul>"""
+    assert equals_ignore_whitespace(
+        _process_paragraphs_and_lists(text),
+        expected
+    )
+
+
+def test_paragraphs_multiple_lines_one_paragraph():
+    text = """Line one
+Line two
+Line three"""
+    expected = "<p>Line one Line two Line three</p>"
+    assert equals_ignore_whitespace(
+        _process_paragraphs_and_lists(text),
+        expected
+    )
+
+
+def test_ordered_list_multiple_paragraphs_in_item():
+    text = """1. This is the first paragraph of the first item.
+
+   This is the second paragraph of the first item.
+2. Second item"""
+    expected = """<ol>
+<li><p>This is the first paragraph of the first item.</p>
+<p>This is the second paragraph of the first item.</p></li>
+<li><p>Second item</p></li>
+</ol>"""
+    assert equals_ignore_whitespace(
+        _process_paragraphs_and_lists(text),
+        expected
+    )
+
+
+def test_nested_unordered_list():
+    text = """- Item one
+  - Nested item one
+  - Nested item two
+- Item two"""
+    expected = """<ul>
+<li><p>Item one</p>
+<ul>
+<li><p>Nested item one</p></li>
+<li><p>Nested item two</p></li>
+</ul></li>
+<li><p>Item two</p></li>
+</ul>"""
+    assert equals_ignore_whitespace(
+        _process_paragraphs_and_lists(text),
+        expected
+    )
+
+
+def test_nested_ordered_list_in_unordered_list():
+    text = """- Item one paragraph one
+
+  Item one paragraph two
+
+  1. Nested ordered item one
+  2. Nested ordered item two
+- Item two"""
+    expected = """<ul>
+<li><p>Item one paragraph one</p>
+<p>Item one paragraph two</p>
+<ol>
+<li><p>Nested ordered item one</p></li>
+<li><p>Nested ordered item two</p></li>
+</ol></li>
+<li><p>Item two</p></li>
+</ul>"""
+    assert equals_ignore_whitespace(
+        _process_paragraphs_and_lists(text),
+        expected
+    )
+
+
+def test_outside_paragraph_and_list():
+    text = """Outside paragraph line one
+Outside paragraph line two
+
+- List item one
+- List item two
+
+Outside paragraph again"""
+    expected = """<p>Outside paragraph line one Outside paragraph line two</p>
+<ul>
+<li><p>List item one</p></li>
+<li><p>List item two</p></li>
+</ul>
+<p>Outside paragraph again</p>"""
+    assert equals_ignore_whitespace(
+        _process_paragraphs_and_lists(text),
+        expected
+    )
