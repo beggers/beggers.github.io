@@ -126,14 +126,14 @@ class SiteGenerator:
                 files.append(os.path.join(root, f))
         return files
 
-    def _posts_from_pages(self) -> list[Page]:
+    def _posts_from_pages(self, url_substring: str) -> list[Page]:
         return [
             p for p in
             reversed(
                 sorted(
                     [
                         page for page in self.pages
-                        if page.url.find(".engineering.") != -1
+                        if page.url.find(url_substring) != -1
                     ],
                     key=lambda p: p.date
                 )
@@ -205,7 +205,10 @@ class SiteGenerator:
                 self.site_config["protocol"],
                 self.partials,
                 self.pages,
-                self._posts_from_pages(),
+                # Note: We have to have the surrounding `.`s so that we don't
+                # include the index pages themselves. So ugly! I love it!
+                eng_posts=self._posts_from_pages(".engineering."),
+                thoughts_posts=self._posts_from_pages(".thoughts."),
             )
 
     def _flush_pages(self) -> None:

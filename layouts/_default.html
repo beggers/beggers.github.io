@@ -16,7 +16,11 @@
         {% slot %}
 
         {% if page.title.lower() == "engineering" %}
-        {% include postlist %}
+        {% include engineering %}
+        {% end if %}
+
+        {% if page.title.lower() == "thoughts" %}
+        {% include thoughts %}
         {% end if %}
       </section>
       <footer class="page-footer">
