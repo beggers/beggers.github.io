@@ -7,8 +7,8 @@ from beneggerscom.ssg.markdown import (
 )
 
 
-def _assert_equals_ignore_whitespace(a: str, b: str) -> bool:
-    return a.split() == b.split()
+def _assert_equals_ignore_whitespace(a: str, b: str) -> None:
+    assert a.split() == b.split()
 
 
 def test_process_headings_no_headings():
