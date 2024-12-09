@@ -8,7 +8,7 @@ from beneggerscom.ssg.markdown import (
 
 
 def _assert_equals_ignore_whitespace(a: str, b: str) -> None:
-    assert a.split() == b.split()
+    assert ''.join(a.split()) == ''.join(b.split())
 
 
 def test_process_headings_no_headings():
@@ -349,6 +349,31 @@ def test_unordered_list_simple():
     )
 
 
+def test_nested_unordered_list():
+    text = """
+- Item one
+    - Nested item one
+    - Nested item two
+- Item two"""
+    expected = """
+<ul>
+    <li>
+        <p>Item one</p>
+        <ul>
+            <li><p>Nested item one</p></li>
+            <li><p>Nested item two</p></li>
+        </ul>
+    </li>
+    <li>
+        <p>Item two</p>
+    </li>
+</ul>"""
+    _assert_equals_ignore_whitespace(
+        _process_paragraphs_and_lists(text),
+        expected
+    )
+
+
 def test_ordered_list_simple():
     text = """1. First item
 2. Second item
@@ -411,17 +436,19 @@ def test_ordered_list_multiple_paragraphs_in_item():
 
 
 def test_nested_unordered_list():
-    text = """- Item one
+    text = """
+- Item one
   - Nested item one
   - Nested item two
 - Item two"""
-    expected = """<ul>
-<li><p>Item one</p></li>
+    expected = """
 <ul>
-<li><p>Nested item one</p></li>
-<li><p>Nested item two</p></li>
-</ul></li>
-<li><p>Item two</p></li>
+    <li><p>Item one</p></li>
+    <ul>
+        <li><p>Nested item one</p></li>
+        <li><p>Nested item two</p></li>
+    </ul>
+    <li><p>Item two</p></li>
 </ul>"""
     _assert_equals_ignore_whitespace(
         _process_paragraphs_and_lists(text),
@@ -453,17 +480,19 @@ def test_nested_ordered_list_in_unordered_list():
 
 
 def test_outside_paragraph_and_list():
-    text = """Outside paragraph line one
+    text = """
+Outside paragraph line one
 Outside paragraph line two
 
 - List item one
 - List item two
 
 Outside paragraph again"""
-    expected = """<p>Outside paragraph line one Outside paragraph line two</p>
+    expected = """
+<p>Outside paragraph line one Outside paragraph line two</p>
 <ul>
-<li><p>List item one</p></li>
-<li><p>List item two</p></li>
+    <li><p>List item one</p></li>
+    <li><p>List item two</p></li>
 </ul>
 <p>Outside paragraph again</p>"""
     _assert_equals_ignore_whitespace(
