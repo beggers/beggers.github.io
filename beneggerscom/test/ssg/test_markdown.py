@@ -7,8 +7,8 @@ from beneggerscom.ssg.markdown import (
 )
 
 
-def equals_ignore_whitespace(a: str, b: str) -> bool:
-    return "".join(a.split()) == "".join(b.split())
+def _assert_equals_ignore_whitespace(a: str, b: str) -> bool:
+    return a.split() == b.split()
 
 
 def test_process_headings_no_headings():
@@ -311,7 +311,7 @@ Non-link text
 def test_paragraphs_single_line():
     text = "Just a single line of text"
     expected = "<p>Just a single line of text</p>"
-    assert equals_ignore_whitespace(
+    _assert_equals_ignore_whitespace(
         _process_paragraphs_and_lists(text),
         expected
     )
@@ -328,7 +328,7 @@ Line five continued"""
     expected = """<p>Line one Line two</p>
 <p>Line three</p>
 <p>Line four and five Line five continued</p>"""
-    assert equals_ignore_whitespace(
+    _assert_equals_ignore_whitespace(
         _process_paragraphs_and_lists(text),
         expected
     )
@@ -343,7 +343,7 @@ def test_unordered_list_simple():
 <li><p>Item two</p></li>
 <li><p>Item three</p></li>
 </ul>"""
-    assert equals_ignore_whitespace(
+    _assert_equals_ignore_whitespace(
         _process_paragraphs_and_lists(text),
         expected
     )
@@ -358,7 +358,7 @@ def test_ordered_list_simple():
 <li><p>Second item</p></li>
 <li><p>Third item</p></li>
 </ol>"""
-    assert equals_ignore_whitespace(
+    _assert_equals_ignore_whitespace(
         _process_paragraphs_and_lists(text),
         expected
     )
@@ -377,7 +377,7 @@ def test_unordered_list_multiple_paragraphs_in_item():
 <p>First item line three</p></li>
 <li><p>Second item</p></li>
 </ul>"""
-    assert equals_ignore_whitespace(
+    _assert_equals_ignore_whitespace(
         _process_paragraphs_and_lists(text),
         expected
     )
@@ -388,7 +388,7 @@ def test_paragraphs_multiple_lines_one_paragraph():
 Line two
 Line three"""
     expected = "<p>Line one Line two Line three</p>"
-    assert equals_ignore_whitespace(
+    _assert_equals_ignore_whitespace(
         _process_paragraphs_and_lists(text),
         expected
     )
@@ -404,7 +404,7 @@ def test_ordered_list_multiple_paragraphs_in_item():
 <p>This is the second paragraph of the first item.</p></li>
 <li><p>Second item</p></li>
 </ol>"""
-    assert equals_ignore_whitespace(
+    _assert_equals_ignore_whitespace(
         _process_paragraphs_and_lists(text),
         expected
     )
@@ -416,14 +416,14 @@ def test_nested_unordered_list():
   - Nested item two
 - Item two"""
     expected = """<ul>
-<li><p>Item one</p>
+<li><p>Item one</p></li>
 <ul>
 <li><p>Nested item one</p></li>
 <li><p>Nested item two</p></li>
 </ul></li>
 <li><p>Item two</p></li>
 </ul>"""
-    assert equals_ignore_whitespace(
+    _assert_equals_ignore_whitespace(
         _process_paragraphs_and_lists(text),
         expected
     )
@@ -446,7 +446,7 @@ def test_nested_ordered_list_in_unordered_list():
 </ol></li>
 <li><p>Item two</p></li>
 </ul>"""
-    assert equals_ignore_whitespace(
+    _assert_equals_ignore_whitespace(
         _process_paragraphs_and_lists(text),
         expected
     )
@@ -466,7 +466,7 @@ Outside paragraph again"""
 <li><p>List item two</p></li>
 </ul>
 <p>Outside paragraph again</p>"""
-    assert equals_ignore_whitespace(
+    _assert_equals_ignore_whitespace(
         _process_paragraphs_and_lists(text),
         expected
     )
