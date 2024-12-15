@@ -25,54 +25,6 @@ module "claire_and_the_bens" {
   zone_id        = aws_route53_zone.main.zone_id
 }
 
-module "improvements_1_engineering" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "improvements-1.html"
-  file_directory = "../public/engineering/"
-  fqdn           = "improvements-1.engineering.${var.domainName}"
-  source_hash    = filemd5("../public/engineering/improvements-1.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "engineering" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "index.html"
-  file_directory = "../public/engineering/"
-  fqdn           = "engineering.${var.domainName}"
-  source_hash    = filemd5("../public/engineering/index.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "joy_of_shipping_engineering" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "joy-of-shipping.html"
-  file_directory = "../public/engineering/"
-  fqdn           = "joy-of-shipping.engineering.${var.domainName}"
-  source_hash    = filemd5("../public/engineering/joy-of-shipping.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "pets_vs_cattle_engineering" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "pets-vs-cattle.html"
-  file_directory = "../public/engineering/"
-  fqdn           = "pets-vs-cattle.engineering.${var.domainName}"
-  source_hash    = filemd5("../public/engineering/pets-vs-cattle.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
 module "favicon" {
   source = "./zone_deployment"
 
@@ -94,29 +46,5 @@ module "index" {
   file_directory = "../public/"
   fqdn           = "${var.domainName}"
   source_hash    = filemd5("../public/index.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "faux_incredulity_thoughts" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "faux-incredulity.html"
-  file_directory = "../public/thoughts/"
-  fqdn           = "faux-incredulity.thoughts.${var.domainName}"
-  source_hash    = filemd5("../public/thoughts/faux-incredulity.html")
-  zone_id        = aws_route53_zone.main.zone_id
-}
-
-module "thoughts" {
-  source = "./zone_deployment"
-
-  content_type   = "text/html"
-  domain_aliases = []
-  file           = "index.html"
-  file_directory = "../public/thoughts/"
-  fqdn           = "thoughts.${var.domainName}"
-  source_hash    = filemd5("../public/thoughts/index.html")
   zone_id        = aws_route53_zone.main.zone_id
 }
